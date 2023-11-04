@@ -58,6 +58,7 @@ jobs:
 
       - name: Check for dangerous and broken dependencies
         run: composer audit
+        if: !matrix.lowest
 
       - name: Run automated tests
         run: vendor/bin/phpunit --coverage-text

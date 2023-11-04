@@ -39,7 +39,10 @@ class AntiSpam
             throw new InvalidProfileException(sprintf('There is no antispam profile "%s" defined, did you use the correct profile name from your antispam.yaml configuration file?', $name));
         }
 
-        return $this->profiles->get($id);
+        /** @var Profile $profile */
+        $profile = $this->profiles->get($id);
+
+        return $profile;
     }
 
     public function isPassive(): bool
