@@ -1,4 +1,4 @@
-name: Release docs to Github Pages
+name: build-docs
 
 on:
   push:

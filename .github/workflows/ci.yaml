@@ -1,4 +1,4 @@
-name: Automated testing
+name: automated-testing
 
 on:
   pull_request:
@@ -17,14 +17,15 @@ jobs:
           - '8.2'
           - '8.3'
         os: [ ubuntu-latest ]
+        use-beta: [ false ]
+        lowest: [ false ]
         experimental: [ false ]
-        symfony-versions: [false]
         include:
           - description: 'PHP nightly'
-            php: '8.4'
+            php: ['8.3', '8.4']
             experimental: true
-          - description: 'unstable dependencies'
-            php: '8.1'
+          - description: 'beta/RC dependencies'
+            php: ['8.1', '8.2']
             use-beta: true
             experimental: true
           - description: 'lowest dependencies'
@@ -35,11 +36,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - uses: actions/cache@v3
-        with:
-          path: ~/.composer/cache/files
-          key: ${{ matrix.php }}-${{ matrix.symfony-versions }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
