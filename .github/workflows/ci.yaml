@@ -45,7 +45,7 @@ jobs:
         if: matrix.dependencies == 'beta'
 
       - name: Install dependencies
-        run: composer update ${{ (matrix.dependencies == 'lowest') && '--prefer-lowest --prefer-stable' }}
+        run: composer update ${{ (matrix.dependencies == 'lowest') && '--prefer-lowest --prefer-stable' || ''}}
 
       - name: Run PHPStan static analysis
         run: vendor/bin/phpstan
