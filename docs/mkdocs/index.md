@@ -3,6 +3,7 @@
 <a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="Latest stable version" src="https://poser.pugx.org/omines/antispam-bundle/version" /></a>
 <a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="Total downloads" src="https://poser.pugx.org/omines/antispam-bundle/downloads" /></a>
 <a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="Latest unstable version" src="https://poser.pugx.org/omines/antispam-bundle/v/unstable" /></a>
+<a href="https://codecov.io/gh/omines/antispam-bundle" class="no-after"><img src="https://codecov.io/gh/omines/antispam-bundle/graph/badge.svg?token=634ZQ8EQ7A"/></a>
 <a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="License" src="https://poser.pugx.org/omines/antispam-bundle/license" /></a>
 
 You have found the Swiss Army Knife of battling form spam in your Symfony application!
