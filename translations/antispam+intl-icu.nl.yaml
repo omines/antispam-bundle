@@ -1,0 +1,6 @@
+form:
+  honeypot:
+    not_empty: 'De honingpot had leeg moeten zijn, maar is gevuld.'
+  timer:
+    corrupted: 'Om technische redenen kon het formulier niet verwerkt worden.'
+    mismatch_ip: 'Het IP-adres is gewijzigd tijdens het indienen van het formulier. Probeer nogmaals.'

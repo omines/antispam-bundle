@@ -1,0 +1,17 @@
+antispam:
+  profiles:
+    default:
+      banned_markup: true
+      banned_phrases: ['viagra', 'cialis']
+      banned_scripts: gREEK
+
+      max_urls: 3
+
+      honeypot: email_address
+
+      timer: ~
+
+    bare:
+      timer:
+        min: 2
+

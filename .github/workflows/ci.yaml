@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '8.1'
+          - '8.2'
+          - '8.3'
+        os: [ ubuntu-latest ]
+        experimental: [ false ]
+        symfony-versions: [false]
+        include:
+          - description: 'PHP nightly'
+            php: '8.4'
+            experimental: true
+          - description: 'unstable dependencies'
+            php: '8.1'
+            use-beta: true
+            experimental: true
+          - description: 'lowest dependencies'
+            php: '8.1'
+            lowest: true
+
+    name: PHP ${{ matrix.php }} ${{ matrix.description }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ matrix.php }}-${{ matrix.symfony-versions }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Allow beta dependencies
+        run: composer config minimum-stability beta
+        if: matrix.use-beta
+
+      - name: Install dependencies
+        run: composer update ${{ matrix.lowest && '--prefer-lowest --prefer-stable }}
+
+      - name: Run PHPStan static analysis
+        run: vendor/bin/phpstan
+
+      - name: Check for dangerous and broken dependencies
+        run: composer audit
+
+      - name: Run automated tests
+        run: vendor/bin/phpunit --coverage-text
+
+      - name: Run infection tests
+        run: vendor/bin/infection --threads=max

@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: Symfony Anti-Spam Bundle
+site_description: The Swiss Army Knife for protecting your Symfony forms from all kinds of spam
+site_author: Niels Keurentjes
+docs_dir: mkdocs
+copyright: 'Docs and code are &copy; <a href="https://www.omines.nl/" title="Maatwerk software en websites">Omines Full Service Internetbureau</a>'
+repo_url: https://github.com/omines/antispam-bundle
+
+theme:
+  name: material
+  language: en
+  palette:
+    scheme: slate
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css
+  - stylesheets/extra.css
+
+watch:
+  - includes
+
+nav:
+  - About: index.md
+  - Quickstart: quickstart.md
+  - Configuration: configuration.md
+  - Extending: extending.md
+  - Form Types:
+      - Honeypot: form/honeypot.md
+      - Submit Timer: form/submit_timer.md
+  - Validators:
+      - Banned Markup: validator/banned_markup.md
+      - Banned Phrases: validator/banned_phrases.md
+      - Banned Scripts: validator/banned_script.md
+      - Profile: validator/profile.md
+      - URL Count: validator/url_count.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      use_pygments: true
+      extend_pygments_lang:
+        - name: php
+          lang: php
+          options:
+            startinline: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - sane_lists
+  - smarty
+  - tables
+  - toc:
+      permalink: true

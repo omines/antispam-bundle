@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+use Tests\Fixture\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+// This allows us to do the trick with the symlinked vendor folder shared with the main library
+$_SERVER['APP_RUNTIME_OPTIONS'] = ['project_dir' => dirname(__DIR__)];
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return function (array $context) {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    return new Application($kernel);
+};

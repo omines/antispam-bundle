@@ -1,0 +1,7 @@
+parameters:
+    level: max
+    paths:
+        - src
+        - tests/Fixture/src
+        - tests/Functional
+        - tests/Unit

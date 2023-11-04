@@ -1,0 +1,16 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: Tests\Fixture\Controller
+    type: attribute
+    prefix: /{_locale}
+    requirements:
+        _locale: '%locales%'
+    defaults:
+        _locales: '%default_locale%'
+
+root:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        route: home

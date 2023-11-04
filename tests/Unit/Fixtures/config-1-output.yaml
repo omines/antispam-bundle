@@ -1,0 +1,37 @@
+passive: false
+stealth: false
+
+profiles:
+  default:
+    banned_markup:
+      bbcode: true
+      html: true
+
+    banned_phrases: ['viagra', 'cialis']
+
+    banned_scripts:
+      scripts:
+        - greek
+      max_characters: ~
+      max_percentage: 0
+
+    honeypot:
+      field: email_address
+
+    timer:
+      min: 3
+      max: 3600
+      field: __antispam_time
+
+    max_urls: 3
+    passive: false
+    stealth: true
+
+  bare:
+    timer:
+      min: 2
+      max: 3600
+      field: __antispam_time
+
+    stealth: true
+    passive: false

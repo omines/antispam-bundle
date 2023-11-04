@@ -1,0 +1,11 @@
+{% block antispam_honeypot_row %}
+    {%- set type = 'text' -%}
+    {%- set attr = attr|merge({'style': 'display:none'}) -%}
+    {%- set required = false -%}
+    {{- block('form_widget_simple') -}}
+{% endblock %}
+
+{% block antispam_submit_timer_row %}
+    {%- set type = 'hidden' -%}
+    {{- block('form_widget_simple') -}}
+{% endblock %}

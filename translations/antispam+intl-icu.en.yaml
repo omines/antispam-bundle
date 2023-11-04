@@ -1,0 +1,27 @@
+form:
+  stealthed: 'The submitted value could not be processed. Please contact us if this problem persists.'
+
+  honeypot:
+    not_empty: 'The honeypot field was supposed to be empty but is not.'
+  timer:
+    corrupted: 'Technical reasons prevented processing the form.'
+    mismatch_ip: 'Your IP address changed while submitting the form. Please try again.'
+    too_fast: 'The form was submitted unreasonably fast. Please wait a short bit before trying again.'
+    too_slow: 'The form was submitted unreasonably slow. Please reload the page and try again.'
+
+validator:
+  banned_phrases:
+    phrase_found: 'The value contains the disallowed phrase "{phrase}".'
+
+  banned_script:
+    not_allowed: 'The value contains characters of disallowed scripts ({scripts}).'
+    percentage_exceeded: 'The value consists for {percentage}% of characters of disallowed scripts ({scripts}) while only {max}% is allowed.'
+    characters_exceeded: 'The value contains {count} characters from disallowed scripts ({scripts}) while only {max} are allowed.'
+
+  url_count:
+    exceeded: >-
+      {count, plural,
+        =1    {The value contains a URL. This is not allowed.}
+        other {The value contains # URLs. It should have at most {limit}.}
+      }
+

@@ -1,0 +1,37 @@
+antispam:
+  profiles:
+    test1:
+      max_urls: 2
+      banned_markup: true
+      banned_phrases:
+        - 'official partner of Wordpress'
+        - 'with hourly rate'
+        - 'expert developers'
+
+      banned_scripts:
+        - cyrillic
+        - arabic
+
+      timer:
+        min: 3
+        max: 900
+        field: '__custom_timer_field'
+
+      honeypot: email_address
+
+    test2:
+      stealth: false
+
+      max_urls: 1
+      banned_markup: true
+      banned_phrases: ['viagra']
+      banned_scripts: cyrillic
+      timer: ~
+      honeypot: message
+
+    test3:
+      timer: ~
+      honeypot: email
+
+    empty:
+

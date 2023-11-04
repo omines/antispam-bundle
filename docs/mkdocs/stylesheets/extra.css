@@ -1,0 +1,8 @@
+article a[href^="http"]::after,
+article a[href^="https://"]::after
+{
+    content: "\f35d";
+    font: var(--fa-font-solid);
+    font-size: 60%;
+    vertical-align: top;
+}
