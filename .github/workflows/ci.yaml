@@ -15,22 +15,18 @@ jobs:
         php:
           - '8.1'
           - '8.2'
-          - '8.3'
         os: [ ubuntu-latest ]
-        use-beta: [ false ]
-        lowest: [ false ]
-        experimental: [ false ]
+        dependencies: [ lowest, stable, beta ]
         include:
-          - description: 'PHP nightly'
-            php: ['8.3', '8.4']
-            experimental: true
           - description: 'beta/RC dependencies'
-            php: ['8.1', '8.2']
-            use-beta: true
+            dependencies: beta
             experimental: true
-          - description: 'lowest dependencies'
-            php: '8.1'
-            lowest: true
+          - description: 'PHP upcoming'
+            php: 8.3
+            experimental: true
+          - description: 'PHP nightly'
+            php: 8.4
+            experimental: true
 
     name: PHP ${{ matrix.php }} ${{ matrix.description }}
     steps:
@@ -44,21 +40,22 @@ jobs:
 
       - name: Allow beta dependencies
         run: composer config minimum-stability beta
-        if: matrix.use-beta
+        if: matrix.dependencies == 'beta'
 
       - name: Install dependencies
-        run: composer update ${{ matrix.lowest && '--prefer-lowest --prefer-stable' }}
+        run: composer update ${{ matrix.dependencies == 'lowest' && '--prefer-lowest --prefer-stable' }}
 
       - name: Run PHPStan static analysis
         run: vendor/bin/phpstan
-        if: ${{ !matrix.lowest }}
+        if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
 
       - name: Check for dangerous and broken dependencies
         run: composer audit
-        if: ${{ !matrix.lowest }}
+        if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
 
       - name: Run automated tests
         run: vendor/bin/phpunit --coverage-text
 
       - name: Run infection tests
         run: vendor/bin/infection --threads=max
+        if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
