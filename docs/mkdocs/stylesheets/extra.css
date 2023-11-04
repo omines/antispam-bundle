@@ -6,3 +6,7 @@ article a[href^="https://"]::after
     font-size: 60%;
     vertical-align: top;
 }
+
+a.no-after::after {
+    display: none;
+}

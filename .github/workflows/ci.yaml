@@ -55,10 +55,11 @@ jobs:
 
       - name: Run PHPStan static analysis
         run: vendor/bin/phpstan
+        if: ${{ !matrix.lowest }}
 
       - name: Check for dangerous and broken dependencies
         run: composer audit
-        if: !matrix.lowest
+        if: ${{ !matrix.lowest }}
 
       - name: Run automated tests
         run: vendor/bin/phpunit --coverage-text

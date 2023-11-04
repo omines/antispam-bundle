@@ -1,8 +1,9 @@
 # About
-[![Latest Stable Version](https://poser.pugx.org/omines/antispam-bundle/version)](https://packagist.org/packages/omines/antispam-bundle)
-[![Total Downloads](https://poser.pugx.org/omines/antispam-bundle/downloads)](https://packagist.org/packages/omines/antispam-bundle)
-[![Latest Unstable Version](https://poser.pugx.org/omines/antispam-bundle/v/unstable)](//packagist.org/packages/omines/antispam-bundle)
-[![License](https://poser.pugx.org/omines/antispam-bundle/license)](https://packagist.org/packages/omines/antispam-bundle)
+
+<a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="Latest stable version" src="https://poser.pugx.org/omines/antispam-bundle/version" /></a>
+<a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="Total downloads" src="https://poser.pugx.org/omines/antispam-bundle/downloads" /></a>
+<a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="Latest unstable version" src="https://poser.pugx.org/omines/antispam-bundle/v/unstable" /></a>
+<a href="https://packagist.org/packages/omines/antispam-bundle" class="no-after"><img alt="License" src="https://poser.pugx.org/omines/antispam-bundle/license" /></a>
 
 You have found the Swiss Army Knife of battling form spam in your Symfony application!
 
