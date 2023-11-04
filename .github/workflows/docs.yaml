@@ -1,4 +1,4 @@
-name: ci
+name: Release docs to Github Pages
 
 on:
   push:

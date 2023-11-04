@@ -17,16 +17,17 @@ This bundle is compatible with PHP 8.1+ and Symfony 6.3 or later.
 This bundle provides you with a ton of methods to easily combat spam through tested and
 proven methods:
 
-- *Honeypot*: 
+- *Honeypot*: hidden field to bait spammers
+- *Timer*: Rejects forms being submitted too fast or too slow
+- *Banned scripts*: Reject forms containing characters in specific scripts (ie. Cyrillic or Arabic)
+- *Banned markup*: Rejects forms containing (attempts at) HTML or BBCode
+- *Banned phrases*: Reject forms containing defines phrases
 
-## Quickstart
+All components can either be used standalone or deployed through easily configured antispam profiles.
 
-Install the bundle:
-```sh
-composer require omines/antispam-bundle
-```
-Symfony Flex will enable the bundle and provide a basic configuration file with samples
-at `config/packages/antispam.yaml`.
+## Documentation
+
+Extensive documentation can be found at https://omines.github.io/antispam-bundle/
 
 ## Contributing
 
