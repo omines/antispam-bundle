@@ -9,7 +9,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ matrix.experimental || matrix.dependencies == 'beta' }}
     strategy:
       fail-fast: false
       matrix:
@@ -25,7 +25,6 @@ jobs:
             dependencies: lowest
           - description: 'beta/RC dependencies'
             dependencies: beta
-            experimental: true
           - description: 'PHP upcoming'
             php: 8.3
             experimental: true
@@ -59,7 +58,7 @@ jobs:
         if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
 
       - name: Run automated tests
-        run: vendor/bin/phpunit --coverage-text --coverage-cobertura build/cobertura.xml
+        run: vendor/bin/phpunit --coverage-text --coverage-xml build/coverage-xml --coverage-cobertura build/cobertura.xml
 
       - name: Code Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
@@ -72,7 +71,7 @@ jobs:
           hide_complexity: true
           indicators: true
           output: both
-          thresholds: '80 90'
+          thresholds: '90 98'
 
       - name: Add Coverage PR Comment
         uses: marocchino/sticky-pull-request-comment@v2
@@ -80,6 +79,11 @@ jobs:
         with:
           recreate: true
           path: code-coverage-results.md
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Run infection tests
         run: vendor/bin/infection --threads=max
