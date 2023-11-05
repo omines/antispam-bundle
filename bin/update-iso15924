@@ -1,6 +1,13 @@
 #!/bin/env php
 <?php
 
+/*
+ * This script updates the provided Script enum class with values from the master ISO-15924 list.
+ *
+ * In practice, this list changes once every few years, so don't bother updating it except during major version
+ * updates.
+ */
+
 $master = file_get_contents('https://www.unicode.org/iso15924/iso15924.txt');
 $lines = array_filter(array_map('trim', explode("\n", $master)), fn(string $line) => !(empty($line) || $line[0] === '#'));
 
@@ -27,8 +34,7 @@ foreach ($lines as $line) {
         continue;
     }
 
-    $output .= sprintf("    case %s = '%s';\n", $name, strtolower($name)
-    );
+    $output .= sprintf("    case %s = '%s';\n", $name, strtolower($name));
 }
 $output .= '}';
 

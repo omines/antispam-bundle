@@ -6,8 +6,8 @@ We accept contributions via Pull Requests on [Github](https://github.com/omines/
 Follow [good standards](http://www.phptherightway.com/), keep the PHPstan level maxed, include tests with proper
 coverage, and run `bin/prepare-commit` during development and before committing.
 
-Infection testing is not done automatically, but it is *recommended* to run `bin/infection`
-before  finishing a PR.
+Infection testing is by default only done on **changed** files. It is *recommended* to run
+`bin/infection` before finishing a PR to evaluate infection status of the entire project.
 
 ## Running a test environment
 
@@ -20,7 +20,7 @@ bin/testsite
 
 ## Update documentation
 
-To generate the mkdocs site in `/docs` run:
+To serve the mkdocs site in `/docs` run:
 
 ```sh
 pip install mkdocs mkdocs-material mkdocs-material-extensions
