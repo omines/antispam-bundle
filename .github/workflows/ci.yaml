@@ -6,7 +6,7 @@ on:
     branches:
       - master
   schedule: # Ensure weekly test also if no pushes happen to keep up with dependencies
-    - 0 10 * * 1
+    - cron: 0 10 * * 1
 
 jobs:
   run:
@@ -40,6 +40,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          extensions: intl, mbstring
+          ini-values: zend.assertions=1
 
       - name: Allow beta dependencies
         run: composer config minimum-stability beta

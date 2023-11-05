@@ -30,7 +30,7 @@ class BannedScriptsValidator extends AntiSpamConstraintValidator
         $value = (string) $value;
         $class = $constraint->getCharacterClass();
 
-        // Try the cheap test first for early fail
+        // Try the cheaper test first for early fail
         if (preg_match("/{$class}/u", $value)) {
             if ($constraint->maxPercentage > 0 || null !== $constraint->maxCharacters) {
                 // Only do an expensive full count once we know we need the numbers
