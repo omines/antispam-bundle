@@ -13,7 +13,7 @@ antispam:
         - arabic
 
       timer:
-        min: 3
+        min: 15
         max: 900
         field: '__custom_timer_field'
 

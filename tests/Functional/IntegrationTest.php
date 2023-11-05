@@ -180,14 +180,44 @@ class IntegrationTest extends WebTestCase
             ['unreasonably fast', 'honeypot field was supposed to be empty'],
             ['disallowed phrase']);
 
-        static::mockTime('+10 seconds');
-
+        static::mockTime('+15 seconds');
         $formData['basic_form[name]'] = 'Арнолд Шварзэнэджр';
         $formData['basic_form[phone]'] = '';
         $formData['basic_form[message]'] = 'Please visit my <a href="https://www.example.org">website</a> at https://example.org';
         $formData['basic_form[email_address]'] = '';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
         $this->expectFormErrors($crawler, fieldErrors: ['disallowed scripts', 'HTML was detected']);
+    }
+
+    public function testProfileTest1Timings(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/en/profile/test1');
+        $formData = [
+            'basic_form[name]' => 'John Doe',
+            'basic_form[email]' => 'foo@example.org',
+            'basic_form[message]' => 'A non-spammy message that is fine',
+        ];
+
+        static::mockTime('+14 seconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler, ['unreasonably fast']);
+
+        static::mockTime('+15 seconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler);
+
+        static::mockTime('+899 seconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler);
+
+        static::mockTime('+900 seconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler);
+
+        static::mockTime('+901 seconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler, ['unreasonably slow']);
     }
 
     public function testProfileTest2(): void

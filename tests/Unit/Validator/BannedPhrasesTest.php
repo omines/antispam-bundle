@@ -38,6 +38,12 @@ class BannedPhrasesTest extends ConstraintValidatorTestCase
         $this->constraintValidator->validate(684, new Length(min: 3));
     }
 
+    public function testSinglePhraseIsExpanded(): void
+    {
+        $constraint = new BannedPhrases('foo bar');
+        $this->assertSame(['foo bar'], $constraint->phrases);
+    }
+
     public function testOnlyStringablesAndNullAreAccepted(): void
     {
         $constraint = new BannedPhrases(['foo', 'bar']);
