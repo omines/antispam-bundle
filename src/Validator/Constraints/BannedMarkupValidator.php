@@ -29,8 +29,12 @@ class BannedMarkupValidator extends AntiSpamConstraintValidator
         }
         $value = (string) $value;
 
-        if (preg_match('#<([a-z0-9]+).*</\1>#i', $value)) {
-            $this->context->buildViolation('html was found')->addViolation();
+        /* @todo Build correct translatable validations */
+        if ($constraint->html && preg_match('#<([a-z0-9]+).*</\1>#i', $value)) {
+            $this->context->buildViolation('HTML was detected')->addViolation();
+        }
+        if ($constraint->bbcode && preg_match('#\[([a-z]+).*\[/\1\]#i', $value)) {
+            $this->context->buildViolation('BBCode was detected')->addViolation();
         }
     }
 }

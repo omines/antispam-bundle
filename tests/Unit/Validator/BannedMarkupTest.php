@@ -83,15 +83,21 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
     public static function provideBannedMarkupMessages(): array
     {
         return [
-            ['Please click our <a href="http://example.org">link</a> to buy products.', 'html'],
-            ['Please click our <a  href=http://example.org>link</a> to buy products.', 'html'],
-            ['Please click our <a malformed=true href=\'http://example.org\'>link</a> to buy products.', 'html'],
-            ['Please click <b>our</b> link to <i class="ms-word">buy</i> products.', 'html'],
-            ['Please click our <a href="http://example.org">link</a> to buy products.', 'html'],
-            ['<B>ANCIENT HTML USED ALL CAPS</B>', 'html'],
-            ['<i>ANCIENT HTML USED ALL CAPS (but not consistently)</I>', 'html'],
-            ['<i>buggy html should not fire</b>'],
-            ['Nor should a <a href="http://spam.me">broken link element that will not work anyway'],
+            ['Please click our <a href="http://example.org">link</a> to buy products.', 'HTML'],
+            ['Please click our <a  href=http://example.org>link</a> to buy products.', 'HTML'],
+            ['Please click our <a malformed=true href=\'http://example.org\'>link</a> to buy products.', 'HTML'],
+            ['Please click <b>our</b> link to <i class="ms-word">buy</i> products.', 'HTML'],
+            ['Please click our <a href="http://example.org">link</a> to buy products.', 'HTML'],
+            ['<B>ANCIENT HTML USED ALL CAPS</B>', 'HTML'],
+            ['<i>ANCIENT HTML USED ALL CAPS (but not consistently)</I>', 'HTML'],
+            ['<i>completely buggy html should not fire</b>'],
+
+            ['If you try to [b]BB yourself into bold shouting[/b] it should fail', 'BBCode'],
+            ['Even if you mismatch [b]cases[/B] between opening and closing', 'BBCode'],
+            ['The [url=https://example.org]BBCode links[/url] should definitely fail', 'BBCode'],
+            ['Nested [i]tags in [b]TAGS[/b] should [/i] fail', 'BBCode'],
+
+            ['A <a href="http://spam.me">broken link element that will not work anyway should not trigger on its own'],
             ['Or a text without any markup whatsoever'],
         ];
     }
