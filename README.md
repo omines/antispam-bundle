@@ -22,7 +22,7 @@ proven methods:
 - *Timer*: Rejects forms being submitted too fast or too slow
 - *Banned scripts*: Reject forms containing characters in specific scripts (ie. Cyrillic or Arabic)
 - *Banned markup*: Rejects forms containing (attempts at) HTML or BBCode
-- *Banned phrases*: Reject forms containing defines phrases
+- *Banned phrases*: Reject forms containing predefined phrases
 
 All components can either be used standalone or deployed through easily configured antispam profiles.
 
