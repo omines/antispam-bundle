@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - master
+  schedule: # Ensure weekly test also if no pushes happen to keep up with dependencies
+    - 0 10 * * 1
 
 jobs:
   run:
@@ -27,9 +29,6 @@ jobs:
             dependencies: beta
           - description: 'PHP upcoming'
             php: 8.3
-            experimental: true
-          - description: 'PHP nightly'
-            php: 8.4
             experimental: true
 
     name: PHP ${{ matrix.php }} ${{ matrix.description }}
