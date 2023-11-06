@@ -73,6 +73,22 @@ class BannedScriptTest extends ConstraintValidatorTestCase
         $this->constraintValidator->validate($this, $constraint);
     }
 
+    public function testRegularExpressionIsGeneratedCorrectly(): void
+    {
+        $constraint = new BannedScripts(Script::Arabic);
+        $characterClass = $constraint->getCharacterClass();
+        $this->assertSame('[\\p{arabic}]', $characterClass);
+        $this->assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_ARABIC));
+        $this->assertEquals(0, preg_match("#{$characterClass}#u", self::SAMPLE_HEBREW));
+
+        $constraint = new BannedScripts([Script::Hebrew, Script::Greek]);
+        $characterClass = $constraint->getCharacterClass();
+        $this->assertSame('[\\p{hebrew}\\p{greek}]', $characterClass);
+        $this->assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_HEBREW));
+        $this->assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_GREEK));
+        $this->assertEquals(0, preg_match("#{$characterClass}#u", self::SAMPLE_GURMUKHI));
+    }
+
     public function testCalculatingPercentages(): void
     {
         $constraint = new BannedScripts(Script::Hebrew, maxPercentage: 19);
