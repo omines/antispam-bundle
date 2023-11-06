@@ -1,9 +1,10 @@
 # Symfony Anti-Spam Bundle
 [![Latest Stable Version](https://poser.pugx.org/omines/antispam-bundle/version)](https://packagist.org/packages/omines/antispam-bundle)
-[![Total Downloads](https://poser.pugx.org/omines/antispam-bundle/downloads)](https://packagist.org/packages/omines/antispam-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/omines/antispam-bundle/v/unstable)](https://packagist.org/packages/omines/antispam-bundle)
+[![Total Downloads](https://poser.pugx.org/omines/antispam-bundle/downloads)](https://packagist.org/packages/omines/antispam-bundle)
 [![automated-testing](https://github.com/omines/antispam-bundle/actions/workflows/ci.yaml/badge.svg?branch=master&event=push)](https://github.com/omines/antispam-bundle/actions/workflows/ci.yaml)
 [![codecov](https://codecov.io/gh/omines/antispam-bundle/graph/badge.svg?token=634ZQ8EQ7A)](https://codecov.io/gh/omines/antispam-bundle)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fomines%2Fantispam-bundle%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/omines/antispam-bundle/master)
 [![License](https://poser.pugx.org/omines/antispam-bundle/license)](https://packagist.org/packages/omines/antispam-bundle)
 
 You have found the Swiss Army Knife of battling form spam in your Symfony application!
