@@ -63,7 +63,7 @@ class FormTypeAntiSpamExtension extends AbstractTypeExtension
         if ($options['compound'] && null !== ($profile = $options['antispam_profile'])) {
             $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($profile) {
                 /*
-                 * Symfony Forms does not expose editing options after creation, so the only way
+                 * Symfony Forms does not expose modifying options after creation, so the only way
                  * to reliably modify options based on outside factors is to recreate the child
                  * from its parent with updated options. Hence why the code below is so complex
                  * instead of just creating a TextType extension. This is thankfully completely
