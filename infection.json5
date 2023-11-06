@@ -17,6 +17,7 @@
     },
     "logs": {
         "text": "build/infection/infection.log",
-        "perMutator": "build/infection/mutators.md"
+        "perMutator": "build/infection/mutators.md",
+        "stryker": { "report": "master" }
     }
 }
