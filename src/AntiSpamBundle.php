@@ -20,10 +20,6 @@ class AntiSpamBundle extends AbstractBundle
 {
     public function getContainerExtension(): ?ExtensionInterface
     {
-        if (null === $this->extension) {
-            $this->extension = new AntiSpamExtension();
-        }
-
-        return $this->extension;
+        return new AntiSpamExtension();
     }
 }
