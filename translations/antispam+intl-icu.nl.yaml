@@ -1,6 +1,26 @@
 form:
+  stealthed: 'De invoer kon niet worden verwerkt. Neem contact met ons op als dit probleem blijft voorkomen.'
+
   honeypot:
     not_empty: 'De honingpot had leeg moeten zijn, maar is gevuld.'
   timer:
     corrupted: 'Om technische redenen kon het formulier niet verwerkt worden.'
     mismatch_ip: 'Het IP-adres is gewijzigd tijdens het indienen van het formulier. Probeer nogmaals.'
+    too_fast: 'Het formulier werd te snel ingestuurd. Wacht een kort moment alvorens nogmaals te versturen.'
+    too_slow: 'Het formulier werd te laat ingestuurd. Herlaad de pagina en probeer het nogmaals.'
+
+validator:
+  banned_phrases:
+    phrase_found: 'De waarde bevat de niet toegestane tekst "{phrase}".'
+
+  banned_script:
+    not_allowed: 'De waarde bevat tekens uit niet toegestane schriften ({scripts}).'
+    percentage_exceeded: 'De waarde bestaat voor {percentage}% uit karakters van niet toegestande schriften ({scripts}), slechts {max}% is toegestaan.'
+    characters_exceeded: 'De waarde bevat {count} karakters van niet toegestane schriften ({scripts}), slechts {max} zijn toegestaan.'
+
+  url_count:
+    exceeded: >-
+      {count, plural,
+        =1    {De waarde bevat een URL. Dit is niet toegestaan.}
+        other {De waarde bevat # URL's. Maximaal {limit} zijn toegestaan.}
+      }
