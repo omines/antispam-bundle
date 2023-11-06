@@ -46,10 +46,6 @@ jobs:
       - name: Dump PHP diagnostics
         run: php -i && php -m
 
-      - name: Check code style
-        run: vendor/bin/php-cs-fixer fix --dry-run
-        if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
-
       - name: Allow beta dependencies
         run: composer config minimum-stability beta
         if: matrix.dependencies == 'beta'
@@ -59,6 +55,10 @@ jobs:
 
       - name: Check for dangerous and broken dependencies
         run: composer audit
+        if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
+
+      - name: Check code style
+        run: vendor/bin/php-cs-fixer fix --dry-run
         if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
 
       - name: Run PHPStan static analysis
