@@ -43,6 +43,9 @@ jobs:
           extensions: intl, mbstring
           ini-values: zend.assertions=1
 
+      - name: Dump diagnostics
+        run: php -i && php -m
+
       - name: Allow beta dependencies
         run: composer config minimum-stability beta
         if: matrix.dependencies == 'beta'
