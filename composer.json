@@ -24,7 +24,7 @@
         "symfony/form": "^6.3|^7.0",
         "symfony/framework-bundle": "^6.3|^7.0",
         "symfony/options-resolver": "^6.3|^7.0",
-        "symfony/translation-contracts": "^3.0",
+        "symfony/translation": "^6.3|^7.0",
         "symfony/validator": "^6.3|^7.0",
         "symfony/yaml": "^6.3|^7.0"
     },
@@ -42,7 +42,6 @@
         "symfony/dotenv": "^6.3.7|^7.0",
         "symfony/routing": "^6.3.5|^7.0",
         "symfony/runtime": "^6.3.2|^7.0",
-        "symfony/translation": "^6.3.7|^7.0",
         "symfony/twig-bundle": "^6.3|^7.0"
     },
     "suggest": {
