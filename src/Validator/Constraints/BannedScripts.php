@@ -49,7 +49,7 @@ class BannedScripts extends AntiSpamConstraint
     {
         if (!isset($this->characterClass)) {
             $this->scripts = array_map(fn (Script|string $v) => is_string($v) ? Script::from($v) : $v, $this->scripts);
-            $this->characterClass = sprintf('[%s]', implode('', array_map(fn (Script $script) => sprintf('\p{%s}', $script->value), $this->scripts)));
+            $this->characterClass = sprintf('[%s]', implode('', array_map(fn (Script $script) => sprintf('\\p{%s}', $script->value), $this->scripts)));
         }
 
         return $this->characterClass;
