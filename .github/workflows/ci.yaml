@@ -1,4 +1,4 @@
-name: automated-testing
+name: test suite
 
 on:
   pull_request:
