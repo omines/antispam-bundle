@@ -27,7 +27,7 @@ jobs:
             dependencies: lowest
           - description: 'beta/RC dependencies'
             dependencies: beta
-          - description: 'PHP upcoming'
+          - description: 'nightly with stable dependencies'
             php: 8.3
             experimental: true
 
