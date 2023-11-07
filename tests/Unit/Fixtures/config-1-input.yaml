@@ -5,7 +5,7 @@ antispam:
       banned_phrases: ['viagra', 'cialis']
       banned_scripts: gREEK
 
-      max_urls: 3
+      url_count: 3
 
       honeypot: email_address
 

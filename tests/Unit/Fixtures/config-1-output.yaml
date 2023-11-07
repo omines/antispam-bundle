@@ -23,7 +23,10 @@ profiles:
       max: 3600
       field: __antispam_time
 
-    max_urls: 3
+    url_count:
+      max: 3
+      max_identical: ~
+
     passive: false
     stealth: true
 

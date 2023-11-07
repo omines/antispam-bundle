@@ -15,7 +15,7 @@ validator:
 
   banned_script:
     not_allowed: 'De waarde bevat tekens uit niet toegestane schriften ({scripts}).'
-    percentage_exceeded: 'De waarde bestaat voor {percentage}% uit karakters van niet toegestande schriften ({scripts}), slechts {max}% is toegestaan.'
+    percentage_exceeded: 'De waarde bestaat voor {percentage}% uit karakters van niet toegestane schriften ({scripts}), slechts {max}% is toegestaan.'
     characters_exceeded: 'De waarde bevat {count} karakters van niet toegestane schriften ({scripts}), slechts {max} zijn toegestaan.'
 
   url_count:

@@ -44,9 +44,6 @@
         "symfony/runtime": "^6.3.2|^7.0",
         "symfony/twig-bundle": "^6.3|^7.0"
     },
-    "suggest": {
-        "omines/akismet": "To integrate with the Akismet online antispam service"
-    },
     "autoload": {
         "psr-4": { "Omines\\AntiSpamBundle\\": "src/"}
     },

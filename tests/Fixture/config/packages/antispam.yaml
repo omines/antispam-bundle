@@ -1,7 +1,6 @@
 antispam:
   profiles:
     test1:
-      max_urls: 2
       banned_markup: true
       banned_phrases:
         - 'official partner of Wordpress'
@@ -17,12 +16,17 @@ antispam:
         max: 900
         field: '__custom_timer_field'
 
+      url_count:
+        max: 2
+        max_identical: 1
+
       honeypot: email_address
 
     test2:
       stealth: false
 
-      max_urls: 1
+      url_count: 1
+
       banned_markup: true
       banned_phrases: ['viagra']
       banned_scripts: cyrillic
