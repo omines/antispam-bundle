@@ -44,12 +44,14 @@ class AntiSpamTest extends KernelTestCase
     {
         /** @var AntiSpam $antispam */
         $antispam = static::getContainer()->get(AntiSpam::class);
-        $this->assertFalse($antispam->isPassive());
-        $this->assertFalse($antispam->isStealth());
+        $this->assertFalse($antispam->getPassive());
+        $this->assertFalse($antispam->getStealth());
 
         $profile = $antispam->getProfile('test1');
         $this->assertSame('test1', $profile->getName());
         $this->assertNotEmpty($profile->getConfig());
+        $this->assertFalse($profile->getStealth());
+        $this->assertFalse($profile->getPassive());
     }
 
     public function testProfileCachesConstraints(): void

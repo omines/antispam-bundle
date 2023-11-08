@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Validator;
 
 use Omines\AntiSpamBundle\Type\Script;
+use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraintValidator;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedScripts;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedScriptsValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -26,6 +27,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 #[CoversClass(BannedScripts::class)]
 #[CoversClass(BannedScriptsValidator::class)]
+#[CoversClass(AntiSpamConstraintValidator::class)]
 class BannedScriptTest extends ConstraintValidatorTestCase
 {
     private const SAMPLE_LATIN = 'An example sentence using only Latin characters';
@@ -123,14 +125,14 @@ class BannedScriptTest extends ConstraintValidatorTestCase
     }
 
     #[DataProvider('provideBannedScripts')]
-    public function testBannedScriptValidation(BannedScripts $constraint, string $message, string $expectedCode = null): void
+    public function testBannedScriptValidation(BannedScripts $constraint, string $message, string $expectedError = null): void
     {
         $errors = $this->validate($message, $constraint);
-        if (null === $expectedCode) {
+        if (null === $expectedError) {
             $this->assertNoViolation();
         } else {
             $this->assertCount(1, $errors, 'Expected one single violation');
-            $this->assertEquals($errors->get(0)->getCode(), $expectedCode);
+            $this->assertStringContainsString($expectedError, (string) $errors->get(0)->getMessage());
         }
     }
 
@@ -141,25 +143,25 @@ class BannedScriptTest extends ConstraintValidatorTestCase
     {
         return [
             'full Latin text' => [
-                new BannedScripts(Script::Latin), self::SAMPLE_LATIN, BannedScripts::NOT_ALLOWED_ERROR,
+                new BannedScripts(Script::Latin), self::SAMPLE_LATIN, 'contains characters of disallowed scripts',
             ],
             'full Arabic text' => [
-                new BannedScripts(Script::Arabic), self::SAMPLE_ARABIC, BannedScripts::NOT_ALLOWED_ERROR,
+                new BannedScripts(Script::Arabic), self::SAMPLE_ARABIC, 'contains characters of disallowed scripts',
             ],
             'full Cyrillic text' => [
-                new BannedScripts(Script::Cyrillic), self::SAMPLE_CYRILLIC, BannedScripts::NOT_ALLOWED_ERROR,
+                new BannedScripts(Script::Cyrillic), self::SAMPLE_CYRILLIC, 'contains characters of disallowed scripts',
             ],
             'full Greek text' => [
-                new BannedScripts(Script::Greek), self::SAMPLE_GREEK, BannedScripts::NOT_ALLOWED_ERROR,
+                new BannedScripts(Script::Greek), self::SAMPLE_GREEK, 'contains characters of disallowed scripts',
             ],
             'full Gurmukhi text' => [
-                new BannedScripts(Script::Gurmukhi), self::SAMPLE_GURMUKHI, BannedScripts::NOT_ALLOWED_ERROR,
+                new BannedScripts(Script::Gurmukhi), self::SAMPLE_GURMUKHI, 'contains characters of disallowed scripts',
             ],
             'full Hebrew text' => [
-                new BannedScripts(Script::Hebrew), self::SAMPLE_HEBREW, BannedScripts::NOT_ALLOWED_ERROR,
+                new BannedScripts(Script::Hebrew), self::SAMPLE_HEBREW, 'contains characters of disallowed scripts',
             ],
             'partial Cyrillic text' => [
-                new BannedScripts(Script::Cyrillic), self::SAMPLE_LATIN . self::SAMPLE_CYRILLIC, BannedScripts::NOT_ALLOWED_ERROR,
+                new BannedScripts(Script::Cyrillic), self::SAMPLE_LATIN . self::SAMPLE_CYRILLIC, 'contains characters of disallowed scripts',
             ],
             'sufficiently high percentage' => [
                 new BannedScripts(Script::Hebrew, maxPercentage: 50),
@@ -172,12 +174,17 @@ class BannedScriptTest extends ConstraintValidatorTestCase
             'low percentage' => [
                 new BannedScripts(Script::Hebrew, maxPercentage: 25),
                 self::SAMPLE_HEBREW . self::SAMPLE_CYRILLIC,
-                BannedScripts::TOO_HIGH_PERCENTAGE_ERROR,
+                '36% of characters of disallowed scripts (Hebrew) while only 25% is allowed',
             ],
             'low max character count' => [
                 new BannedScripts(Script::Cyrillic, maxCharacters: 5),
                 self::SAMPLE_HEBREW . self::SAMPLE_CYRILLIC,
-                BannedScripts::TOO_MANY_CHARACTERS_ERROR,
+                '48 characters from disallowed scripts (Cyrillic) while only 5 are allowed',
+            ],
+            'stealth message' => [
+                new BannedScripts(Script::Cyrillic, maxCharacters: 5, stealth: true),
+                self::SAMPLE_HEBREW . self::SAMPLE_CYRILLIC,
+                '48 characters from disallowed scripts (Cyrillic) while only 5 are allowed',
             ],
         ];
     }

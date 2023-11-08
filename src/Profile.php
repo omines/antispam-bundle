@@ -27,7 +27,8 @@ use Symfony\Component\Validator\Constraint;
  * @phpstan-type HoneypotConfig array{field: string}
  * @phpstan-type TimerConfig array{min: int, max: int, field: string}
  * @phpstan-type ProfileConfig array{banned_markup?: BannedMarkupConfig, banned_phrases?: BannedPhrasesConfig,
- *          banned_scripts?: BannedScriptsConfig, honeypot?: HoneypotConfig, max_urls?: UrlCountConfig, timer?: TimerConfig}
+ *          banned_scripts?: BannedScriptsConfig, honeypot?: HoneypotConfig, max_urls?: UrlCountConfig,
+ *          passive: bool, stealth: bool, timer?: TimerConfig}
  */
 class Profile
 {
@@ -62,6 +63,16 @@ class Profile
     public function getHoneypotConfig(): ?array
     {
         return $this->config['honeypot'] ?? null;
+    }
+
+    public function getPassive(): bool
+    {
+        return $this->config['passive'];
+    }
+
+    public function getStealth(): bool
+    {
+        return $this->config['stealth'];
     }
 
     /**

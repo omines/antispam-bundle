@@ -13,7 +13,7 @@ validator:
   banned_phrases:
     phrase_found: 'The value contains the disallowed phrase "{phrase}".'
 
-  banned_script:
+  banned_scripts:
     not_allowed: 'The value contains characters of disallowed scripts ({scripts}).'
     percentage_exceeded: 'The value consists for {percentage}% of characters of disallowed scripts ({scripts}) while only {max}% is allowed.'
     characters_exceeded: 'The value contains {count} characters from disallowed scripts ({scripts}) while only {max} are allowed.'

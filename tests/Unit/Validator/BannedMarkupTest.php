@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Validator;
 
+use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraintValidator;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkupValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -25,6 +26,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 #[CoversClass(BannedMarkup::class)]
 #[CoversClass(BannedMarkupValidator::class)]
+#[CoversClass(AntiSpamConstraintValidator::class)]
 class BannedMarkupTest extends ConstraintValidatorTestCase
 {
     protected function getValidatorClass(): string

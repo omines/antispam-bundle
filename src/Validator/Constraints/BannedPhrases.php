@@ -17,8 +17,6 @@ use Symfony\Component\Validator\Attribute\HasNamedArguments;
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class BannedPhrases extends AntiSpamConstraint
 {
-    public const CONTAINS_BANNED_PHRASE_ERROR = '34d12260-ba39-4e81-8574-c2e9c8db95bb';
-
     /** @var string[] */
     public readonly array $phrases;
 

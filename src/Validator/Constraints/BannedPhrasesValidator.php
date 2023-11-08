@@ -31,13 +31,9 @@ class BannedPhrasesValidator extends AntiSpamConstraintValidator
         $regexp = $constraint->getRegularExpression();
 
         if (preg_match($regexp, $value, $matches)) {
-            $this->context
-                ->buildViolation('validator.banned_phrases.phrase_found')
-                ->setParameter('phrase', $matches[1])
-                ->setInvalidValue($value)
-                ->setCode(BannedPhrases::CONTAINS_BANNED_PHRASE_ERROR)
-                ->setTranslationDomain('antispam')
-                ->addViolation();
+            $this->failValidation($constraint, 'validator.banned_phrases.phrase_found', [
+                'phrase' => $matches[1],
+            ], $value);
         }
     }
 }

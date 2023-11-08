@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Validator;
 
+use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraintValidator;
 use Omines\AntiSpamBundle\Validator\Constraints\UrlCount;
 use Omines\AntiSpamBundle\Validator\Constraints\UrlCountValidator;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -25,6 +26,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 #[CoversClass(UrlCount::class)]
 #[CoversClass(UrlCountValidator::class)]
+#[CoversClass(AntiSpamConstraintValidator::class)]
 class UrlCountTest extends ConstraintValidatorTestCase
 {
     protected function getValidatorClass(): string

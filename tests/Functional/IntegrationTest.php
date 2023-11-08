@@ -231,6 +231,15 @@ class IntegrationTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/test2');
         $this->assertResponseIsSuccessful();
+
+        $formData = [
+            'basic_form[name]' => 'Priya Kaila',
+            'basic_form[email]' => 'foo@example.org',
+            'basic_form[message]' => 'Buy some VIAGRA',
+        ];
+
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler, formErrors: ['banned_phrases']);
     }
 
     public function testProfileTest3(): void

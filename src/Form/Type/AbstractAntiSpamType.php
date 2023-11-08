@@ -49,11 +49,7 @@ abstract class AbstractAntiSpamType extends AbstractType
      */
     protected function createFormError(FormInterface $form, string $template, array $parameters = [], string $cause = null): void
     {
-        if ($this->antiSpam->isPassive()) {
-            // No hard errors when in passive mode
-            return;
-        }
-        if ($this->antiSpam->isStealth()) {
+        if ($this->antiSpam->getStealth()) {
             $message = $this->translator->trans('form.stealthed', domain: 'antispam');
         } else {
             $message = $this->translator->trans($template, $parameters, domain: 'antispam');

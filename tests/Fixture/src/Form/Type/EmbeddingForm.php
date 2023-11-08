@@ -22,11 +22,11 @@ class EmbeddingForm extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'antispam_profile' => 'test3',
+                'antispam_profile' => 'test2',
             ])
             ->add('description', TextType::class)
             ->add('embedded', BasicForm::class, [
-                'antispam_profile' => 'test2',
+                'antispam_profile' => 'test3',
             ])
         ;
     }

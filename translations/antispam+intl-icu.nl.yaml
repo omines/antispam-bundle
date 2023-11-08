@@ -13,7 +13,7 @@ validator:
   banned_phrases:
     phrase_found: 'De waarde bevat de niet toegestane tekst "{phrase}".'
 
-  banned_script:
+  banned_scripts:
     not_allowed: 'De waarde bevat tekens uit niet toegestane schriften ({scripts}).'
     percentage_exceeded: 'De waarde bestaat voor {percentage}% uit karakters van niet toegestane schriften ({scripts}), slechts {max}% is toegestaan.'
     characters_exceeded: 'De waarde bevat {count} karakters van niet toegestane schriften ({scripts}), slechts {max} zijn toegestaan.'

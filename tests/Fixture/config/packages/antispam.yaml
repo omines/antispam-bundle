@@ -1,6 +1,8 @@
 antispam:
   profiles:
     test1:
+      stealth: false
+
       banned_markup: true
       banned_phrases:
         - 'official partner of Wordpress'
@@ -23,14 +25,12 @@ antispam:
       honeypot: email_address
 
     test2:
-      stealth: false
-
       url_count: 1
 
       banned_markup: true
       banned_phrases: ['viagra']
       banned_scripts: cyrillic
-      timer: ~
+
       honeypot: message
 
     test3:

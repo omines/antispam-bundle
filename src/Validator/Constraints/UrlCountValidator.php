@@ -27,27 +27,23 @@ class UrlCountValidator extends AntiSpamConstraintValidator
         } elseif (!\is_scalar($value) && !$value instanceof \Stringable) {
             throw new UnexpectedValueException($value, 'string');
         }
+
         $value = (string) $value;
         $urlCount = preg_match_all('#([a-z][a-z0-9]+://\w+\.[\w\.]+(/[^\s,$]*)?)#i', $value, $matches);
         if ($urlCount > $constraint->max) {
-            $this->context->buildViolation('validator.url_count.exceeded')
-                ->setParameter('count', (string) $urlCount)
-                ->setParameter('limit', (string) $constraint->max)
-                ->setInvalidValue($value)
-                ->setCode(UrlCount::TOO_MANY_URLS_ERROR)
-                ->setTranslationDomain('antispam')
-                ->addViolation();
+            $this->failValidation($constraint, 'validator.url_count.exceeded', [
+                'count' => (string) $urlCount,
+                'limit' => (string) $constraint->max,
+            ], $value);
         }
         if (null !== $constraint->maxIdentical) {
             foreach (array_count_values($matches[1]) as $url => $count) {
                 if ($count > $constraint->maxIdentical) {
-                    $this->context->buildViolation('validator.url_count.duplicates')
-                        ->setParameter('url', $url)
-                        ->setParameter('count', (string) $count)
-                        ->setParameter('limit', (string) $constraint->maxIdentical)
-                        ->setInvalidValue($value)
-                        ->setTranslationDomain('antispam')
-                        ->addViolation();
+                    $this->failValidation($constraint, 'validator.url_count.duplicates', [
+                        'url' => $url,
+                        'count' => (string) $urlCount,
+                        'limit' => (string) $constraint->max,
+                    ], $value);
                 }
             }
         }

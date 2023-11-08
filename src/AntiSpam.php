@@ -51,12 +51,12 @@ class AntiSpam
         return $this->options['quarantine'];
     }
 
-    public function isPassive(): bool
+    public function getPassive(): bool
     {
         return $this->options['passive'];
     }
 
-    public function isStealth(): bool
+    public function getStealth(): bool
     {
         return $this->options['stealth'];
     }

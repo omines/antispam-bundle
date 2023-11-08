@@ -37,34 +37,22 @@ class BannedScriptsValidator extends AntiSpamConstraintValidator
                 $count = preg_match_all("/{$class}/u", $value);
                 $percentage = 100 * $count / mb_strlen($value);
                 if ($constraint->maxPercentage <= 0 && $count > $constraint->maxCharacters) {
-                    $this->context
-                        ->buildViolation('validator.banned_script.characters_exceeded')
-                        ->setParameter('count', (string) $count)
-                        ->setParameter('max', (string) $constraint->maxCharacters)
-                        ->setParameter('scripts', $constraint->getReadableScripts())
-                        ->setInvalidValue($value)
-                        ->setCode(BannedScripts::TOO_MANY_CHARACTERS_ERROR)
-                        ->setTranslationDomain('antispam')
-                        ->addViolation();
+                    $this->failValidation($constraint, 'validator.banned_scripts.characters_exceeded', [
+                        'count' => (string) $count,
+                        'max' => (string) $constraint->maxCharacters,
+                        'scripts' => $constraint->getReadableScripts(),
+                    ], $value);
                 } elseif (null === $constraint->maxCharacters && $percentage > $constraint->maxPercentage) {
-                    $this->context
-                        ->buildViolation('validator.banned_script.percentage_exceeded')
-                        ->setParameter('percentage', (string) ceil($percentage))
-                        ->setParameter('max', (string) $constraint->maxPercentage)
-                        ->setParameter('scripts', $constraint->getReadableScripts())
-                        ->setInvalidValue($value)
-                        ->setCode(BannedScripts::TOO_HIGH_PERCENTAGE_ERROR)
-                        ->setTranslationDomain('antispam')
-                        ->addViolation();
+                    $this->failValidation($constraint, 'validator.banned_scripts.percentage_exceeded', [
+                        'percentage' => (string) ceil($percentage),
+                        'max' => (string) $constraint->maxPercentage,
+                        'scripts' => $constraint->getReadableScripts(),
+                    ], $value);
                 }
             } else {
-                $this->context
-                    ->buildViolation('validator.banned_script.not_allowed')
-                    ->setParameter('scripts', $constraint->getReadableScripts())
-                    ->setInvalidValue($value)
-                    ->setCode(BannedScripts::NOT_ALLOWED_ERROR)
-                    ->setTranslationDomain('antispam')
-                    ->addViolation();
+                $this->failValidation($constraint, 'validator.banned_scripts.not_allowed', [
+                    'scripts' => $constraint->getReadableScripts(),
+                ], $value);
             }
         }
     }
