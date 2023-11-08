@@ -48,7 +48,7 @@ class FormTypeAntiSpamExtension extends AbstractTypeExtension
         $resolver->define('antispam_profile')
             ->default(null)
             ->allowedTypes(Profile::class, 'string', 'null')
-            ->normalize(function (Options $options, mixed $profile) {
+            ->normalize(function (Options $options, Profile|string|null $profile) {
                 return is_string($profile) ? $this->antiSpam->getProfile($profile) : null;
             })
         ;

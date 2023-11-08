@@ -41,8 +41,7 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
         }
         if ($stealth) {
             // Stealthed errors go on the root form if we have one in the context
-            if ((null !== ($form = $this->context->getRoot()) && $form instanceof FormInterface)
-                || (null !== ($form = $this->context->getObject()) && $form instanceof FormInterface)) {
+            if (null !== ($form = $this->context->getRoot()) && $form instanceof FormInterface) {
                 $formError = new AntiSpamFormError($messageTemplate, $messageTemplate, $parameters, null);
                 $form->addError($formError);
             } else {
@@ -65,10 +64,9 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
         if (($form = $this->context->getObject()) instanceof FormInterface) {
             do {
                 if (null !== ($profile = $form->getConfig()->getOption('antispam_profile'))) {
-                    if ($profile instanceof Profile) {
-                        return $profile;
-                    }
-                    throw new \LogicException('Option "antispam_profile" contained a ' . gettype($profile));
+                    assert($profile instanceof Profile);
+
+                    return $profile;
                 }
             } while ($form = $form->getParent());
         }

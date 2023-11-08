@@ -255,6 +255,17 @@ class IntegrationTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/embedded');
         $this->assertResponseIsSuccessful();
+
+        $formData = [
+            'embedding_form[embedded][name]' => 'Priya Kaila',
+            'embedding_form[embedded][email]' => 'foo@example.org',
+            'embedding_form[embedded][message]' => 'Buy some VIAGRA',
+        ];
+
+        // The 900 is defined by test profile 1 in the root form, hence it should win
+        self::mockTime('+900 seconds');
+        $crawler = $client->submit($crawler->filter('form[name=embedding_form]')->form(), $formData);
+        $this->expectFormErrors($crawler);
     }
 
     public function testEmptyProfile(): void
