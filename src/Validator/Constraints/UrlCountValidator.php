@@ -28,7 +28,7 @@ class UrlCountValidator extends AntiSpamConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
         $value = (string) $value;
-        $urlCount = preg_match_all('#[a-z][a-z0-9]+://\w+\.[\w\.]+#i', $value);
+        $urlCount = preg_match_all('#([a-z][a-z0-9]+://\w+\.[\w\.]+(/[^\s,$]*)?)#i', $value, $matches);
         if ($urlCount > $constraint->max) {
             $this->context->buildViolation('validator.url_count.exceeded')
                 ->setParameter('count', (string) $urlCount)
@@ -37,6 +37,19 @@ class UrlCountValidator extends AntiSpamConstraintValidator
                 ->setCode(UrlCount::TOO_MANY_URLS_ERROR)
                 ->setTranslationDomain('antispam')
                 ->addViolation();
+        }
+        if (null !== $constraint->maxIdentical) {
+            foreach (array_count_values($matches[1]) as $url => $count) {
+                if ($count > $constraint->maxIdentical) {
+                    $this->context->buildViolation('validator.url_count.duplicates')
+                        ->setParameter('url', $url)
+                        ->setParameter('count', (string) $count)
+                        ->setParameter('limit', (string) $constraint->maxIdentical)
+                        ->setInvalidValue($value)
+                        ->setTranslationDomain('antispam')
+                        ->addViolation();
+                }
+            }
         }
     }
 }

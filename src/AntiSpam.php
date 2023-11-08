@@ -17,7 +17,8 @@ use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
- * @phpstan-type GlobalOptions array{passive: bool, stealth: bool}
+ * @phpstan-type QuarantineOptions array{dir: string}
+ * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, quarantine: QuarantineOptions}
  */
 class AntiSpam
 {
@@ -40,6 +41,14 @@ class AntiSpam
         }
 
         return $this->profiles->get($id);
+    }
+
+    /**
+     * @return QuarantineOptions
+     */
+    public function getQuarantineConfig(): array
+    {
+        return $this->options['quarantine'];
     }
 
     public function isPassive(): bool

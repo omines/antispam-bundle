@@ -22,6 +22,15 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 #[CoversClass(Profile::class)]
 class AntiSpamTest extends KernelTestCase
 {
+    public function testConfigurationParametersAreResolved(): void
+    {
+        $antispam = static::getContainer()->get(AntiSpam::class);
+        $this->assertInstanceOf(AntiSpam::class, $antispam);
+
+        $config = $antispam->getQuarantineConfig();
+        $this->assertSame(dirname(__DIR__) . '/Fixture/var/quarantine', $config['dir']);
+    }
+
     public function testUnknownProfileThrows(): void
     {
         $this->expectException(InvalidProfileException::class);

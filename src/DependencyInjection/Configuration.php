@@ -35,11 +35,16 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('stealth')
                     ->info('Global default for whether included components issue verbose or stealthy error messages')
                     ->defaultFalse()
-                ->end();
+                ->end()
+                ->arrayNode('quarantine')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('dir')->defaultValue('%kernel.project_dir%/var/quarantine')->end()
+                    ->end()
+                ->end()
+        ;
 
         $this->addProfileSection($children);
-
-        $children->end();
 
         return $treeBuilder;
     }

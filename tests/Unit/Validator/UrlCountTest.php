@@ -93,6 +93,12 @@ class UrlCountTest extends ConstraintValidatorTestCase
             '2 URL, 1 allowed' => [
                 new UrlCount(1), 'Test with http://foo.org/bar and https://bar.org/foo in text', 1, 2,
             ],
+            '1 identical allowed' => [
+                new UrlCount(10, 1), 'Test with https://foo.org/bar and https://foo.org/bar in text', 1, 2,
+            ],
+            '1 identical allowed, trailing characters' => [
+                new UrlCount(10, 1), 'Test with https://foo.org/bar, and https://foo.org/bar', 1, 2,
+            ],
         ];
     }
 }

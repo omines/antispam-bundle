@@ -19,7 +19,7 @@ use Omines\AntiSpamBundle\Form\Extension\FormTypeAntiSpamExtension;
 use Omines\AntiSpamBundle\Type\Script;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
@@ -30,7 +30,7 @@ use Symfony\Component\Yaml\Yaml;
 #[CoversClass(AntiSpamBundle::class)]
 #[CoversClass(AntiSpamExtension::class)]
 #[CoversClass(Configuration::class)]
-class BundleTest extends KernelTestCase
+class BundleTest extends TestCase
 {
     public function testBundleIsLoadedCorrectlyWithExtension(): void
     {

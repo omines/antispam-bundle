@@ -1,5 +1,7 @@
 passive: false
 stealth: false
+quarantine:
+  dir: "%kernel.project_dir%/var/quarantine"
 
 profiles:
   default:
