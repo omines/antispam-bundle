@@ -21,7 +21,7 @@ class UrlCount extends AntiSpamConstraint
 
     #[HasNamedArguments]
     public function __construct(
-        public int $max = 0,
+        public ?int $max = 0,
         public ?int $maxIdentical = null,
         bool $passive = null,
         bool $stealth = null,

@@ -25,7 +25,7 @@ proven methods:
 - *Banned scripts*: Reject forms containing characters in specific scripts (ie. Cyrillic or Arabic)
 - *Banned markup*: Rejects forms containing (attempts at) HTML or BBCode
 - *Banned phrases*: Reject forms containing predefined phrases
-- *URL Count*: Reject forms with too many URLs in the content
+- *URL Count*: Reject forms with too many URLs or repeated URLs in the content
 
 All components can either be used standalone or deployed through easily configured antispam profiles.
 

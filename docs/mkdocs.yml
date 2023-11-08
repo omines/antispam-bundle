@@ -36,7 +36,7 @@ nav:
   - Validators:
       - Banned Markup: validator/banned_markup.md
       - Banned Phrases: validator/banned_phrases.md
-      - Banned Scripts: validator/banned_script.md
+      - Banned Scripts: validator/banned_scripts.md
       - Profile: validator/profile.md
       - URL Count: validator/url_count.md
 
