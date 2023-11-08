@@ -65,6 +65,12 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
         $this->constraintValidator->validate($this, $constraint);
     }
 
+    public function testStealthedValidationError(): void
+    {
+        $errors = $this->expectViolations('<b>HTML IS COOL</b>', new BannedMarkup(stealth: true));
+        $this->assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
+    }
+
     #[DataProvider('provideBannedMarkupMessages')]
     public function testBannedMarkupValidation(string $message, string $expectedError = null): void
     {

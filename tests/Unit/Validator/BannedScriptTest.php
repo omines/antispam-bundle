@@ -184,7 +184,7 @@ class BannedScriptTest extends ConstraintValidatorTestCase
             'stealth message' => [
                 new BannedScripts(Script::Cyrillic, maxCharacters: 5, stealth: true),
                 self::SAMPLE_HEBREW . self::SAMPLE_CYRILLIC,
-                '48 characters from disallowed scripts (Cyrillic) while only 5 are allowed',
+                'The submitted value could not be processed',
             ],
         ];
     }

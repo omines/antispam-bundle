@@ -18,11 +18,15 @@ use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AntiSpamConstraintValidator extends ConstraintValidator
 {
+    private const STEALTHED_TRANSLATION_KEY = 'validator.stealthed';
+
     public function __construct(
         protected readonly AntiSpam $antiSpam,
+        protected readonly TranslatorInterface $translator,
         protected readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
@@ -43,7 +47,7 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
                 $form->addError($formError);
             } else {
                 // Put a stealthed validation on the validator if not in form context
-                $this->context->buildViolation($messageTemplate, $parameters)
+                $this->context->buildViolation(self::STEALTHED_TRANSLATION_KEY)
                     ->setInvalidValue($invalidValue)
                     ->setTranslationDomain('antispam')
                     ->addViolation();

@@ -1,5 +1,5 @@
 form:
-  stealthed: 'The submitted value could not be processed. Please contact us if this problem persists.'
+  stealthed: 'The submitted form could not be processed. Please contact us if this problem persists.'
 
   honeypot:
     not_empty: 'The honeypot field was supposed to be empty but is not.'
@@ -10,6 +10,12 @@ form:
     too_slow: 'The form was submitted unreasonably slow. Please reload the page and try again.'
 
 validator:
+  stealthed: 'The submitted value could not be processed. Please contact us if this problem persists.'
+
+  banned_markup:
+    html: 'The value contains HTML markup, which is not permitted.'
+    bbcode: 'The value contains BBCode markup, which is not permitted.'
+
   banned_phrases:
     phrase_found: 'The value contains the disallowed phrase "{phrase}".'
 

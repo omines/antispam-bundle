@@ -1,5 +1,5 @@
 form:
-  stealthed: 'De invoer kon niet worden verwerkt. Neem contact met ons op als dit probleem blijft voorkomen.'
+  stealthed: 'Het formulier kon niet worden verwerkt. Neem contact met ons op als dit probleem blijft voorkomen.'
 
   honeypot:
     not_empty: 'De honingpot had leeg moeten zijn, maar is gevuld.'
@@ -10,6 +10,12 @@ form:
     too_slow: 'Het formulier werd te laat ingestuurd. Herlaad de pagina en probeer het nogmaals.'
 
 validator:
+  stealthed: 'De invoer kon niet worden verwerkt. Neem contact met ons op als dit probleem blijft voorkomen.'
+
+  banned_markup:
+    html: 'De waarde bevat HTML-codes, wat niet is toegestaan.'
+    bbcode: 'De waarde bevat BBCode-codes, wat niet is toegestaan.'
+
   banned_phrases:
     phrase_found: 'De waarde bevat de niet toegestane tekst "{phrase}".'
 

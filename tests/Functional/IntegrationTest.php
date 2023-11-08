@@ -186,7 +186,7 @@ class IntegrationTest extends WebTestCase
         $formData['basic_form[message]'] = 'Please visit my <a href="https://www.example.org">website</a> at https://example.org';
         $formData['basic_form[email_address]'] = '';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler, fieldErrors: ['disallowed scripts', 'HTML was detected']);
+        $this->expectFormErrors($crawler, fieldErrors: ['disallowed scripts', 'contains HTML markup']);
 
         static::mockTime('+10 minutes');
         $formData['basic_form[name]'] = 'Foo Bar';

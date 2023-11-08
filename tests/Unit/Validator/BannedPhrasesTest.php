@@ -71,6 +71,12 @@ class BannedPhrasesTest extends ConstraintValidatorTestCase
         $this->constraintValidator->validate($this, $constraint);
     }
 
+    public function testStealthedValidationError(): void
+    {
+        $errors = $this->expectViolations('The foo is bar', new BannedPhrases(['foo'], stealth: true));
+        $this->assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
+    }
+
     #[DataProvider('provideViolatingPhrases')]
     public function testBannedPhraseDetection(string $text, BannedPhrases $constraint): void
     {

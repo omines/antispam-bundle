@@ -65,6 +65,12 @@ class UrlCountTest extends ConstraintValidatorTestCase
         $this->constraintValidator->validate($this, $constraint);
     }
 
+    public function testStealthedValidationError(): void
+    {
+        $errors = $this->expectViolations('Please visit https://www.example.org', new UrlCount(stealth: true));
+        $this->assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
+    }
+
     #[DataProvider('provideUrlCounts')]
     public function testUrlCountValidation(UrlCount $constraint, string $value, int $urlCount, int $expectedViolations = 0): void
     {
