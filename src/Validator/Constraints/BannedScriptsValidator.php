@@ -39,13 +39,13 @@ class BannedScriptsValidator extends AntiSpamConstraintValidator
                 if ($constraint->maxPercentage <= 0 && $count > $constraint->maxCharacters) {
                     $this->failValidation($constraint, 'validator.banned_scripts.characters_exceeded', [
                         'count' => (string) $count,
-                        'max' => (string) $constraint->maxCharacters,
+                        'max' => $constraint->maxCharacters,
                         'scripts' => $constraint->getReadableScripts(),
                     ], $value);
                 } elseif (null === $constraint->maxCharacters && $percentage > $constraint->maxPercentage) {
                     $this->failValidation($constraint, 'validator.banned_scripts.percentage_exceeded', [
                         'percentage' => (string) ceil($percentage),
-                        'max' => (string) $constraint->maxPercentage,
+                        'max' => $constraint->maxPercentage,
                         'scripts' => $constraint->getReadableScripts(),
                     ], $value);
                 }

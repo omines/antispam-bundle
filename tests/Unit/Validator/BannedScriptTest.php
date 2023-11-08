@@ -143,7 +143,7 @@ class BannedScriptTest extends ConstraintValidatorTestCase
     {
         return [
             'full Latin text' => [
-                new BannedScripts(Script::Latin), self::SAMPLE_LATIN, 'contains characters of disallowed scripts',
+                new BannedScripts(Script::Latin), self::SAMPLE_LATIN, 'contains characters of disallowed scripts (Latin)',
             ],
             'full Arabic text' => [
                 new BannedScripts(Script::Arabic), self::SAMPLE_ARABIC, 'contains characters of disallowed scripts',
@@ -158,10 +158,11 @@ class BannedScriptTest extends ConstraintValidatorTestCase
                 new BannedScripts(Script::Gurmukhi), self::SAMPLE_GURMUKHI, 'contains characters of disallowed scripts',
             ],
             'full Hebrew text' => [
-                new BannedScripts(Script::Hebrew), self::SAMPLE_HEBREW, 'contains characters of disallowed scripts',
+                new BannedScripts(Script::Hebrew), self::SAMPLE_HEBREW, 'contains characters of disallowed scripts (Hebrew)',
             ],
             'partial Cyrillic text' => [
-                new BannedScripts(Script::Cyrillic), self::SAMPLE_LATIN . self::SAMPLE_CYRILLIC, 'contains characters of disallowed scripts',
+                new BannedScripts(Script::Cyrillic), self::SAMPLE_LATIN . self::SAMPLE_CYRILLIC,
+                    'contains characters of disallowed scripts (Cyrillic)',
             ],
             'sufficiently high percentage' => [
                 new BannedScripts(Script::Hebrew, maxPercentage: 50),

@@ -71,6 +71,17 @@ class UrlCountTest extends ConstraintValidatorTestCase
         $this->assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
     }
 
+    public function testFormattedMessage(): void
+    {
+        $text = 'Please visit https://www.example.org and https://www.example.org';
+
+        $errors = $this->expectViolations($text, new UrlCount(max: 1));
+        $this->assertSame('The value contains 2 URLs. It should have at most 1.', (string) $errors->get(0)->getMessage());
+
+        $errors = $this->expectViolations($text, new UrlCount(max: 2, maxIdentical: 1));
+        $this->assertSame('The value contains URL https://www.example.org 2 times, which is more than the 1 allowed.', (string) $errors->get(0)->getMessage());
+    }
+
     #[DataProvider('provideUrlCounts')]
     public function testUrlCountValidation(UrlCount $constraint, string $value, int $urlCount, int $expectedViolations = 0): void
     {

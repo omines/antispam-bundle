@@ -13,8 +13,9 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\Form\Type;
 
 use Omines\AntiSpamBundle\AntiSpam;
+use Omines\AntiSpamBundle\Form\AntiSpamFormError;
+use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -49,11 +50,25 @@ abstract class AbstractAntiSpamType extends AbstractType
      */
     protected function createFormError(FormInterface $form, string $template, array $parameters = [], string $cause = null): void
     {
-        if ($this->antiSpam->getStealth()) {
+        $stealth = (null !== ($profile = self::getProfile($form))) ? $profile->getStealth() : $this->antiSpam->getStealth();
+        if ($stealth) {
             $message = $this->translator->trans('form.stealthed', domain: 'antispam');
         } else {
             $message = $this->translator->trans($template, $parameters, domain: 'antispam');
         }
-        $form->addError(new FormError($message, $template, $parameters, cause: $cause));
+        $form->addError(new AntiSpamFormError($message, $template, $parameters, cause: $cause));
+    }
+
+    private static function getProfile(FormInterface $form): ?Profile
+    {
+        do {
+            if (null !== ($profile = $form->getConfig()->getOption('antispam_profile'))) {
+                assert($profile instanceof Profile);
+
+                return $profile;
+            }
+        } while ($form = $form->getParent());
+
+        return null;
     }
 }

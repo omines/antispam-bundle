@@ -32,8 +32,8 @@ class UrlCountValidator extends AntiSpamConstraintValidator
         $urlCount = preg_match_all('#([a-z][a-z0-9]+://\w+\.[\w\.]+(/[^\s,$]*)?)#i', $value, $matches);
         if ($urlCount > $constraint->max) {
             $this->failValidation($constraint, 'validator.url_count.exceeded', [
-                'count' => (string) $urlCount,
-                'limit' => (string) $constraint->max,
+                'count' => $urlCount,
+                'limit' => $constraint->max,
             ], $value);
         }
         if (null !== $constraint->maxIdentical) {
@@ -41,8 +41,8 @@ class UrlCountValidator extends AntiSpamConstraintValidator
                 if ($count > $constraint->maxIdentical) {
                     $this->failValidation($constraint, 'validator.url_count.duplicates', [
                         'url' => $url,
-                        'count' => (string) $urlCount,
-                        'limit' => (string) $constraint->max,
+                        'count' => $urlCount,
+                        'limit' => $constraint->maxIdentical,
                     ], $value);
                 }
             }

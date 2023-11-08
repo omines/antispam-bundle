@@ -239,7 +239,11 @@ class IntegrationTest extends WebTestCase
         ];
 
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler, formErrors: ['banned_phrases']);
+        $this->expectFormErrors($crawler, formErrors: ['disallowed phrase']);
+
+        $formData['basic_form[message1]'] = 'Winnie the Pooh';
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler, formErrors: ['could not be processed', 'VIAGRA']);
     }
 
     public function testProfileTest3(): void

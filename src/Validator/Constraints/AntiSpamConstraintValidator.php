@@ -32,7 +32,7 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
     }
 
     /**
-     * @param array<string, string> $parameters
+     * @param array<string, mixed> $parameters
      */
     protected function failValidation(AntiSpamConstraint $constraint, string $messageTemplate, array $parameters, string $invalidValue): void
     {
@@ -42,7 +42,8 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
         if ($stealth) {
             // Stealthed errors go on the root form if we have one in the context
             if (null !== ($form = $this->context->getRoot()) && $form instanceof FormInterface) {
-                $formError = new AntiSpamFormError($messageTemplate, $messageTemplate, $parameters, null);
+                $message = $this->translator->trans($messageTemplate, $parameters, domain: 'antispam');
+                $formError = new AntiSpamFormError($message, $messageTemplate, $parameters, null);
                 $form->addError($formError);
             } else {
                 // Put a stealthed validation on the validator if not in form context
