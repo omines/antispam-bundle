@@ -14,6 +14,10 @@ namespace Tests\Unit\Form;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Tests\Fixture\Form\Type\KitchenSinkForm;
@@ -22,12 +26,20 @@ class FormTypesTest extends KernelTestCase
 {
     use ClockSensitiveTrait;
 
-    public function testNonInteractiveFormTypesAreUnmapped(): void
+    /**
+     * @param array<string, mixed> $options
+     */
+    private static function createForm(string $class, array $options = []): FormBuilderInterface
     {
         $factory = static::getContainer()->get(FormFactoryInterface::class);
-        $this->assertInstanceOf(FormFactoryInterface::class, $factory);
+        assert($factory instanceof FormFactoryInterface);
 
-        $form = $factory->create(KitchenSinkForm::class);
+        return $factory->createBuilder($class, options: $options);
+    }
+
+    public function testNonInteractiveFormTypesAreUnmapped(): void
+    {
+        $form = $this->createForm(KitchenSinkForm::class)->getForm();
         $this->assertTrue($form->has('honeypot'));
         $this->assertTrue($form->has('timer'));
 
@@ -48,5 +60,31 @@ class FormTypesTest extends KernelTestCase
         $this->assertIsArray($data = $form->getData());
         $this->assertArrayNotHasKey('honeypot', $data);
         $this->assertArrayNotHasKey('timer', $data);
+    }
+
+    public function testExternalFormErrorsAreIgnored(): void
+    {
+        $form = $this->createForm(KitchenSinkForm::class, [
+            'antispam_profile' => 'test2',
+        ]);
+        $form->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            // Insert a fake error that should not get replaced by stealth
+            $event->getForm()->addError(new FormError('Foo bar'));
+        });
+        $form = $form->getForm();
+        $view = $form->createView();
+
+        $request = Request::create('/', method: 'POST', parameters: [
+            'kitchen_sink_form' => [
+                'name' => 'John Doe',
+                'email' => 'foo@example.org',
+                'message' => 'Message for testing',
+                'timer' => $view['timer']->vars['value'],
+            ],
+        ]);
+        $form->handleRequest($request);
+        $this->assertFalse($form->isValid());
+        $this->assertNotEmpty($errors = $form->getErrors());
+        $this->assertSame('Foo bar', $form->getErrors()[0]->getMessage());
     }
 }

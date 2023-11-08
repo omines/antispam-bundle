@@ -226,6 +226,9 @@ class IntegrationTest extends WebTestCase
         $this->expectFormErrors($crawler, ['unreasonably slow']);
     }
 
+    /**
+     * The test2 profile is stealthed, so all errors should be hidden and merged to a single one at the form level.
+     */
     public function testProfileTest2(): void
     {
         $client = static::createClient();
@@ -239,11 +242,12 @@ class IntegrationTest extends WebTestCase
         ];
 
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler, formErrors: ['disallowed phrase']);
+        $this->expectFormErrors($crawler, formErrors: ['could not be processed']);
 
+        $formData['basic_form[message]'] = 'Too short';
         $formData['basic_form[message1]'] = 'Winnie the Pooh';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler, formErrors: ['could not be processed', 'VIAGRA']);
+        $this->expectFormErrors($crawler, formErrors: ['could not be processed'], fieldErrors: ['10 characters']);
     }
 
     public function testProfileTest3(): void

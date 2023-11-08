@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle;
 
+use Omines\AntiSpamBundle\Form\EventSubscriber\FormProfileEventSubscriber;
 use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraint;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
@@ -41,7 +42,9 @@ class Profile
     public function __construct(
         private readonly string $name,
         private readonly array $config,
+        private readonly FormProfileEventSubscriber $formEventSubscriber,
     ) {
+        $formEventSubscriber->setProfile($this);
     }
 
     public function getName(): string
@@ -55,6 +58,11 @@ class Profile
     public function getConfig(): array
     {
         return $this->config;
+    }
+
+    public function getFormEventSubscriber(): FormProfileEventSubscriber
+    {
+        return $this->formEventSubscriber;
     }
 
     /**

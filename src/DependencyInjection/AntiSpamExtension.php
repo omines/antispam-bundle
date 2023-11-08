@@ -13,12 +13,14 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\DependencyInjection;
 
 use Omines\AntiSpamBundle\AntiSpam;
+use Omines\AntiSpamBundle\Form\EventSubscriber\FormProfileEventSubscriber;
 use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @infection-ignore-all As infection does not clear caches mutating the extension has no effect
@@ -38,6 +40,7 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
                 ->addTag('antispam.profile')
                 ->addArgument($name)
                 ->addArgument($profile)
+                ->addArgument(new Reference(FormProfileEventSubscriber::class))
             ;
         }
 
