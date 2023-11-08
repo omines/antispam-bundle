@@ -24,3 +24,4 @@ validator:
         =1    {De waarde bevat een URL. Dit is niet toegestaan.}
         other {De waarde bevat # URL's. Maximaal {limit} zijn toegestaan.}
       }
+    duplicates: 'De waarde bevat de URL {url} {count} keer, wat meer is dan de {limit} toegestaan.'

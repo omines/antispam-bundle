@@ -187,6 +187,12 @@ class IntegrationTest extends WebTestCase
         $formData['basic_form[email_address]'] = '';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
         $this->expectFormErrors($crawler, fieldErrors: ['disallowed scripts', 'HTML was detected']);
+
+        static::mockTime('+10 minutes');
+        $formData['basic_form[name]'] = 'Foo Bar';
+        $formData['basic_form[message]'] = 'At https://spam.org/viagra we sell https://spam.org/viagra with https://spam.org/viagra';
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler, fieldErrors: ['contains 3 URLs', 'https://spam.org/viagra 3 times']);
     }
 
     public function testProfileTest1Timings(): void

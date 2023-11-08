@@ -5,9 +5,9 @@ Validates that a given string contains at most a defined number of URLs, or a li
 Can be applied to [properties or methods](https://symfony.com/doc/current/validation.html#constraint-targets).
 
 ??? tip "How strict is the detection of URLs?"
-URL detection is loose on purpose, and will also flag "lame attempts" that are not valid, while at the same time
-trying to keep the chance of false positives as low as possible. Spambots are not known to strictly adhere to
-internet standards so being really strict would only reduce effectiveness.
+    URL detection is loose on purpose, and will also flag "lame attempts" that are not valid, while at the same time
+    trying to keep the chance of false positives as low as possible. Spambots are not known to strictly adhere to
+    internet standards so being really strict would only reduce effectiveness.
 
 ## Basic Usage
 

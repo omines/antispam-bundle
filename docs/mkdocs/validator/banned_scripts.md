@@ -3,18 +3,13 @@
 Validates that a given string does not contain characters of the given script or scripts. 
 
 A [Script](https://en.wikipedia.org/wiki/Script_(Unicode)) is the Unicode term given to what is commonly called a
-[writing system](https://en.wikipedia.org/wiki/Writing_system). Examples include the Greek, Arabic, Cyrillic and Hanzi
-scripts.
+[writing system](https://en.wikipedia.org/wiki/Writing_system). Well known examples include the Greek, Arabic, Cyrillic
+and Han scripts.
 
 The validator can fail on a minimum percentage or character count in the given value. With the default percentage of 0%
 the validator will fail if it encounters any character in any of the configured scripts.
 
 Can be applied to [properties or methods](https://symfony.com/doc/current/validation.html#constraint-targets).
-
-??? tip "How strict is the detection of the markup types?"
-Markup detection is loose on purpose, and will also flag "lame attempts" that are not valid, while at the same time
-trying to keep the chance of false positives as low as possible. Spambots are not known to strictly adhere to
-internet standards so being really strict would only reduce effectiveness.
 
 ## Basic Usage
 

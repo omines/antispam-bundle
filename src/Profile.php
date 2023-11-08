@@ -23,11 +23,11 @@ use Symfony\Component\Validator\Constraint;
  * @phpstan-type BannedMarkupConfig array{html: bool, bbcode: bool}
  * @phpstan-type BannedPhrasesConfig string[]
  * @phpstan-type BannedScriptsConfig array{scripts: Type\Script[], max_percentage: int, max_characters: int}
- * @phpstan-type MaxUrlsConfig int
+ * @phpstan-type UrlCountConfig array{max: int, max_identical: ?int}
  * @phpstan-type HoneypotConfig array{field: string}
  * @phpstan-type TimerConfig array{min: int, max: int, field: string}
  * @phpstan-type ProfileConfig array{banned_markup?: BannedMarkupConfig, banned_phrases?: BannedPhrasesConfig,
- *          banned_scripts?: BannedScriptsConfig, honeypot?: HoneypotConfig, max_urls?: MaxUrlsConfig, timer?: TimerConfig}
+ *          banned_scripts?: BannedScriptsConfig, honeypot?: HoneypotConfig, max_urls?: UrlCountConfig, timer?: TimerConfig}
  */
 class Profile
 {
@@ -95,7 +95,7 @@ class Profile
                 'banned_markup' => fn ($config) => $this->createBannedMarkupConstraint($config),
                 'banned_phrases' => fn ($config) => $this->createBannedPhrasesConstraint($config),
                 'banned_scripts' => fn ($config) => $this->createBannedScriptsConstraint($config),
-                'max_urls' => fn ($config) => $this->createMaxUrlsConstraints($config),
+                'url_count' => fn ($config) => $this->createUrlCountConstraints($config),
             ];
         }
 
@@ -112,7 +112,7 @@ class Profile
     /**
      * @param BannedMarkupConfig $config
      */
-    protected function createBannedMarkupConstraint(mixed $config): AntiSpamConstraint
+    protected function createBannedMarkupConstraint(array $config): AntiSpamConstraint
     {
         return new BannedMarkup(...$config);
     }
@@ -120,7 +120,7 @@ class Profile
     /**
      * @param BannedPhrasesConfig $config
      */
-    protected function createBannedPhrasesConstraint(mixed $config): AntiSpamConstraint
+    protected function createBannedPhrasesConstraint(array $config): AntiSpamConstraint
     {
         return new BannedPhrases($config);
     }
@@ -128,13 +128,16 @@ class Profile
     /**
      * @param BannedScriptsConfig $config
      */
-    protected function createBannedScriptsConstraint(mixed $config): AntiSpamConstraint
+    protected function createBannedScriptsConstraint(array $config): AntiSpamConstraint
     {
         return new BannedScripts($config['scripts'], $config['max_percentage'], $config['max_characters']);
     }
 
-    protected function createMaxUrlsConstraints(int $count): AntiSpamConstraint
+    /**
+     * @param UrlCountConfig $config
+     */
+    protected function createUrlCountConstraints(array $config): AntiSpamConstraint
     {
-        return new UrlCount(max: $count);
+        return new UrlCount(max: $config['max'], maxIdentical: $config['max_identical']);
     }
 }

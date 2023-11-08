@@ -24,4 +24,4 @@ validator:
         =1    {The value contains a URL. This is not allowed.}
         other {The value contains # URLs. It should have at most {limit}.}
       }
-
+    duplicates: 'The value contains URL {url} {count} times, which is more than the {limit} allowed.'
