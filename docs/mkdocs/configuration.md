@@ -17,51 +17,62 @@ bin/console debug:config antispam
 # Default configuration for extension with alias: "antispam"
 antispam:
 
-  # Global default for whether included components issue verbose or stealthy error messages
-  stealth:              false # (1)!
+   # Global default for whether included components should cause hard failures
+   passive:              false
 
-  # A named list of different profiles used throughout your application
-  profiles:
+   # Global default for whether included components issue verbose or stealthy error messages
+   stealth:              false
+   quarantine:
+      dir:                  '%kernel.project_dir%/var/quarantine'
 
-    # Prototype: Name the profile
-    name:
+   # A named list of different profiles used throughout your application
+   profiles:
 
-      # Defines whether measures in this profile issue stealthy error messages
-      stealth:              true # (1)!
+      # Prototype: Name the profile
+      name:
 
-      # Passive mode will not make any of the included checks actually fail validation, they will still be logged
-      passive:              false
+         # Defines whether measures in this profile issue stealthy error messages
+         stealth:              true
 
-      # Defines whether to disallow content resembling markup languages like HTML and BBCode
-      banned_markup:
-        html:                 true
-        bbcode:               true
+         # Passive mode will not make any of the included checks actually fail validation, they will still be logged
+         passive:              false
 
-      # Simple array of phrases which are rejected when encountered in a submitted text field
-      banned_phrases:       []
+         # Defines whether to disallow content resembling markup languages like HTML and BBCode
+         banned_markup:
+            html:                 true
+            bbcode:               true
 
-      # Banned script types, like Cyrillic or Arabic (see docs for commonly used ISO 15924 names)
-      banned_scripts:
-        scripts:              []
-        max_characters:       null
-        max_percentage:       0
+         # Simple array of phrases which are rejected when encountered in a submitted text field
+         banned_phrases:       []
 
-      # Inject an invisible honeypot field in forms, baiting spambots to fill it in
-      honeypot:
+         # Banned script types, like Cyrillic or Arabic (see docs for commonly used ISO 15924 names)
+         banned_scripts:
+            scripts:              []
+            max_characters:       null
+            max_percentage:       0
 
-        # Base name of the injected field
-        field:                ~ # Required
+         # Inject an invisible honeypot field in forms, baiting spambots to fill it in
+         honeypot:
 
-      # Maximum number of URLs permitted in text fields
-      max_urls:             ~
+            # Base name of the injected field
+            field:                ~ # Required
 
-      # Verify that time between retrieval and submission of a form is within human boundaries
-      timer:
+         # Verify that time between retrieval and submission of a form is within human boundaries
+         timer:
 
-        # Base name of the injected field
-        field:                __antispam_time
-        min:                  3
-        max:                  3600
+            # Base name of the injected field
+            field:                __antispam_time
+            min:                  3
+            max:                  3600
+
+         # Configure limits to number of URLs permitted in text fields
+         url_count:
+
+            # Maximum number of URLs accepted per text field
+            max:                  null
+
+            # Maximum number of identical URLs accepted per text field
+            max_identical:        null
 ```
 
 1. The global and profile defaults for `stealth` are different on purpose. The global setting is applied to validators

@@ -73,7 +73,11 @@ toy store, we do expect someone to sometimes email a link, asking if we also sto
 more than 2 pretty much implausible.
 
 Spammers also have issues with "lingual targeting". It's really unlikely that a real customer would ever fill in our
-contact form in Russian or Hebrew. Spambots regularly do, so let's forbid that.
+contact form in Russian or Hebrew (1). Spambots regularly do, so let's forbid that.
+{ .annotate }
+
+1.  The chosen scripts are random for the sake of example. In the real world you would choose which scripts to add based
+    on actual spam getting through your forms unscathed.
 
 Lastly, we're a toy store, not a software company or a digital agency. People will not send us snippets of HTML.
 Spambots regularly do, in lame attempts at [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting) or phishing.
@@ -90,9 +94,6 @@ antispam:
             timer:
                 min: 3
                 max: 14400 # (2)!
-
-            # Reject form fields containing more than 2 URLs
-            max_urls: 2
             
             # Reject content containing HTML or BBCode markup
             banned_markup: true
@@ -102,6 +103,11 @@ antispam:
             banned_scripts:
                 scripts: ['cyrillic', 'hebrew']
                 max_percentage: 50
+
+            # Reject form fields containing more than 2 URLs, or repeating identical URLs
+            url_count:
+                max: 2
+                max_identical: 1
 ```
 
 1. Remember that the field name will automatically become `email_address1` or a higher number in case of a naming conflict.
@@ -115,15 +121,27 @@ What happens now when you apply the `contact` profile to your contact form type:
       posting the form. Many spambots either submit a form within a single second, as they are in a rush to attack
       millions of other sites, or they store the form so they can submit it hours, days or weeks later. The timer ensures
       that the form is posted with a delay that is reasonable for a human filling it in, without spending days to do so.
+- All text fields on the form will get some extra validators injected:
+    * A [BannedMarkup](validator/banned_markup.md) validator that ensures no content that attempts to (ab)use HTML or
+      BBCode features is allowed.
+    * A [BannedScripts](validator/banned_scripts.md) validator blocks all fields which consist for at least 50% of
+      Cyrillic or Hebrew characters.
+    * A [URLCount](validator/url_count.md) validator will block form submission if any of its text fields constain more
+      than 2 URLs, or if a single URL is repeated more than once. 
 
 !!! warning "Always consider carefully what is normal on your specific site!"
     All anti-spam measures can backfire at some point, and trigger false positives that may hurt your or your client's
     interests. Blocking all Cyrillic (Russian) text in the contact form of a translation agency is a really bad idea. 
     Blocking **all** links also means your new sales opportunity can't say *"I want to have a similar site to 
     https://example.org"*. Even banning the phrase *"WE SELL VIAGRA"* could theoretically block someone requesting
-    commercial help with a spammer sending that message every hour.
+    commercial help with a spammer sending them that message every hour.
 
     Be prudent about the measures you implement, and try to err on the side of caution. Remember that it's better to
     receive a single uncaught spam email per week than to lose a valuable customer every month.
 
+## Stealth Mode
+
+By default, all **profiles** have "Stealth Mode" enabled. The way Symfony's form and validator mechanisms work together
+is however counterintuitive for how we expect antispam measures to work, as they are really verbose, informative and
+user friendly.
 
