@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\DependencyInjection;
 
+use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\Form\Type\SubmitTimerType;
 use Omines\AntiSpamBundle\Type\Script;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
@@ -23,7 +24,7 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('antispam');
+        $treeBuilder = new TreeBuilder(AntiSpamBundle::ALIAS);
         $rootNode = $treeBuilder->getRootNode();
 
         $children = $rootNode

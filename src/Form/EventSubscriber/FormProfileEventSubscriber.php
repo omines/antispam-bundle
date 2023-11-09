@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\Form\EventSubscriber;
 
+use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\Form\AntiSpamFormError;
 use Omines\AntiSpamBundle\Form\Type\HoneypotType;
 use Omines\AntiSpamBundle\Form\Type\SubmitTimerType;
@@ -126,7 +127,7 @@ class FormProfileEventSubscriber implements EventSubscriberInterface
             }
             if (!empty($causes)) {
                 // Add a single error to replace all the aggregated ones
-                $message = $this->translator->trans('form.stealthed', domain: 'antispam');
+                $message = $this->translator->trans('form.stealthed', domain: AntiSpamBundle::TRANSLATION_DOMAIN);
                 $form->addError(new AntiSpamFormError($message, 'form.stealthed'));
             }
         }

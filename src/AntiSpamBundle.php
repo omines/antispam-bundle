@@ -18,6 +18,9 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class AntiSpamBundle extends AbstractBundle
 {
+    public const ALIAS = 'antispam';
+    public const TRANSLATION_DOMAIN = 'antispam';
+
     public function getContainerExtension(): ?ExtensionInterface
     {
         return new AntiSpamExtension();

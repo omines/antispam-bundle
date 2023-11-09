@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\Form\Type;
 
 use Omines\AntiSpamBundle\AntiSpam;
+use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\Form\AntiSpamFormError;
 use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Form\AbstractType;
@@ -52,9 +53,9 @@ abstract class AbstractAntiSpamType extends AbstractType
     {
         $stealth = (null !== ($profile = self::getProfile($form))) ? $profile->getStealth() : $this->antiSpam->getStealth();
         if ($stealth) {
-            $message = $this->translator->trans('form.stealthed', domain: 'antispam');
+            $message = $this->translator->trans('form.stealthed', domain: AntiSpamBundle::TRANSLATION_DOMAIN);
         } else {
-            $message = $this->translator->trans($template, $parameters, domain: 'antispam');
+            $message = $this->translator->trans($template, $parameters, domain: AntiSpamBundle::TRANSLATION_DOMAIN);
         }
         $form->addError(new AntiSpamFormError($message, $template, $parameters, cause: $cause));
     }

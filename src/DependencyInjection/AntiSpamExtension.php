@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\DependencyInjection;
 
 use Omines\AntiSpamBundle\AntiSpam;
+use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\Form\EventSubscriber\FormProfileEventSubscriber;
 use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Config\FileLocator;
@@ -63,6 +64,6 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
 
     public function getAlias(): string
     {
-        return 'antispam'; // underscore is ugly in configs
+        return AntiSpamBundle::ALIAS;
     }
 }
