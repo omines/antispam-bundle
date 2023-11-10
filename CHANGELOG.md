@@ -12,5 +12,5 @@ Nothing yet.
 ## 0.1.0 - 2023-11-10
 First public release.
 
-[Unreleased]: https://github.com/omines/datatables-bundle/compare/0.1.1...master
-[0.1.1]: https://github.com/omines/datatables-bundle/compare/0.1.0...0.1.1
+[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.1...master
+[0.1.1]: https://github.com/omines/antispam-bundle/compare/0.1.0...0.1.1
