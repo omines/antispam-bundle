@@ -21,6 +21,9 @@ final class AntiSpamEvents
      */
     public const VALIDATOR_VIOLATION = 'antispam.validator_violation';
 
+    /**
+     * @codeCoverageIgnore This method is intended to never be called.
+     */
     private function __construct()
     {
     }
