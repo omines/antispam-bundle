@@ -254,6 +254,11 @@ class IntegrationTest extends WebTestCase
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
         $this->expectFormErrors($crawler, formErrors: ['could not be processed']);
 
+        // Magic keyword "CANCEL" should cancel the violation in the test case
+        $formData['basic_form[message]'] = 'CANCEL VIAGRA';
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler);
+
         $formData['basic_form[message]'] = 'Too short';
         $formData['basic_form[message1]'] = 'Winnie the Pooh';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);

@@ -14,6 +14,8 @@ namespace Omines\AntiSpamBundle\Validator\Constraints;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamBundle;
+use Omines\AntiSpamBundle\AntiSpamEvents;
+use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 use Omines\AntiSpamBundle\Form\AntiSpamFormError;
 use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Form\FormInterface;
@@ -37,6 +39,11 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
      */
     protected function failValidation(AntiSpamConstraint $constraint, string $messageTemplate, array $parameters, string $invalidValue): void
     {
+        $event = new ValidatorViolationEvent($constraint, $invalidValue);
+        if ($this->eventDispatcher->dispatch($event, AntiSpamEvents::VALIDATOR_VIOLATION)->isCancelled()) {
+            return;
+        }
+
         // Determine applicable stealth mode
         if (null === ($stealth = $constraint->stealth)) {
             $stealth = (null === ($profile = $this->getProfile())) ? $this->antiSpam->getStealth() : $profile->getStealth();

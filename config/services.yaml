@@ -4,4 +4,4 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
   Omines\AntiSpamBundle\:
-    resource: '../src/{Form,Type,Validator}'
+    resource: '../src/{EventSubscriber,Form,Type,Validator}'
