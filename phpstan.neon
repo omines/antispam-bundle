@@ -9,4 +9,4 @@ parameters:
     # Required until https://github.com/symfony/symfony/pull/52544 is merged due to PHPStan error
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
-        - '#Attribute class Symfony\Component\Routing\Annotation\Route does not have a constructor#'
+        - '#Attribute class Symfony\\Component\\Routing\\Annotation\\Route does not have a constructor#'
