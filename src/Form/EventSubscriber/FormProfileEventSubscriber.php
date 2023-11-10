@@ -75,7 +75,7 @@ class FormProfileEventSubscriber implements EventSubscriberInterface
                 if ($type->getInnerType() instanceof TextType) {
                     $options = $config->getOptions();
                     $this->applyTextTypeProfile($options);
-                    $event->getForm()->add($name, $type->getInnerType()::class, $options);
+                    $event->getForm()->add($name, $config->getType()->getInnerType()::class, $options);
                     /* @infection-ignore-all don't try to make this into an endless loop kthnxbye */
                     break;
                 }

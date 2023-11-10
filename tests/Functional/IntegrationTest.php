@@ -170,6 +170,8 @@ class IntegrationTest extends WebTestCase
         $crawler = $client->request('GET', '/en/profile/test1');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('#basic_form___custom_timer_field', 'Configured custom name for timer field');
+        $this->assertSelectorExists('input#basic_form_email[type=email]', 'EmailType must not change type');
+        $this->assertSelectorExists('textarea#basic_form_message', 'TextAreaType must not change type');
 
         $formData = [
             'basic_form[name]' => 'Priya Kaila',
