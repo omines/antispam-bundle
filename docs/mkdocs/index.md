@@ -21,11 +21,11 @@ proven methods:
 
 - **[Honeypot](form/honeypot.md)**: Insert a hidden field in your forms that lures spambots into filling it in.
 - **[Timer](form/submit_timer.md)**: Reject forms that have been submitted unfeasibly fast or unrealistically slow.
-- **Max URLs**: Reject text fields that contain more hyperlinks than plausible.
-- **Banned markup**: Reject text fields containing HTML or UBB tags.
-- **Banned phrases**: Reject text fields containing signature phrases targeting your site.
-- **Banned scripts**: Reject text fields that contain too many characters in scripts not
+- **[Banned markup](validator/banned_markup.md)**: Reject text fields containing HTML or UBB tags.
+- **[Banned phrases](validator/banned_phrases.md)**: Reject text fields containing signature phrases targeting your site.
+- **[Banned scripts](validator/banned_scripts.md)**: Reject text fields that contain too many characters in scripts not
     expected by the site owners, like Cyrillic (Russian), Chinese or Arabic.
+- **[URL count](validator/url_count.md)**: Reject text fields that contain more hyperlinks than plausible.
 
 It wraps all these methods in an easy to use and easy to apply profile system, allowing
 you to pick and match per form what methods are required.
@@ -67,7 +67,7 @@ but we cannot distinguish between forms in your contact form, CMS, customer port
 and login forms. Accidentally enabling antispam methods that block HTML, foreign
 characters or slow form entry could be destructive to the user experience of your
 CMS, in which all those things are likely normal. So no, we do not provide an option
-that  allows you to shoot your own foot in a way that will at some point in the future
+that allows you to shoot your own foot in a way that will at some point in the future
 cause tons of unforeseen drama.
 
 ### Why not a stable version number?
