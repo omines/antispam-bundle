@@ -61,7 +61,7 @@ antispam:
          timer:
 
             # Base name of the injected field
-            field:                __antispam_time
+            field:                ___token
             min:                  3
             max:                  3600
 

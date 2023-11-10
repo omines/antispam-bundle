@@ -23,7 +23,7 @@ profiles:
     timer:
       min: 3
       max: 3600
-      field: __antispam_time
+      field: ___token
 
     url_count:
       max: 3
@@ -36,7 +36,7 @@ profiles:
     timer:
       min: 2
       max: 3600
-      field: __antispam_time
+      field: ___token
 
     stealth: true
     passive: false
