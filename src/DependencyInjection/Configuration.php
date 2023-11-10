@@ -164,7 +164,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('field')
                         ->info('Base name of the injected field')
-                        ->defaultValue('__antispam_time')
+                        ->defaultValue('___token')
                     ->end()
                     ->integerNode('min')->defaultValue(SubmitTimerType::DEFAULT_MIN)->min(0)->end()
                     ->integerNode('max')->defaultValue(SubmitTimerType::DEFAULT_MAX)->min(60)->end()
