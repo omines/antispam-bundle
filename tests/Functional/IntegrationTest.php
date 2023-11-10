@@ -24,6 +24,14 @@ class IntegrationTest extends WebTestCase
     use ClockSensitiveTrait;
 
     /**
+     * Ensure all time sensitive tests start at the exact same rounded time for predictable results.
+     */
+    protected function setUp(): void
+    {
+        self::mockTime('2020-05-04 03:02:01+01:00');
+    }
+
+    /**
      * @param mixed[] $options
      * @param mixed[] $server
      */
