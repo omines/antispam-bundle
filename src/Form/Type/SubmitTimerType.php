@@ -79,8 +79,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
 
                 $currentIp = $this->requestStack->getMainRequest()?->getClientIp() ?? self::NO_IP;
                 if (null !== $currentIp && $ip !== $currentIp) {
-                    $this->createFormError($form, 'form.timer.mismatch_ip', ['original' => $ip, 'current' => $currentIp],
-                        cause: "The client IP address changed from $ip to $currentIp");
+                    $this->createFormError($form, 'form.timer.mismatch_ip', cause: "The client IP address changed from $ip to $currentIp");
                 }
 
                 $age = $this->now()->getTimestamp() - intval($ts);
