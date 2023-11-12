@@ -31,7 +31,10 @@ antispam:
       banned_phrases: ['viagra']
       banned_scripts: cyrillic
 
-      honeypot: message
+      honeypot:
+        field: message
+        attributes:
+          class: "d-none"
 
     test3:
       timer: ~

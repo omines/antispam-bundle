@@ -1,6 +1,5 @@
 {% block antispam_honeypot_row %}
     {%- set type = 'text' -%}
-    {%- set attr = attr|merge({'style': 'display:none'}) -%}
     {%- set required = false -%}
     {{- block('form_widget_simple') -}}
 {% endblock %}

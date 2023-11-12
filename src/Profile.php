@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraint;
  * @phpstan-type BannedPhrasesConfig string[]
  * @phpstan-type BannedScriptsConfig array{scripts: Type\Script[], max_percentage: int, max_characters: int}
  * @phpstan-type UrlCountConfig array{max: int, max_identical: ?int}
- * @phpstan-type HoneypotConfig array{field: string}
+ * @phpstan-type HoneypotConfig array{field: string, attributes: array<string, string>}
  * @phpstan-type TimerConfig array{min: int, max: int, field: string}
  * @phpstan-type ProfileConfig array{banned_markup?: BannedMarkupConfig, banned_phrases?: BannedPhrasesConfig,
  *          banned_scripts?: BannedScriptsConfig, honeypot?: HoneypotConfig, max_urls?: UrlCountConfig,

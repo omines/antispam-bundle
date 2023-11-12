@@ -90,7 +90,9 @@ class FormProfileEventSubscriber implements EventSubscriberInterface
 
         // Add honeypot field as required
         if ($honeypot = $this->profile->getHoneypotConfig()) {
-            $form->add(self::uniqueFieldName($form, $honeypot['field']), HoneypotType::class);
+            $form->add(self::uniqueFieldName($form, $honeypot['field']), HoneypotType::class, [
+                'attr' => $honeypot['attributes'],
+            ]);
         }
 
         // Add hidden and signed timer field

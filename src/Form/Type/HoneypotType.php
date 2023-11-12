@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HoneypotType extends NonInteractiveAntiSpamType
 {
@@ -28,6 +29,15 @@ class HoneypotType extends NonInteractiveAntiSpamType
                 $this->createFormError($event->getForm(), 'form.honeypot.not_empty');
             }
         });
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        parent::configureOptions($resolver);
+
+        $resolver->setDefault('attr', [
+            'style' => 'display:none',
+        ]);
     }
 
     public function getParent(): ?string

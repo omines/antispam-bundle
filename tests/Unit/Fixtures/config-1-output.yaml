@@ -19,6 +19,8 @@ profiles:
 
     honeypot:
       field: email_address
+      attributes:
+        style: "display:none"
 
     timer:
       min: 3
@@ -40,3 +42,12 @@ profiles:
 
     stealth: true
     passive: false
+
+  full_options:
+    stealth: true
+    passive: false
+
+    honeypot:
+      field: poohbear
+      attributes:
+        class: "d-none"

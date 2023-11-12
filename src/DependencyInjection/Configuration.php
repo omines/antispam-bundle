@@ -64,16 +64,17 @@ class Configuration implements ConfigurationInterface
                         }
 
                         return $profile;
-                    })->end()
-                ->children()
-                    ->booleanNode('stealth')
-                        ->info('Defines whether measures in this profile issue stealthy error messages')
-                        ->defaultTrue()
+                    })
                     ->end()
-                    ->booleanNode('passive')
-                        ->info('Passive mode will not make any of the included checks actually fail validation, they will still be logged')
-                        ->defaultFalse()
-                    ->end()
+                    ->children()
+                        ->booleanNode('stealth')
+                            ->info('Defines whether measures in this profile issue stealthy error messages')
+                            ->defaultTrue()
+                        ->end()
+                        ->booleanNode('passive')
+                            ->info('Passive mode will not make any of the included checks actually fail validation, they will still be logged')
+                            ->defaultFalse()
+                        ->end()
         ;
 
         $this->addBannedMarkupSection($profile);
@@ -149,6 +150,21 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('field')
                             ->info('Base name of the injected field')
                             ->isRequired()
+                        ->end()
+                        ->arrayNode('attributes')
+                            ->useAttributeAsKey('name')
+                            ->defaultValue(['style' => 'display:none'])
+                            ->requiresAtLeastOneElement()
+                            ->scalarPrototype()->end()
+                            ->validate()->always(function (array $v) {
+                                foreach ($v as $key => $value) {
+                                    if (!is_string($key) || !is_string($value)) {
+                                        throw new InvalidConfigurationException('Honeypot attributes must be an array with string keys and values');
+                                    }
+                                }
+
+                                return $v;
+                            })->end()
                         ->end()
                     ->end()
                 ->end()

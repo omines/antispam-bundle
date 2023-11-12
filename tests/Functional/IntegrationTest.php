@@ -173,6 +173,9 @@ class IntegrationTest extends WebTestCase
         $this->assertSelectorExists('input#basic_form_email[type=email]', 'EmailType must not change type');
         $this->assertSelectorExists('textarea#basic_form_message', 'TextAreaType must not change type');
 
+        $honeypot = $crawler->filter('#basic_form_email_address')->first();
+        $this->assertSame('display:none', $honeypot->attr('style'), 'Honeypot should by default be hidden with inline style');
+
         $formData = [
             'basic_form[name]' => 'Priya Kaila',
             'basic_form[email]' => 'foo@example.org',
@@ -244,6 +247,12 @@ class IntegrationTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/test2');
         $this->assertResponseIsSuccessful();
+
+        // Honeypot is hidden with Bootstrap "d-none" class instead of default
+        $honeypot = $crawler->filter('#basic_form_message1')->first();
+        $this->assertEmpty($honeypot->attr('style'), 'Default hiding inline style should be overriden');
+        $this->assertContains('d-none', array_map('trim', explode(' ', $honeypot->attr('class') ?? '')),
+            'Honeypot should be hidden with "d-none" class');
 
         $formData = [
             'basic_form[name]' => 'Priya Kaila',

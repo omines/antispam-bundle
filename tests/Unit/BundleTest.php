@@ -148,6 +148,22 @@ class BundleTest extends TestCase
                 ['timer' => ['max' => '60']],
                 'Expected "int"',
             ],
+            'honeypot attributes should not be empty' => [
+                ['honeypot' => ['field' => 'bar', 'attributes' => []]],
+                'should have at least 1 element',
+            ],
+            'honeypot attributes must have string values' => [
+                ['honeypot' => ['field' => 'bar', 'attributes' => ['foo' => 684]]],
+                'string keys and values',
+            ],
+            'honeypot attributes must have string keys' => [
+                ['honeypot' => ['field' => 'bar', 'attributes' => [684 => 'foo']]],
+                'string keys and values',
+            ],
+            'honeypot attributes cannot nest' => [
+                ['honeypot' => ['field' => 'bar', 'attributes' => [684 => ['foo', 'derp']]]],
+                'Expected "scalar", but got "array"',
+            ],
             'min percentage value too small' => [
                 ['banned_scripts' => ['max_percentage' => -1]],
                 'is too small',

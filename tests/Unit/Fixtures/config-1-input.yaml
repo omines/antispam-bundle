@@ -15,3 +15,8 @@ antispam:
       timer:
         min: 2
 
+    full_options:
+      honeypot:
+        field: poohbear
+        attributes:
+          class: "d-none"
