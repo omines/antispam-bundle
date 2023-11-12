@@ -12,8 +12,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Form;
 
+use Omines\AntiSpamBundle\Form\Type\HoneypotType;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
@@ -26,15 +29,22 @@ class FormTypesTest extends KernelTestCase
 {
     use ClockSensitiveTrait;
 
+    private static FormFactoryInterface $formFactory;
+
+    public static function setUpBeforeClass(): void
+    {
+        $formFactory = static::getContainer()->get(FormFactoryInterface::class);
+        assert($formFactory instanceof FormFactoryInterface);
+
+        self::$formFactory = $formFactory;
+    }
+
     /**
      * @param array<string, mixed> $options
      */
     private static function createForm(string $class, array $options = []): FormBuilderInterface
     {
-        $factory = static::getContainer()->get(FormFactoryInterface::class);
-        assert($factory instanceof FormFactoryInterface);
-
-        return $factory->createBuilder($class, options: $options);
+        return self::$formFactory->createBuilder($class, options: $options);
     }
 
     public function testNonInteractiveFormTypesAreUnmapped(): void
@@ -85,6 +95,31 @@ class FormTypesTest extends KernelTestCase
         $form->handleRequest($request);
         $this->assertFalse($form->isValid());
         $this->assertNotEmpty($errors = $form->getErrors());
-        $this->assertSame('Foo bar', $form->getErrors()[0]->getMessage());
+        $this->assertSame('Foo bar', $errors[0]->getMessage());
+    }
+
+    public function testNestedProfileResolution(): void
+    {
+        $form = self::$formFactory->createBuilder();
+        $child1 = $form->add('child1', FormType::class, ['antispam_profile' => 'stealthy_empty'])->get('child1');
+        $child2 = $child1->add('child2', FormType::class)->get('child2');
+        $child3 = $child2->add('child3', FormType::class)->get('child3');
+        $child3->add('email', EmailType::class);
+        $child3->add('pooh', HoneypotType::class);
+
+        $form = $form->getForm();
+        $view = $form->createView();
+
+        $request = Request::create('/', method: 'POST', parameters: [
+            'form' => ['child1' => ['child2' => ['child3' => [
+                'email' => 'spam@spam.org',
+                'pooh' => 'gotcha!',
+            ]]]],
+        ]);
+        $form->handleRequest($request);
+
+        $this->assertFalse($form->isSubmitted() && $form->isValid());
+        $this->assertNotEmpty($errors = $form->getErrors());
+        $this->assertStringContainsString('could not be processed', $errors[0]->getMessage());
     }
 }

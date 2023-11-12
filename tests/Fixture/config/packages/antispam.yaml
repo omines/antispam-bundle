@@ -1,4 +1,5 @@
 antispam:
+  stealth: false
   profiles:
     test1:
       stealth: false
@@ -39,6 +40,11 @@ antispam:
     test3:
       timer: ~
       honeypot: email
+
+    stealthy_empty:
+      stealth: true
+
+      banned_phrases: ['spam']
 
     empty:
 
