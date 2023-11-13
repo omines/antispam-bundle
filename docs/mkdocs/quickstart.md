@@ -143,6 +143,15 @@ What happens now when you apply the `contact` profile to your contact form type:
 ## Stealth Mode
 
 By default, all **profiles** have "Stealth Mode" enabled. The way Symfony's form and validator mechanisms work together
-is however counterintuitive for how we expect antispam measures to work, as they are really verbose, informative and
-user friendly.
+is counterintuitive for how we expect antispam measures to work, as they are really verbose, informative and user
+friendly. That means the default validation failures are, in a way, giving a manual to the spammers on how to bypass
+the antispam measures.
+
+The issue here is largely hypothetical, as no spambot will actually read the error and act on it. However by default
+the bundle runs in "Stealth Mode" on forms with a profile. This means all errors are replaced by a single generic
+error on the form level, by default stating that *'technical issues'* have prevented the form from being processed.
+
+You can disable `stealth` at the profile level to keep explicit errors at the violating fields.
+
+
 
