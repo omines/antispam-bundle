@@ -300,6 +300,24 @@ class IntegrationTest extends WebTestCase
         $this->expectFormErrors($crawler);
     }
 
+    public function testPassiveProfile(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/en/profile/passive_empty');
+        $this->assertResponseIsSuccessful();
+
+        $formData = [
+            'basic_form[name]' => 'Priya Kaila',
+            'basic_form[email]' => 'foo@example.org',
+            'basic_form[message]' => 'Buy some spam and SPAM',
+        ];
+
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+
+        // Passive mode should just let it fly
+        $this->expectFormErrors($crawler);
+    }
+
     public function testEmptyProfile(): void
     {
         $client = static::createClient();

@@ -13,14 +13,16 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\Form\EventSubscriber;
 
 use Omines\AntiSpamBundle\AntiSpamBundle;
+use Omines\AntiSpamBundle\AntiSpamEvents;
+use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\Form\AntiSpamFormError;
+use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Form\Type\HoneypotType;
 use Omines\AntiSpamBundle\Form\Type\SubmitTimerType;
 use Omines\AntiSpamBundle\Profile;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
@@ -29,6 +31,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Sequentially;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Autoconfigure(shared: false)]
@@ -38,8 +41,10 @@ class FormProfileEventSubscriber implements EventSubscriberInterface
 
     private Profile $profile;
 
-    public function __construct(private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly TranslatorInterface $translator
+    ) {
     }
 
     public function setProfile(Profile $profile): void
@@ -113,21 +118,14 @@ class FormProfileEventSubscriber implements EventSubscriberInterface
      */
     public function onPostSubmit(PostSubmitEvent $event): void
     {
-        if ($this->profile->getStealth()) {
-            $form = $event->getForm();
-            assert($form instanceof ClearableErrorsInterface);
+        $form = $event->getForm();
+        $result = new AntiSpamFormResult($form, $this->profile);
+        if ($result->hasAntiSpamErrors()) {
+            if ($this->eventDispatcher->dispatch(new FormViolationEvent($result), AntiSpamEvents::FORM_VIOLATION)->isCancelled()) {
+                $result->clearAntiSpamErrors();
+            } elseif ($this->profile->getStealth()) {
+                $result->clearAntiSpamErrors();
 
-            $iterator = $form->getErrors();
-            $form->clearErrors();
-            $causes = [];
-            foreach ($iterator as $error) {
-                if ($error instanceof AntiSpamFormError) {
-                    $causes[] = $error;
-                } else {
-                    $form->addError($error);
-                }
-            }
-            if (!empty($causes)) {
                 // Add a single error to replace all the aggregated ones
                 $message = $this->translator->trans('form.stealthed', domain: AntiSpamBundle::TRANSLATION_DOMAIN);
                 $form->addError(new AntiSpamFormError($message, 'form.stealthed'));

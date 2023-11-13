@@ -46,5 +46,10 @@ antispam:
 
       banned_phrases: ['spam']
 
+    passive_empty:
+      passive: true
+
+      banned_phrases: ['spam']
+
     empty:
 

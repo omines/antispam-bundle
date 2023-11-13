@@ -12,10 +12,16 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle;
 
+use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 
 final class AntiSpamEvents
 {
+    /**
+     * @Event(FormViolationEvent::class)
+     */
+    public const FORM_VIOLATION = 'antispam.form_violation';
+
     /**
      * @Event(ValidatorViolationEvent::class)
      */

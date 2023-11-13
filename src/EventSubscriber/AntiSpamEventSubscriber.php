@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\EventSubscriber;
 
 use Omines\AntiSpamBundle\AntiSpamEvents;
+use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,8 +22,16 @@ class AntiSpamEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
+            AntiSpamEvents::FORM_VIOLATION => ['onFormViolation', -256],
             AntiSpamEvents::VALIDATOR_VIOLATION => ['onValidatorViolation', -256],
         ];
+    }
+
+    public function onFormViolation(FormViolationEvent $event): void
+    {
+        if (null !== ($profile = $event->getResult()->getProfile()) && $profile->getPassive()) {
+            $event->cancel();
+        }
     }
 
     public function onValidatorViolation(ValidatorViolationEvent $event): void
