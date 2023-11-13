@@ -19,6 +19,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class AntiSpamEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @infection-ignore-all this function is never called at runtime
+     */
     public static function getSubscribedEvents(): array
     {
         return [
