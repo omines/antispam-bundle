@@ -1,11 +1,14 @@
 # Symfony Anti-Spam Bundle
+
 [![Latest Stable Version](https://poser.pugx.org/omines/antispam-bundle/version)](https://packagist.org/packages/omines/antispam-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/omines/antispam-bundle/v/unstable)](https://packagist.org/packages/omines/antispam-bundle)
 [![Total Downloads](https://poser.pugx.org/omines/antispam-bundle/downloads)](https://packagist.org/packages/omines/antispam-bundle)
+[![License](https://poser.pugx.org/omines/antispam-bundle/license)](https://packagist.org/packages/omines/antispam-bundle)
+
 [![automated-testing](https://github.com/omines/antispam-bundle/actions/workflows/ci.yaml/badge.svg?branch=master&event=push)](https://github.com/omines/antispam-bundle/actions/workflows/ci.yaml)
 [![codecov](https://codecov.io/gh/omines/antispam-bundle/graph/badge.svg?token=634ZQ8EQ7A)](https://codecov.io/gh/omines/antispam-bundle)
+[![phpstan](https://img.shields.io/badge/PHPStan-max-brightgreen)](https://github.com/omines/antispam-bundle/blob/master/phpstan.neon)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fomines%2Fantispam-bundle%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/omines/antispam-bundle/master)
-[![License](https://poser.pugx.org/omines/antispam-bundle/license)](https://packagist.org/packages/omines/antispam-bundle)
 
 You have found the Swiss Army Knife of battling form spam in your Symfony application!
 
@@ -14,6 +17,17 @@ scammers and abusers using your forms for their nefarious purposes, and brings t
 all together in an easy to configure profile system.
 
 This bundle is compatible with PHP 8.1+ and Symfony 6.3 or later.
+
+## Development status
+
+**This bundle is in active development.** It is not unstable, releases follow semantic
+versioning, and you can safely upgrade without hitting breaking changes. But it is
+*not yet* feature complete, and the APIs may change before reaching the 1.0 milestone.
+[The major version is therefore 0 for now](https://omines.github.io/antispam-bundle/#why-not-a-stable-version-number).
+
+## Documentation
+
+Extensive documentation can be found at https://omines.github.io/antispam-bundle/
 
 ## What does it do
 
@@ -29,9 +43,7 @@ proven methods:
 
 All components can either be used standalone or deployed through easily configured antispam profiles.
 
-## Documentation
-
-Extensive documentation can be found at https://omines.github.io/antispam-bundle/
+[Read more in the documentation](https://omines.github.io/antispam-bundle/#features).
 
 ## Contributing
 

@@ -29,7 +29,7 @@ nav:
   - About: index.md
   - Quickstart: quickstart.md
   - Configuration: configuration.md
-  - Extending: extending.md
+#  - Extending: extending.md
   - Form Types:
       - Honeypot: form/honeypot.md
       - Submit Timer: form/submit_timer.md
@@ -37,7 +37,7 @@ nav:
       - Banned Markup: validator/banned_markup.md
       - Banned Phrases: validator/banned_phrases.md
       - Banned Scripts: validator/banned_scripts.md
-      - Profile: validator/profile.md
+#      - Profile: validator/profile.md
       - URL Count: validator/url_count.md
 
 markdown_extensions:

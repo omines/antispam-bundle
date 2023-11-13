@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+cd $(dirname $0)/../tests/Fixture
+
+bin/console config:dump-reference antispam > ../../docs/includes/default-config.yaml

@@ -11,7 +11,7 @@ place for your project.
 
 Open it and it will look something like this between the comments:
 
-```yaml title="config/packages/antispam.yaml"
+```yaml title="config/packages/antispam.yaml" linenums="1"
 antispam:
     profiles:
         default:
@@ -84,7 +84,7 @@ Spambots regularly do, in lame attempts at [XSS](https://en.wikipedia.org/wiki/C
 We'll ensure it's not accepted.
 
 So let's create a new profile `contact` specifically for the website's contact form:
-```yaml title="config/packages/antispam.yaml"
+```yaml title="config/packages/antispam.yaml" linenums="1"
 antispam:
     profiles:
         contact:
@@ -98,13 +98,14 @@ antispam:
             # Reject content containing HTML or BBCode markup
             banned_markup: true
 
-            # Reject forms that consist for more than half of Cyrillic (Russian)
-            # or Hebrew text
+            # Reject forms that consist for more than half of Cyrillic
+            # (Russian) or Hebrew text
             banned_scripts:
                 scripts: ['cyrillic', 'hebrew']
                 max_percentage: 50
 
-            # Reject form fields containing more than 2 URLs, or repeating identical URLs
+            # Reject form fields containing more than 2 URLs, or repeating
+            # identical URLs
             url_count:
                 max: 2
                 max_identical: 1
