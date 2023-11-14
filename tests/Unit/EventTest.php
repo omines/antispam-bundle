@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use Omines\AntiSpamBundle\AntiSpam;
+use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\EventSubscriber\PassiveModeEventSubscriber;
+use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -36,5 +39,16 @@ class EventTest extends KernelTestCase
 
         $this->assertNotEmpty($validator->validate('<strong>HTML</strong>', new BannedMarkup(passive: false)));
         $this->assertEmpty($validator->validate('<strong>HTML</strong>', new BannedMarkup(passive: true)));
+    }
+
+    public function testGlobalPassiveModeIsRespected(): void
+    {
+        $antispam = $this->createMock(AntiSpam::class);
+        $antispam->expects($this->once())->method('getPassive')->willReturn(true);
+
+        $handler = new PassiveModeEventSubscriber($antispam);
+        $event = new FormViolationEvent($this->createMock(AntiSpamFormResult::class));
+        $handler->onFormViolation($event);
+        $this->assertTrue($event->isCancelled());
     }
 }

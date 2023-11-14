@@ -1,5 +1,6 @@
 antispam:
   stealth: false
+
   profiles:
     test1:
       stealth: false
