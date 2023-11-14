@@ -68,6 +68,21 @@ class BundleTest extends TestCase
         $this->assertEmpty($result['profiles']);
     }
 
+    public function testQuarantineRequiresValidEmail(): void
+    {
+        $processor = new Processor();
+        $result = $processor->processConfiguration(new Configuration(), [
+            'antispam' => ['quarantine' => ['email' => 'foo@bar.org']],
+        ]);
+        $this->assertSame('foo@bar.org', $result['quarantine']['email']);
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('not a valid email address');
+        $processor->processConfiguration(new Configuration(), [
+            'antispam' => ['quarantine' => ['email' => 'invalid-email-address']],
+        ]);
+    }
+
     /**
      * @param array<string, mixed> $input
      * @param array<string, mixed> $expected

@@ -22,13 +22,15 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 #[CoversClass(Profile::class)]
 class AntiSpamTest extends KernelTestCase
 {
-    public function testConfigurationParametersAreResolved(): void
+    public function testConfigurationDefaultsAreExpanded(): void
     {
         $antispam = static::getContainer()->get(AntiSpam::class);
         $this->assertInstanceOf(AntiSpam::class, $antispam);
 
         $config = $antispam->getQuarantineConfig();
-        $this->assertSame(dirname(__DIR__) . '/Fixture/var/quarantine', $config['dir']);
+        $this->assertSame(14, $config['file']['max_days']);
+        $this->assertSame(dirname(__DIR__) . '/Fixture/var/quarantine', $config['file']['dir']);
+        $this->assertArrayNotHasKey('email', $config);
     }
 
     public function testUnknownProfileThrows(): void

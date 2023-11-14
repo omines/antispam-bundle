@@ -1,7 +1,9 @@
 passive: false
 stealth: false
 quarantine:
-  dir: "%kernel.project_dir%/var/quarantine"
+  file:
+    dir: "%kernel.project_dir%/var/quarantine"
+    max_days: 14
 
 profiles:
   default:

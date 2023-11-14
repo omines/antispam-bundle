@@ -37,17 +37,44 @@ class Configuration implements ConfigurationInterface
                     ->info('Global default for whether included components issue verbose or stealthy error messages')
                     ->defaultFalse()
                 ->end()
-                ->arrayNode('quarantine')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('dir')->defaultValue('%kernel.project_dir%/var/quarantine')->end()
-                    ->end()
-                ->end()
         ;
 
+        $this->addQuarantineSection($children);
         $this->addProfileSection($children);
 
         return $treeBuilder;
+    }
+
+    private function addQuarantineSection(NodeBuilder $rootNode): void
+    {
+        $rootNode
+            ->arrayNode('quarantine')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->arrayNode('file')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('dir')
+                                ->defaultValue('%kernel.project_dir%/var/quarantine')
+                            ->end()
+                            ->integerNode('max_days')
+                                ->defaultValue(14)
+                                ->min(1)
+                            ->end()
+                        ->end()
+                    ->end()
+                    ->scalarNode('email')
+                        ->validate()->always(function ($email) {
+                            if (!empty($email) && false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                                throw new InvalidConfigurationException(sprintf('%s is not a valid email address', $email));
+                            }
+
+                            return $email;
+                        })->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 
     private function addProfileSection(NodeBuilder $rootNode): void
