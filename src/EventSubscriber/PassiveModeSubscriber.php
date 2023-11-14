@@ -18,15 +18,13 @@ use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class PassiveModeEventSubscriber implements EventSubscriberInterface
+class PassiveModeSubscriber implements EventSubscriberInterface
 {
     public function __construct(private readonly AntiSpam $antiSpam)
     {
     }
 
-    /**
-     * @infection-ignore-all this function is never called at runtime
-     */
+    /** @infection-ignore-all this function is never called at runtime */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -45,7 +43,7 @@ class PassiveModeEventSubscriber implements EventSubscriberInterface
 
     public function onValidatorViolation(ValidatorViolationEvent $event): void
     {
-        if (true === $event->getConstraint()->passive) {
+        if (true === ($event->getConstraint()->passive ?? $this->antiSpam->getPassive())) {
             $event->cancel();
         }
     }

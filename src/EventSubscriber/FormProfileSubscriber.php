@@ -28,13 +28,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Sequentially;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Autoconfigure(shared: false)]
-class FormProfileEventSubscriber implements EventSubscriberInterface
+class FormProfileSubscriber implements EventSubscriberInterface
 {
     use LoggerAwareTrait;
 
