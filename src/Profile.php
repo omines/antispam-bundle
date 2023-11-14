@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle;
 
-use Omines\AntiSpamBundle\Form\EventSubscriber\FormProfileEventSubscriber;
+use Omines\AntiSpamBundle\EventSubscriber\FormProfileEventSubscriber;
 use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraint;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;

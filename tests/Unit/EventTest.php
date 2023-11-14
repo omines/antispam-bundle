@@ -12,18 +12,18 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use Omines\AntiSpamBundle\EventSubscriber\AntiSpamEventSubscriber;
+use Omines\AntiSpamBundle\EventSubscriber\PassiveModeEventSubscriber;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[CoversClass(AntiSpamEventSubscriber::class)]
+#[CoversClass(PassiveModeEventSubscriber::class)]
 class EventTest extends KernelTestCase
 {
     public function testBuiltInEventsHaveNegativePriority(): void
     {
-        foreach (AntiSpamEventSubscriber::getSubscribedEvents() as $event => $details) {
+        foreach (PassiveModeEventSubscriber::getSubscribedEvents() as $event => $details) {
             $this->assertIsArray($details);
             $this->assertLessThan(0, $details[1]);
         }

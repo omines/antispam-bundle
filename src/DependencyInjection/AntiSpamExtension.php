@@ -14,7 +14,7 @@ namespace Omines\AntiSpamBundle\DependencyInjection;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamBundle;
-use Omines\AntiSpamBundle\Form\EventSubscriber\FormProfileEventSubscriber;
+use Omines\AntiSpamBundle\EventSubscriber\FormProfileEventSubscriber;
 use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

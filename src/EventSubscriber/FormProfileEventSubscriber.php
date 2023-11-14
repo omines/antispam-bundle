@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Omines\AntiSpamBundle\Form\EventSubscriber;
+namespace Omines\AntiSpamBundle\EventSubscriber;
 
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\AntiSpamEvents;
@@ -25,7 +25,6 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Event\PostSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;

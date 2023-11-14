@@ -17,7 +17,7 @@ use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class AntiSpamEventSubscriber implements EventSubscriberInterface
+class PassiveModeEventSubscriber implements EventSubscriberInterface
 {
     /**
      * @infection-ignore-all this function is never called at runtime
