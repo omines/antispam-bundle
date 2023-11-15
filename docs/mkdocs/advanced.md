@@ -2,6 +2,26 @@
 
 ## Examples
 
+### Testing your application
+
+Antispam measures are all fine and great, until you start to write functional tests for your application and you
+discover after hours of debugging that all your form submissions are failing because your tests are actually behaving
+exactly like spambots on your own application, and being stopped by this bundle.
+
+It is recommended to disable the entire bundle when testing in the config:
+```yaml title="config/packages/antispam.yaml" linenums="1" hl_lines="3"
+when@test:
+    antispam:
+        enabled: false
+```
+But what if we actually *want* to test the anti-spam measures? Just enable it again for the test you are running:
+```php linenums="1"
+use Omines\AntiSpamBundle\AntiSpam;
+
+$antispam = static::getContainer()->get(AntiSpam::class);
+$antispam->enable();
+```
+
 ### "Fake pass"
 
 A spammer who sees success is a happy spammer. One of the problems we have to cope with these days is that some people

@@ -53,6 +53,7 @@ class Configuration implements ConfigurationInterface
     {
         $rootNode
             ->arrayNode('quarantine')
+                ->info('Quarantine settings determine what to do with caught spam')
                 ->addDefaultsIfNotSet()
                 ->children()
                     ->arrayNode('file')

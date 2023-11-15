@@ -6,8 +6,16 @@ antispam:
 
     # Global default for whether included components issue verbose or stealthy error messages
     stealth:              false
+
+    # Allows you to globally disable all bundle functions, specifically for functional testing
+    enabled:              true
+
+    # Quarantine settings determine what to do with caught spam
     quarantine:
-        dir:                  '%kernel.project_dir%/var/quarantine'
+        file:
+            dir:                  '%kernel.project_dir%/var/quarantine'
+            max_days:             14
+        email:                ~
 
     # A named list of different profiles used throughout your application
     profiles:
@@ -18,8 +26,8 @@ antispam:
             # Defines whether measures in this profile issue stealthy error messages
             stealth:              true
 
-            # Passive mode will not make any of the included checks actually fail validation, they will still be logged
-            passive:              false
+            # Passive mode will not make any of the included checks actually fail validation, they will still be logged. Null inherits global setting
+            passive:              null
 
             # Defines whether to disallow content resembling markup languages like HTML and BBCode
             banned_markup:
@@ -27,7 +35,8 @@ antispam:
                 bbcode:               true
 
             # Simple array of phrases which are rejected when encountered in a submitted text field
-            banned_phrases:       []
+            banned_phrases:
+                phrases:              []
 
             # Banned script types, like Cyrillic or Arabic (see docs for commonly used ISO 15924 names)
             banned_scripts:
