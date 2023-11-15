@@ -28,8 +28,8 @@ class PassiveModeSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            AntiSpamEvents::FORM_VIOLATION => ['onFormViolation', -256],
-            AntiSpamEvents::VALIDATOR_VIOLATION => ['onValidatorViolation', -256],
+            AntiSpamEvents::FORM_VIOLATION => ['onFormViolation', -512],
+            AntiSpamEvents::VALIDATOR_VIOLATION => ['onValidatorViolation', -512],
         ];
     }
 

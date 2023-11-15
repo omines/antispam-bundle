@@ -37,7 +37,7 @@ class EventTest extends KernelTestCase
             $this->assertLessThan(0, $details[1]);
         }
         $key = AntiSpamEvents::FORM_VIOLATION;
-        $this->assertLessThan($passiveEvents[$key][1], $quarantineEvents[$key][1], 'QuarantineSubscriber must have lower priority than PassiveModeSubscriber');
+        $this->assertGreaterThan($passiveEvents[$key][1], $quarantineEvents[$key][1], 'QuarantineSubscriber must have higher priority than PassiveModeSubscriber');
     }
 
     public function testPassiveValidatorsAreCancelled(): void

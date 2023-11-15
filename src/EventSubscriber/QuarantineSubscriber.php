@@ -38,18 +38,13 @@ class QuarantineSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            // Lower base priority than the PassiveModeSubscriber to allow passive mode to cancel logging
-            AntiSpamEvents::FORM_VIOLATION => ['onFormViolation', -512],
+            // Higher base priority than the PassiveModeSubscriber to ensure logging still occurs while passive
+            AntiSpamEvents::FORM_VIOLATION => ['onFormViolation', -256],
         ];
     }
 
     public function onFormViolation(FormViolationEvent $event): void
     {
-        // Predecessors should also cancel propagation, but cancelling should imply the same
-        if ($event->isCancelled()) {
-            return;
-        }
-
         $result = $event->getResult();
         $config = $this->antiSpam->getQuarantineConfig();
         if ($fileConfig = ($config['file'] ?? null)) {
