@@ -81,15 +81,19 @@ class AntiSpamFormResult
             'antispam' => array_map(fn (AntiSpamFormError $error) => [
                 'message' => $error->getMessage(),
                 'cause' => $error->getCause(),
+                'field' => $error->getOrigin()?->getName(),
             ], $this->antiSpamErrors),
             'other' => array_map(fn (FormError $error) => [
                 'message' => $error->getMessage(),
+                'field' => $error->getOrigin()?->getName(),
             ], $this->formErrors),
         ];
 
         if (null !== ($request = $this->request)) {
             $array['request'] = [
-                'ip' => $request->getClientIp(),
+                'uri' => $request->getRequestUri(),
+                'client_ip' => $request->getClientIp(),
+                'referrer' => $request->headers->get('referer'),
                 'user_agent' => $request->headers->get('user-agent'),
             ];
         }

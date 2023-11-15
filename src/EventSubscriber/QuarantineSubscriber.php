@@ -63,7 +63,7 @@ class QuarantineSubscriber implements EventSubscriberInterface
         $path = Path::join($config['dir'], $filename);
 
         $fs = new Filesystem();
-        $fs->appendToFile($path, sprintf("# ----- %s -----\n%s", $now->format('c'),
+        $fs->appendToFile($path, sprintf("#\n# ----- %s -----\n%s", $now->format('c'),
             Yaml::dump([$result->asArray()], 5, flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK)));
     }
 }
