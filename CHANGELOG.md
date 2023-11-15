@@ -4,6 +4,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.3] - 2023-11-15
+### Added
+ - All caught spam is now put into a quarantine folder
+ - Bundle can now be enabled/disabled globally for forms
+ - Accessors added for last test result for extension purposes
+
+### Changed
+ - Stealth/passive/enabled flags should make more sense now (#4)
+
+
 ## [0.1.2] - 2023-11-10
 ### Added
  - Add AntiSpamEvents::VALIDATOR_VIOLATION event allowing inspection or cancellation of
@@ -20,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 0.1.0 - 2023-11-10
 First public release.
 
-[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.2...master
+[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.3...master
+[0.1.3]: https://github.com/omines/antispam-bundle/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/omines/antispam-bundle/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/omines/antispam-bundle/compare/0.1.0...0.1.1
