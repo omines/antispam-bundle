@@ -43,6 +43,7 @@ class FormProfileSubscriber implements EventSubscriberInterface
 
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly RequestStack $requestStack,
         private readonly TranslatorInterface $translator
     ) {
     }
@@ -119,7 +120,7 @@ class FormProfileSubscriber implements EventSubscriberInterface
     public function onPostSubmit(PostSubmitEvent $event): void
     {
         $form = $event->getForm();
-        $result = new AntiSpamFormResult($form, $this->profile);
+        $result = new AntiSpamFormResult($form, $this->requestStack->getMainRequest(), $this->profile);
         if ($result->hasAntiSpamErrors()) {
             if ($this->eventDispatcher->dispatch(new FormViolationEvent($result), AntiSpamEvents::FORM_VIOLATION)->isCancelled()) {
                 $result->clearAntiSpamErrors();

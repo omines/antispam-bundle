@@ -61,9 +61,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
             $data = $event->getData();
-            assert(is_string($data));
-
-            if (empty($data) || false === ($decoded = \base64_decode($data, true))) {
+            if (!is_string($data) || false === ($decoded = \base64_decode($data, true))) {
                 $this->createFormError($form, 'form.timer.corrupted', cause: 'Data could not be decoded');
             } elseif (3 !== count($parts = explode('|', $decoded))) {
                 $this->createFormError($form, 'form.timer.corrupted', cause: 'Data must contain 3 elements');

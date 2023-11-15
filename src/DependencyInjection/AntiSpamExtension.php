@@ -14,7 +14,7 @@ namespace Omines\AntiSpamBundle\DependencyInjection;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamBundle;
-use Omines\AntiSpamBundle\EventSubscriber\FormProfileEventSubscriber;
+use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
 use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,7 +41,7 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
                 ->addTag('antispam.profile')
                 ->addArgument($name)
                 ->addArgument($profile)
-                ->addArgument(new Reference(FormProfileEventSubscriber::class))
+                ->addArgument(new Reference(FormProfileSubscriber::class))
             ;
         }
 

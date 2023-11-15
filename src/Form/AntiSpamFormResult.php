@@ -16,6 +16,7 @@ use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class AntiSpamFormResult
 {
@@ -27,6 +28,7 @@ class AntiSpamFormResult
 
     public function __construct(
         private readonly FormInterface $form,
+        private readonly ?Request $request = null,
         private readonly ?Profile $profile = null,
     ) {
         if (!$form->isSubmitted()) {
@@ -65,5 +67,33 @@ class AntiSpamFormResult
     public function hasAntiSpamErrors(): bool
     {
         return !empty($this->antiSpamErrors);
+    }
+
+    /**
+     * @return array<string, mixed>
+     *
+     * @infection-ignore-all
+     */
+    public function asArray(): array
+    {
+        $array = [
+            'values' => $this->form->getData(),
+            'antispam' => array_map(fn (AntiSpamFormError $error) => [
+                'message' => $error->getMessage(),
+                'cause' => $error->getCause(),
+            ], $this->antiSpamErrors),
+            'other' => array_map(fn (FormError $error) => [
+                'message' => $error->getMessage(),
+            ], $this->formErrors),
+        ];
+
+        if (null !== ($request = $this->request)) {
+            $array['request'] = [
+                'ip' => $request->getClientIp(),
+                'user_agent' => $request->headers->get('user-agent'),
+            ];
+        }
+
+        return $array;
     }
 }

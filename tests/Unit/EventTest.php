@@ -13,23 +13,31 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Omines\AntiSpamBundle\AntiSpam;
+use Omines\AntiSpamBundle\AntiSpamEvents;
 use Omines\AntiSpamBundle\Event\FormViolationEvent;
-use Omines\AntiSpamBundle\EventSubscriber\PassiveModeEventSubscriber;
+use Omines\AntiSpamBundle\EventSubscriber\PassiveModeSubscriber;
+use Omines\AntiSpamBundle\EventSubscriber\QuarantineSubscriber;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[CoversClass(PassiveModeEventSubscriber::class)]
+#[CoversClass(PassiveModeSubscriber::class)]
+#[CoversClass(QuarantineSubscriber::class)]
 class EventTest extends KernelTestCase
 {
-    public function testBuiltInEventsHaveNegativePriority(): void
+    public function testBuiltInEventsHaveCorrectPriority(): void
     {
-        foreach (PassiveModeEventSubscriber::getSubscribedEvents() as $event => $details) {
+        $passiveEvents = PassiveModeSubscriber::getSubscribedEvents();
+        $quarantineEvents = QuarantineSubscriber::getSubscribedEvents();
+
+        foreach ($passiveEvents as $event => $details) {
             $this->assertIsArray($details);
             $this->assertLessThan(0, $details[1]);
         }
+        $key = AntiSpamEvents::FORM_VIOLATION;
+        $this->assertLessThan($passiveEvents[$key][1], $quarantineEvents[$key][1], 'QuarantineSubscriber must have lower priority than PassiveModeSubscriber');
     }
 
     public function testPassiveValidatorsAreCancelled(): void
@@ -46,7 +54,7 @@ class EventTest extends KernelTestCase
         $antispam = $this->createMock(AntiSpam::class);
         $antispam->expects($this->once())->method('getPassive')->willReturn(true);
 
-        $handler = new PassiveModeEventSubscriber($antispam);
+        $handler = new PassiveModeSubscriber($antispam);
         $event = new FormViolationEvent($this->createMock(AntiSpamFormResult::class));
         $handler->onFormViolation($event);
         $this->assertTrue($event->isCancelled());

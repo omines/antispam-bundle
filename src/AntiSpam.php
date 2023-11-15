@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
  * @phpstan-type FileQuarantineOptions array{dir: string, max_days: int}
- * @phpstan-type QuarantineOptions array{file: FileQuarantineOptions}
+ * @phpstan-type QuarantineOptions array{file: ?FileQuarantineOptions}
  * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, quarantine: QuarantineOptions}
  */
 class AntiSpam

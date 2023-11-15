@@ -9,8 +9,9 @@ export XDEBUG_MODE=coverage
 vendor/bin/php-cs-fixer fix
 vendor/bin/phpstan
 
-# Clear cache manually to avoid locking up with corrupted container
+# Clear cache and quarantine manually to avoid locking up with corrupted container
 rm -rf tests/fixture/var/cache/test
+rm -rf tests/fixture/var/quarantine
 php -d "zend.assertions=1" vendor/bin/phpunit --testdox --coverage-text --display-warnings \
     --coverage-xml=build/coverage/coverage-xml --log-junit=build/coverage/junit.xml
 
