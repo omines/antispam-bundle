@@ -106,9 +106,6 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('passive')
                             ->info('Passive mode will not make any of the included checks actually fail validation, they will still be logged. Null inherits global setting')
                             ->defaultNull()
-                            ->validate()
-                                ->ifNotInArray([true, false])->thenInvalid('Must be true or false')
-                            ->end()
                         ->end()
         ;
 

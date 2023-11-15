@@ -20,7 +20,7 @@ This bundle provides you with a ton of methods to easily combat spam through tes
 proven methods:
 
 - **[Honeypot](form/honeypot.md)**: Insert a hidden field in your forms that lures spambots into filling it in.
-- **[Timer](form/submit_timer.md)**: Reject forms that have been submitted unfeasibly fast or unrealistically slow.
+- **[Submit Timer](form/submit_timer.md)**: Reject forms that have been submitted unfeasibly fast or unrealistically slow.
 - **[Banned markup](validator/banned_markup.md)**: Reject text fields containing HTML or UBB tags.
 - **[Banned phrases](validator/banned_phrases.md)**: Reject text fields containing signature phrases targeting your site.
 - **[Banned scripts](validator/banned_scripts.md)**: Reject text fields that contain too many characters in scripts not

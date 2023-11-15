@@ -1,4 +1,4 @@
-# Extending functionality
+# Advanced Usage
 
 ## Examples
 

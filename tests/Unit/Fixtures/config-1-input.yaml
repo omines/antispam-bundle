@@ -16,6 +16,8 @@ antispam:
         min: 2
 
     full_options:
+      banned_phrases: 'viagra'
+
       honeypot:
         field: poohbear
         attributes:

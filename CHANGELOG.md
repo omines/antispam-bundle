@@ -13,7 +13,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
  - Stealth/passive/enabled flags should make more sense now (#4)
 
-
 ## [0.1.2] - 2023-11-10
 ### Added
  - Add AntiSpamEvents::VALIDATOR_VIOLATION event allowing inspection or cancellation of

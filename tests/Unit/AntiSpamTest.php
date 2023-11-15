@@ -14,14 +14,33 @@ namespace Tests\Unit;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\Exception\InvalidProfileException;
+use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Profile;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 #[CoversClass(AntiSpam::class)]
 #[CoversClass(Profile::class)]
 class AntiSpamTest extends KernelTestCase
 {
+    #[RunInSeparateProcess]
+    public function testStaticFunctions(): void
+    {
+        $this->assertNull(AntiSpam::getLastResult());
+        $this->assertFalse(AntiSpam::isSpam());
+
+        $mock = $this->createMock(AntiSpamFormResult::class);
+        $mock
+            ->expects($this->once())
+            ->method('isSpam')
+            ->willReturn(true)
+        ;
+
+        AntiSpam::setLastResult($mock);
+        $this->assertTrue(AntiSpam::isSpam());
+    }
+
     public function testConfigurationDefaultsAreExpanded(): void
     {
         $antispam = static::getContainer()->get(AntiSpam::class);

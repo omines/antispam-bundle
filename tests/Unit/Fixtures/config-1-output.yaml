@@ -52,6 +52,9 @@ profiles:
     stealth: true
     passive: false
 
+    banned_phrases:
+      phrases: [ 'viagra' ]
+
     honeypot:
       field: poohbear
       attributes:
