@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\Validator\Constraints;
 
+use Omines\AntiSpamBundle\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
@@ -33,17 +34,21 @@ class BannedPhrases extends AntiSpamConstraint
         array $groups = null,
         mixed $payload = null)
     {
-        $this->phrases = is_array($phrases) ? $phrases : [$phrases];
+        $this->phrases = is_string($phrases) ? [$phrases] : $phrases;
 
         parent::__construct($passive, $stealth, $groups, $payload);
     }
 
     public function getRegularExpression(): string
     {
-        if (!isset($this->regexp)) {
-            $this->regexp = sprintf('#(%s)#i', implode('|', array_map(fn (string $v) => preg_quote($v, '#'), $this->phrases)));
-        }
+        try {
+            if (!isset($this->regexp)) {
+                $this->regexp = sprintf('#(%s)#i', implode('|', array_map(fn (string $v) => preg_quote($v, '#'), $this->phrases)));
+            }
 
-        return $this->regexp;
+            return $this->regexp;
+        } catch (\TypeError $error) {
+            throw new InvalidOptionsException('Phrases array in BannedPhrases validator may contain only strings', previous: $error);
+        }
     }
 }

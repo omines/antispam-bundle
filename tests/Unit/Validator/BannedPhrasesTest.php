@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Validator;
 
+use Omines\AntiSpamBundle\Exception\InvalidOptionsException;
 use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraintValidator;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrasesValidator;
@@ -44,6 +45,16 @@ class BannedPhrasesTest extends ConstraintValidatorTestCase
     {
         $constraint = new BannedPhrases('foo bar');
         $this->assertSame(['foo bar'], $constraint->phrases);
+    }
+
+    public function testPhrasesArrayCanOnlyContainStrings(): void
+    {
+        $this->expectException(InvalidOptionsException::class);
+        $this->expectExceptionMessage('may contain only strings');
+
+        /** @phpstan-ignore-next-line violating types for test purposes */
+        $constraint = new BannedPhrases(phrases: ['foo', new \DateTime()]);
+        $this->constraintValidator->validate('bar', $constraint);
     }
 
     public function testOnlyStringablesAndNullAreAccepted(): void

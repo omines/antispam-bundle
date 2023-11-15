@@ -13,16 +13,21 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle;
 
 use Omines\AntiSpamBundle\Exception\InvalidProfileException;
+use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
  * @phpstan-type FileQuarantineOptions array{dir: string, max_days: int}
  * @phpstan-type QuarantineOptions array{file: ?FileQuarantineOptions}
- * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, quarantine: QuarantineOptions}
+ * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, enabled: bool, quarantine: QuarantineOptions}
  */
 class AntiSpam
 {
+    private static ?AntiSpamFormResult $lastResult = null;
+
+    private bool $enabled;
+
     /**
      * @param GlobalOptions $options
      * @param ServiceLocator<Profile> $profiles
@@ -32,6 +37,7 @@ class AntiSpam
         private readonly ServiceLocator $profiles,
         private readonly array $options,
     ) {
+        $this->enabled = $this->options['enabled'];
     }
 
     public function getProfile(string $name): Profile
@@ -42,6 +48,16 @@ class AntiSpam
         }
 
         return $this->profiles->get($id);
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
+    }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
     }
 
     /**
@@ -60,5 +76,25 @@ class AntiSpam
     public function getStealth(): bool
     {
         return $this->options['stealth'];
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public static function getLastResult(): ?AntiSpamFormResult
+    {
+        return self::$lastResult;
+    }
+
+    public static function isSpam(): bool
+    {
+        return self::getLastResult()?->isSpam() ?? false;
+    }
+
+    public static function setLastResult(AntiSpamFormResult $lastResult): void
+    {
+        self::$lastResult = $lastResult;
     }
 }

@@ -17,6 +17,8 @@ theme:
     - content.code.copy
     - content.code.select
     - content.tabs.link
+    - navigation.instant
+    - navigation.instant.progress
 
 extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css
@@ -28,12 +30,13 @@ watch:
 nav:
   - About: index.md
   - Quickstart: quickstart.md
+  - Features: features.md
   - Configuration: configuration.md
-#  - Extending: extending.md
-  - Form Types:
+  - Advanced Usage: advanced.md
+  - Form Types Reference:
       - Honeypot: form/honeypot.md
       - Submit Timer: form/submit_timer.md
-  - Validators:
+  - Validators Reference:
       - Banned Markup: validator/banned_markup.md
       - Banned Phrases: validator/banned_phrases.md
       - Banned Scripts: validator/banned_scripts.md

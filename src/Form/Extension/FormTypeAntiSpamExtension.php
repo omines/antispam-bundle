@@ -41,7 +41,7 @@ class FormTypeAntiSpamExtension extends AbstractTypeExtension
             ->default(null)
             ->allowedTypes(Profile::class, 'string', 'null')
             ->normalize(function (Options $options, Profile|string|null $profile) {
-                return is_string($profile) ? $this->antiSpam->getProfile($profile) : null;
+                return is_string($profile) ? $this->antiSpam->getProfile($profile) : $profile;
             })
         ;
     }
@@ -51,6 +51,10 @@ class FormTypeAntiSpamExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        if (!$this->antiSpam->isEnabled()) {
+            return;
+        }
+
         // Only act on compound form types with a profile set
         if ($options['compound'] && null !== ($profile = $options['antispam_profile'])) {
             $builder->addEventSubscriber($profile->getFormEventSubscriber());

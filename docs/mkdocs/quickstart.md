@@ -58,7 +58,7 @@ public function configureOptions(OptionsResolver $resolver): void
     Note that this is not a shortcoming of this bundle, and is in general a good idea to do. This bundle just exposes
     the issue because it cannot show errors on fields that are by definition hidden.
 
-## Tailoring the weapons
+## Tightening the noose
 
 While the default setup will already stop many bots and scripts, there is also a lot of manual spam going on, and the
 spammers and scammers do write bots that can bypass these common methods. After running with the defaults for a bit
@@ -140,18 +140,10 @@ What happens now when you apply the `contact` profile to your contact form type:
     Be prudent about the measures you implement, and try to err on the side of caution. Remember that it's better to
     receive a single uncaught spam email per week than to lose a valuable customer every month.
 
-## Stealth Mode
+## Read more
 
-By default, all **profiles** have "Stealth Mode" enabled. The way Symfony's form and validator mechanisms work together
-is counterintuitive for how we expect antispam measures to work, as they are really verbose, informative and user
-friendly. That means the default validation failures are, in a way, giving a manual to the spammers on how to bypass
-the antispam measures.
-
-The issue here is largely hypothetical, as no spambot will actually read the error and act on it. However by default
-the bundle runs in "Stealth Mode" on forms with a profile. This means all errors are replaced by a single generic
-error on the form level, by default stating that *'technical issues'* have prevented the form from being processed.
-
-You can disable `stealth` at the profile level to keep explicit errors at the violating fields.
+* [Details on available features](features.md)
+* [Configuration options](configuration.md)
 
 
 

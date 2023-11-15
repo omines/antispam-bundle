@@ -37,10 +37,14 @@ class Configuration implements ConfigurationInterface
                     ->info('Global default for whether included components issue verbose or stealthy error messages')
                     ->defaultFalse()
                 ->end()
+                ->booleanNode('enabled')
+                    ->info('Allows you to globally disable all bundle functions, specifically for functional testing')
+                    ->defaultTrue()
+                ->end()
         ;
 
         $this->addQuarantineSection($children);
-        $this->addProfileSection($children);
+        $this->addProfilesSection($children);
 
         return $treeBuilder;
     }
@@ -77,7 +81,7 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-    private function addProfileSection(NodeBuilder $rootNode): void
+    private function addProfilesSection(NodeBuilder $rootNode): void
     {
         $profile = $rootNode
             ->arrayNode('profiles')
@@ -99,11 +103,15 @@ class Configuration implements ConfigurationInterface
                             ->defaultTrue()
                         ->end()
                         ->booleanNode('passive')
-                            ->info('Passive mode will not make any of the included checks actually fail validation, they will still be logged')
-                            ->defaultFalse()
+                            ->info('Passive mode will not make any of the included checks actually fail validation, they will still be logged. Null inherits global setting')
+                            ->defaultNull()
+                            ->validate()
+                                ->ifNotInArray([true, false])->thenInvalid('Must be true or false')
+                            ->end()
                         ->end()
         ;
 
+        // Add profile subsections
         $this->addBannedMarkupSection($profile);
         $this->addBannedPhrasesSection($profile);
         $this->addBannedScriptsSection($profile);
@@ -130,8 +138,15 @@ class Configuration implements ConfigurationInterface
         $profile
             ->arrayNode('banned_phrases')
                 ->info('Simple array of phrases which are rejected when encountered in a submitted text field')
-                ->defaultValue([])
-                ->scalarPrototype()->end()
+                ->beforeNormalization()
+                    ->always(fn (array|string $v) => isset($v[0]) ? ['phrases' => is_string($v) ? [$v] : $v] : $v)
+                ->end()
+                ->children()
+                    ->arrayNode('phrases')
+                        ->requiresAtLeastOneElement()
+                        ->scalarPrototype()->end()
+                    ->end()
+                ->end()
             ->end()
         ;
     }

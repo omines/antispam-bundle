@@ -1,5 +1,7 @@
 passive: false
 stealth: false
+enabled: true
+
 quarantine:
   file:
     dir: "%kernel.project_dir%/var/quarantine"
@@ -11,7 +13,8 @@ profiles:
       bbcode: true
       html: true
 
-    banned_phrases: ['viagra', 'cialis']
+    banned_phrases:
+      phrases: ['viagra', 'cialis']
 
     banned_scripts:
       scripts:

@@ -10,7 +10,7 @@ You have found the Swiss Army Knife of battling form spam in your Symfony applic
 
 This bundle provides a ton of different mechanisms for detecting and stopping spammers,
 scammers and abusers using your forms for their nefarious purposes, and brings them
-all together in an easy to configure profile system.
+all together in an easy to configure and easy to use profile system.
 
 The bundle is compatible with PHP 8.1+ and Symfony 6.3 or later.
 
@@ -38,6 +38,9 @@ reasons, and instead replaces them with a generic catch-all error at the form le
 All components can run in *passive mode*, in which they do not actually block submission
 but otherwise do all logging and escalation as if they are. This enables you to evaluate
 impact before releasing invasive actions.
+
+The bundle can be disabled globally, which is usually what you want when doing functional
+testing.
 
 All validators are implemented as regular Symfony constraints with attributes, meaning
 you can also apply them to your Doctrine entities, API classes and everything.

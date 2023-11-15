@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * @phpstan-type BannedMarkupConfig array{html: bool, bbcode: bool}
- * @phpstan-type BannedPhrasesConfig string[]
+ * @phpstan-type BannedPhrasesConfig array{phrases: string[]}
  * @phpstan-type BannedScriptsConfig array{scripts: Type\Script[], max_percentage: int, max_characters: int}
  * @phpstan-type UrlCountConfig array{max: int, max_identical: ?int}
  * @phpstan-type HoneypotConfig array{field: string, attributes: array<string, string>}
@@ -141,7 +141,7 @@ class Profile
      */
     protected function createBannedPhrasesConstraint(array $config): AntiSpamConstraint
     {
-        return new BannedPhrases($config);
+        return new BannedPhrases($config['phrases']);
     }
 
     /**

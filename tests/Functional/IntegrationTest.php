@@ -224,15 +224,15 @@ class IntegrationTest extends WebTestCase
 
         static::mockTime('+15 seconds');
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler);
+        $this->expectNoErrors($crawler);
 
         static::mockTime('+899 seconds');
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler);
+        $this->expectNoErrors($crawler);
 
         static::mockTime('+900 seconds');
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler);
+        $this->expectNoErrors($crawler);
 
         static::mockTime('+901 seconds');
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
@@ -266,7 +266,7 @@ class IntegrationTest extends WebTestCase
         // Magic keyword "CANCEL" should cancel the violation in the test case
         $formData['basic_form[message]'] = 'CANCEL VIAGRA';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->expectFormErrors($crawler);
+        $this->expectNoErrors($crawler);
 
         $formData['basic_form[message]'] = 'Too short';
         $formData['basic_form[message1]'] = 'Winnie the Pooh';
@@ -297,7 +297,22 @@ class IntegrationTest extends WebTestCase
         // The 900 is defined by test profile 1 in the root form, hence it should win
         self::mockTime('+900 seconds');
         $crawler = $client->submit($crawler->filter('form[name=embedding_form]')->form(), $formData);
-        $this->expectFormErrors($crawler);
+        $this->expectNoErrors($crawler);
+    }
+
+    public function testDisabledBundle(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/en/disabled');
+
+        $formData = [
+            'basic_form[name]' => 'Priya Kaila',
+            'basic_form[email]' => 'foo@example.org',
+            'basic_form[message]' => 'Buy some VIAGRA',
+        ];
+
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectNoErrors($crawler);
     }
 
     public function testPassiveProfile(): void
@@ -316,6 +331,11 @@ class IntegrationTest extends WebTestCase
 
         // Passive mode should just let it fly
         $this->expectFormErrors($crawler);
+
+        $crawler = $client->request('GET', '/en/fake_success');
+        $this->assertResponseIsSuccessful();
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->assertSelectorTextContains('h1', 'FAKED');
     }
 
     public function testEmptyProfile(): void
@@ -323,6 +343,11 @@ class IntegrationTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/empty');
         $this->assertResponseIsSuccessful();
+    }
+
+    private function expectNoErrors(Crawler $crawler): void
+    {
+        $this->expectFormErrors($crawler);
     }
 
     /**

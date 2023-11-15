@@ -27,7 +27,7 @@ class FormProcessingTest extends KernelTestCase
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('submitted form');
-        $result = new AntiSpamFormResult($factory->create(KitchenSinkForm::class));
+        new AntiSpamFormResult($factory->create(KitchenSinkForm::class));
     }
 
     public function testFormsMustImplementClearableErrorsInterface(): void

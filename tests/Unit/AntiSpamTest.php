@@ -27,6 +27,15 @@ class AntiSpamTest extends KernelTestCase
         $antispam = static::getContainer()->get(AntiSpam::class);
         $this->assertInstanceOf(AntiSpam::class, $antispam);
 
+        $this->assertTrue($antispam->isEnabled());
+        $this->assertFalse($antispam->getPassive());
+        $this->assertFalse($antispam->getStealth());
+
+        $antispam->disable();
+        $this->assertFalse($antispam->isEnabled());
+        $antispam->enable();
+        $this->assertTrue($antispam->isEnabled());
+
         $config = $antispam->getQuarantineConfig();
         $this->assertIsArray($config['file']);
         $this->assertSame(14, $config['file']['max_days']);

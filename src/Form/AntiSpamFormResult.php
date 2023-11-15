@@ -70,6 +70,14 @@ class AntiSpamFormResult
     }
 
     /**
+     * Aliased for verbosity.
+     */
+    public function isSpam(): bool
+    {
+        return $this->hasAntiSpamErrors();
+    }
+
+    /**
      * @return array<string, mixed>
      *
      * @infection-ignore-all

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\EventSubscriber;
 
+use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\AntiSpamEvents;
 use Omines\AntiSpamBundle\Event\FormViolationEvent;
@@ -121,6 +122,8 @@ class FormProfileSubscriber implements EventSubscriberInterface
     {
         $form = $event->getForm();
         $result = new AntiSpamFormResult($form, $this->requestStack->getMainRequest(), $this->profile);
+        AntiSpam::setLastResult($result);
+
         if ($result->hasAntiSpamErrors()) {
             if ($this->eventDispatcher->dispatch(new FormViolationEvent($result), AntiSpamEvents::FORM_VIOLATION)->isCancelled()) {
                 $result->clearAntiSpamErrors();

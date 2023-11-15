@@ -34,7 +34,12 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
         $loader->load('services.yaml');
 
         $mergedConfig = $this->processConfiguration(new Configuration(), $configs);
+        $container->setParameter('antispam.enabled', $mergedConfig['enabled']);
         foreach ($mergedConfig['profiles'] as $name => $profile) {
+            if (null === $profile['passive']) {
+                $profile['passive'] = $mergedConfig['passive'];
+            }
+
             $id = 'antispam.profile.' . $name;
             $container
                 ->register($id, Profile::class)
