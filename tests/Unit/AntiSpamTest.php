@@ -39,6 +39,14 @@ class AntiSpamTest extends KernelTestCase
 
         AntiSpam::setLastResult($mock);
         $this->assertTrue(AntiSpam::isSpam());
+
+        /** @var AntiSpam $antispam */
+        $antispam = static::getContainer()->get(AntiSpam::class);
+        $antispam->disable();
+        $antispam->reset();
+
+        $this->assertNull(AntiSpam::getLastResult());
+        $this->assertTrue($antispam->isEnabled());
     }
 
     public function testConfigurationDefaultsAreExpanded(): void

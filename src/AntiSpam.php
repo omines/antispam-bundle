@@ -16,13 +16,14 @@ use Omines\AntiSpamBundle\Exception\InvalidProfileException;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * @phpstan-type FileQuarantineOptions array{dir: string, max_days: int}
  * @phpstan-type QuarantineOptions array{file: ?FileQuarantineOptions}
  * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, enabled: bool, quarantine: QuarantineOptions}
  */
-class AntiSpam
+class AntiSpam implements ResetInterface
 {
     private static ?AntiSpamFormResult $lastResult = null;
 
@@ -37,7 +38,7 @@ class AntiSpam
         private readonly ServiceLocator $profiles,
         private readonly array $options,
     ) {
-        $this->enabled = $this->options['enabled'];
+        $this->reset();
     }
 
     public function getProfile(string $name): Profile
@@ -91,6 +92,13 @@ class AntiSpam
     public static function isSpam(): bool
     {
         return self::getLastResult()?->isSpam() ?? false;
+    }
+
+    public function reset(): void
+    {
+        self::$lastResult = null;
+
+        $this->enabled = $this->options['enabled'];
     }
 
     public static function setLastResult(AntiSpamFormResult $lastResult): void
