@@ -44,11 +44,11 @@ class AntiSpam implements ResetInterface
     public function getProfile(string $name): Profile
     {
         $id = "antispam.profile.$name";
-        if (!$this->profiles->has($id)) {
+        if (!$this->profiles->has($id) || (!($profile = $this->profiles->get($id)) instanceof Profile)) {
             throw new InvalidProfileException(sprintf('There is no antispam profile "%s" defined, did you use the correct profile name from your antispam.yaml configuration file?', $name));
         }
 
-        return $this->profiles->get($id);
+        return $profile;
     }
 
     public function disable(): void

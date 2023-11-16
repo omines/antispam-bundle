@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class BannedPhrasesValidator extends AntiSpamConstraintValidator
 {
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof BannedPhrases) {
             throw new UnexpectedTypeException($constraint, BannedPhrases::class);
