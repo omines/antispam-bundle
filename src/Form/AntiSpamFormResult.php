@@ -13,14 +13,16 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\Form;
 
 use Omines\AntiSpamBundle\Profile;
+use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraint;
 use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\ConstraintViolation;
 
 class AntiSpamFormResult
 {
-    /** @var array<AntiSpamFormError> */
+    /** @var array<FormError> */
     private array $antiSpamErrors = [];
 
     /** @var array<FormError> */
@@ -34,8 +36,8 @@ class AntiSpamFormResult
         if (!$form->isSubmitted()) {
             throw new \LogicException(sprintf('%s can only be constructed from a submitted form', self::class));
         }
-        foreach ($form->getErrors() as $error) {
-            if ($error instanceof AntiSpamFormError) {
+        foreach ($form->getErrors(true) as $error) {
+            if (self::isAntiSpamError($error)) {
                 $this->antiSpamErrors[] = $error;
             } else {
                 $this->formErrors[] = $error;
@@ -45,12 +47,24 @@ class AntiSpamFormResult
 
     public function clearAntiSpamErrors(): void
     {
-        if (!$this->form instanceof ClearableErrorsInterface) {
-            throw new \LogicException(sprintf('You cannot invoke %s on a form that does not implement %s', __METHOD__, ClearableErrorsInterface::class));
+        $this->recursiveClearAntiSpamErrors($this->form);
+    }
+
+    private function recursiveClearAntiSpamErrors(FormInterface $form): void
+    {
+        if (!$form instanceof ClearableErrorsInterface) {
+            return;
         }
-        $this->form->clearErrors();
-        foreach ($this->formErrors as $error) {
-            $this->form->addError($error);
+
+        $errors = $form->getErrors();
+        $form->clearErrors();
+        foreach ($errors as $error) {
+            if (!self::isAntiSpamError($error)) {
+                $form->addError($error);
+            }
+        }
+        foreach ($form->all() as $child) {
+            $this->recursiveClearAntiSpamErrors($child);
         }
     }
 
@@ -86,7 +100,7 @@ class AntiSpamFormResult
     {
         $array = [
             'values' => $this->form->getData(),
-            'antispam' => array_map(fn (AntiSpamFormError $error) => [
+            'antispam' => array_map(fn (FormError $error) => [
                 'message' => $error->getMessage(),
                 'cause' => $error->getCause(),
                 'field' => $error->getOrigin()?->getName(),
@@ -107,5 +121,16 @@ class AntiSpamFormResult
         }
 
         return $array;
+    }
+
+    private static function isAntiSpamError(FormError $error): bool
+    {
+        if ($error instanceof AntiSpamFormError) {
+            return true;
+        } elseif (($cause = $error->getCause()) instanceof ConstraintViolation && ($cause->getConstraint() instanceof AntiSpamConstraint)) {
+            return true;
+        }
+
+        return false;
     }
 }

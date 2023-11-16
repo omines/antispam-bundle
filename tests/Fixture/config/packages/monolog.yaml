@@ -1,0 +1,11 @@
+monolog:
+  channels:
+    - deprecation
+
+when@test:
+  monolog:
+    handlers:
+      test:
+        type: test
+        level: debug
+        channels: ['antispam']

@@ -36,9 +36,5 @@ class FormProcessingTest extends KernelTestCase
         $form->expects($this->once())->method('isSubmitted')->willReturn(true);
         $result = new AntiSpamFormResult($form);
         $this->assertSame($form, $result->getForm());
-
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('ClearableErrorsInterface');
-        $result->clearAntiSpamErrors();
     }
 }

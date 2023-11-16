@@ -14,6 +14,7 @@ namespace Omines\AntiSpamBundle\Form\Extension;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\Profile;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -22,7 +23,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FormTypeAntiSpamExtension extends AbstractTypeExtension
+class FormTypeAntiSpamExtension extends AbstractTypeExtension implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 

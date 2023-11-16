@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace Tests\Functional;
 
+use Monolog\Handler\TestHandler;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class IntegrationTest extends WebTestCase
 {
@@ -206,6 +208,14 @@ class IntegrationTest extends WebTestCase
         $formData['basic_form[message]'] = 'At https://spam.org/viagra we sell https://spam.org/viagra with https://spam.org/viagra';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
         $this->expectFormErrors($crawler, fieldErrors: ['contains 3 URLs', 'https://spam.org/viagra 3 times']);
+
+        $handler = static::getContainer()->get('monolog.handler.test');
+        assert($handler instanceof TestHandler);
+        $this->assertCount(1, $records = $handler->getRecords());
+
+        $record = $records[0];
+        $this->assertSame('antispam', $record->channel);
+        $this->assertStringContainsString('en/profile/test1 violated anti-spam', $record->message);
     }
 
     public function testProfileTest1Timings(): void

@@ -21,6 +21,7 @@ use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Form\Type\HoneypotType;
 use Omines\AntiSpamBundle\Form\Type\SubmitTimerType;
 use Omines\AntiSpamBundle\Profile;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -36,7 +37,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Autoconfigure(shared: false)]
-class FormProfileSubscriber implements EventSubscriberInterface
+class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -121,10 +122,14 @@ class FormProfileSubscriber implements EventSubscriberInterface
     public function onPostSubmit(PostSubmitEvent $event): void
     {
         $form = $event->getForm();
-        $result = new AntiSpamFormResult($form, $this->requestStack->getMainRequest(), $this->profile);
+        $request = $this->requestStack->getMainRequest();
+
+        $result = new AntiSpamFormResult($form, $request, $this->profile);
         AntiSpam::setLastResult($result);
 
         if ($result->hasAntiSpamErrors()) {
+            $this->logger?->info(sprintf('Form submission from IP %s at %s violated anti-spam rules', $request?->getClientIp() ?? 'unknown', $request?->getRequestUri() ?? 'unknown'));
+
             if ($this->eventDispatcher->dispatch(new FormViolationEvent($result), AntiSpamEvents::FORM_VIOLATION)->isCancelled()) {
                 $result->clearAntiSpamErrors();
             } elseif ($this->profile->getStealth()) {
