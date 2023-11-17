@@ -14,7 +14,7 @@ namespace Omines\AntiSpamBundle\Event;
 
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 
-class FormViolationEvent extends AntiSpamEvent
+class FormResultEvent extends AntiSpamEvent
 {
     public function __construct(private readonly AntiSpamFormResult $result)
     {

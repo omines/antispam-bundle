@@ -3,6 +3,8 @@ stealth: false
 enabled: true
 
 quarantine:
+  only_spam: true
+
   file:
     dir: "%kernel.project_dir%/var/quarantine"
     max_days: 14

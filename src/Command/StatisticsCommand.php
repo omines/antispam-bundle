@@ -76,11 +76,17 @@ EOF
                 continue;
             }
             foreach ($items as $item) {
+                if (!$item['is_spam']) {
+                    // Ignore ham for now
+                    continue;
+                }
                 if (array_key_exists('request', $item)) {
                     $ips->add($item['request']['client_ip']);
                 }
                 $dates->add((new \DateTimeImmutable($item['time']))->format('Y-m-d'));
-                $causes->add($item['antispam'][0]['cause']);
+                foreach ($item['antispam'] as $antispam) {
+                    $causes->add($antispam['cause']);
+                }
             }
         }
 

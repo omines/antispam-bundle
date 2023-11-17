@@ -14,7 +14,7 @@ namespace Omines\AntiSpamBundle\EventSubscriber;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamEvents;
-use Omines\AntiSpamBundle\Event\FormViolationEvent;
+use Omines\AntiSpamBundle\Event\FormResultEvent;
 use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -32,7 +32,7 @@ class PassiveModeSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onFormViolation(FormViolationEvent $event): void
+    public function onFormViolation(FormResultEvent $event): void
     {
         $profile = $event->getResult()->getProfile();
         if ($profile?->getPassive() || ((null === $profile) && $this->antiSpam->getPassive())) {

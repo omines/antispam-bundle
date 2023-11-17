@@ -20,7 +20,7 @@ use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * @phpstan-type FileQuarantineOptions array{dir: string, max_days: int}
- * @phpstan-type QuarantineOptions array{file: ?FileQuarantineOptions}
+ * @phpstan-type QuarantineOptions array{file: ?FileQuarantineOptions, only_spam: bool}
  * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, enabled: bool, quarantine: QuarantineOptions}
  */
 class AntiSpam implements ResetInterface

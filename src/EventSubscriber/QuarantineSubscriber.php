@@ -14,7 +14,7 @@ namespace Omines\AntiSpamBundle\EventSubscriber;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamEvents;
-use Omines\AntiSpamBundle\Event\FormViolationEvent;
+use Omines\AntiSpamBundle\Event\FormResultEvent;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -37,15 +37,18 @@ class QuarantineSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            // Higher base priority than the PassiveModeSubscriber to ensure logging still occurs while passive
-            AntiSpamEvents::FORM_VIOLATION => ['onFormViolation', -256],
+            AntiSpamEvents::FORM_PROCESSED => ['onFormProcessed', -512],
         ];
     }
 
-    public function onFormViolation(FormViolationEvent $event): void
+    public function onFormProcessed(FormResultEvent $event): void
     {
         $result = $event->getResult();
         $config = $this->antiSpam->getQuarantineConfig();
+
+        if (!$result->hasAntiSpamErrors() && $config['only_spam']) {
+            return;
+        }
         if ($fileConfig = ($config['file'] ?? null)) {
             $this->processFileQuarantine($fileConfig, $result);
         }

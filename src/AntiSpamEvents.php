@@ -12,23 +12,35 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle;
 
-use Omines\AntiSpamBundle\Event\FormViolationEvent;
+use Omines\AntiSpamBundle\Event\FormResultEvent;
 use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 
 final class AntiSpamEvents
 {
     /**
-     * @Event(FormViolationEvent::class)
+     * Dispatched after a protected form was processed. Can be cancelled to stop any further processing such as
+     * quarantining and applying stealth/passive behaviors.
+     *
+     * @Event(FormResultEvent::class)
+     */
+    public const FORM_PROCESSED = 'antispam.form_processed';
+
+    /**
+     * Dispatched when a form has violations against anti-spam rules.
+     *
+     * @Event(FormResultEvent::class)
      */
     public const FORM_VIOLATION = 'antispam.form_violation';
 
     /**
+     * Dispatched when one of the bundle's validators causes a violation.
+     *
      * @Event(ValidatorViolationEvent::class)
      */
     public const VALIDATOR_VIOLATION = 'antispam.validator_violation';
 
     /**
-     * @codeCoverageIgnore This method is intended to never be called.
+     * @codeCoverageIgnore Instantiating the class is forbidden.
      */
     private function __construct()
     {

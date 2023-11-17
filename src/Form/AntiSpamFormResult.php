@@ -98,6 +98,7 @@ class AntiSpamFormResult
     public function asArray(): array
     {
         $array = [
+            'is_spam' => $this->hasAntiSpamErrors(),
             'values' => $this->form->getData(),
             'antispam' => array_map(fn (FormError $error) => [
                 'message' => $error->getMessage(),

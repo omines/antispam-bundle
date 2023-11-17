@@ -15,7 +15,7 @@ namespace Omines\AntiSpamBundle\EventSubscriber;
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\AntiSpamEvents;
-use Omines\AntiSpamBundle\Event\FormViolationEvent;
+use Omines\AntiSpamBundle\Event\FormResultEvent;
 use Omines\AntiSpamBundle\Form\AntiSpamFormError;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Form\Type\HoneypotType;
@@ -125,12 +125,15 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
         $request = $this->requestStack->getMainRequest();
 
         $result = new AntiSpamFormResult($form, $request, $this->profile);
+        if ($this->eventDispatcher->dispatch(new FormResultEvent($result), AntiSpamEvents::FORM_PROCESSED)->isCancelled()) {
+            return;
+        }
         AntiSpam::setLastResult($result);
 
         if ($result->hasAntiSpamErrors()) {
             $this->logger?->info(sprintf('Form submission from IP %s at %s violated anti-spam rules', $request?->getClientIp() ?? 'unknown', $request?->getRequestUri() ?? 'unknown'));
 
-            if ($this->eventDispatcher->dispatch(new FormViolationEvent($result), AntiSpamEvents::FORM_VIOLATION)->isCancelled()) {
+            if ($this->eventDispatcher->dispatch(new FormResultEvent($result), AntiSpamEvents::FORM_VIOLATION)->isCancelled()) {
                 $result->clearAntiSpamErrors();
             } elseif ($this->profile->getStealth()) {
                 $result->clearAntiSpamErrors();

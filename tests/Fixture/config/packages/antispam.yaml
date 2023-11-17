@@ -1,5 +1,7 @@
 antispam:
   stealth: false
+  quarantine:
+    only_spam: false
 
   profiles:
     test1:
