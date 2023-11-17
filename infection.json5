@@ -9,6 +9,9 @@
     "minMsi": 95,
     "minCoveredMsi": 95,
     "mutators": {
+        "global-ignoreSourceCodeByRegex": [
+            "\\$this->logger\\?->.*"
+        ],
         "@default": true,
         "@conditional_boundary": false,
         "@number": false,

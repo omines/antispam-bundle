@@ -208,14 +208,6 @@ class IntegrationTest extends WebTestCase
         $formData['basic_form[message]'] = 'At https://spam.org/viagra we sell https://spam.org/viagra with https://spam.org/viagra';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
         $this->expectFormErrors($crawler, fieldErrors: ['contains 3 URLs', 'https://spam.org/viagra 3 times']);
-
-        $handler = static::getContainer()->get('monolog.handler.test');
-        assert($handler instanceof TestHandler);
-        $this->assertCount(1, $records = $handler->getRecords());
-
-        $record = $records[0];
-        $this->assertSame('antispam', $record->channel);
-        $this->assertStringContainsString('en/profile/test1 violated anti-spam', $record->message);
     }
 
     public function testProfileTest1Timings(): void
@@ -282,6 +274,11 @@ class IntegrationTest extends WebTestCase
         $formData['basic_form[message1]'] = 'Winnie the Pooh';
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
         $this->expectFormErrors($crawler, formErrors: ['could not be processed'], fieldErrors: ['10 characters']);
+
+        $logs = $this->getLogs();
+        $this->assertCount(1, $logs);
+        $this->assertSame('antispam', $logs[0]->channel);
+        $this->assertStringContainsString('127.0.0.1 at /en/profile/test2', $logs[0]->message);
     }
 
     public function testProfileTest3(): void
@@ -394,5 +391,16 @@ class IntegrationTest extends WebTestCase
             $this->fail(sprintf('Expected %s errors not found: "%s", actual errors: "%s"',
                 $type, implode('", "', $errors), implode('", "', $actual)));
         }
+    }
+
+    /**
+     * @return object{channel: string, message: string}[]
+     */
+    private function getLogs(): array
+    {
+        $handler = static::getContainer()->get('monolog.handler.test');
+        assert($handler instanceof TestHandler);
+
+        return $handler->getRecords();
     }
 }
