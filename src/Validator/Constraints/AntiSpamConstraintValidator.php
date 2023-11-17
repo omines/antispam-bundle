@@ -51,6 +51,7 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
             $this->context->buildViolation($messageTemplate, $parameters)
                 ->setInvalidValue($invalidValue)
                 ->setTranslationDomain(AntiSpamBundle::TRANSLATION_DOMAIN)
+                ->setCause(static::class)
                 ->addViolation();
         }
     }

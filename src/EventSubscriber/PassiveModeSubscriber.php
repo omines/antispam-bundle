@@ -24,7 +24,6 @@ class PassiveModeSubscriber implements EventSubscriberInterface
     {
     }
 
-    /** @infection-ignore-all this function is never called at runtime */
     public static function getSubscribedEvents(): array
     {
         return [

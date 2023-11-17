@@ -32,6 +32,8 @@ class QuarantineTest extends KernelTestCase
         $fs->remove($quarantinePath = dirname(__DIR__) . '/Fixture/var/quarantine');
         $quarantinePath .= '/2021-03-20.yaml';
 
+        $this->assertFileDoesNotExist($quarantinePath);
+
         $formFactory = static::getContainer()->get(FormFactoryInterface::class);
         assert($formFactory instanceof FormFactoryInterface);
 

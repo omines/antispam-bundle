@@ -26,7 +26,7 @@ class HoneypotType extends NonInteractiveAntiSpamType
             /** @var string $data */
             $data = $event->getData();
             if (!empty($data)) {
-                $this->createFormError($event->getForm(), 'form.honeypot.not_empty');
+                $this->createFormError($event->getForm(), 'form.honeypot.not_empty', cause: 'Honeypot field was filled');
             }
         });
     }

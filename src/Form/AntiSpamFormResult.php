@@ -52,19 +52,17 @@ class AntiSpamFormResult
 
     private function recursiveClearAntiSpamErrors(FormInterface $form): void
     {
-        if (!$form instanceof ClearableErrorsInterface) {
-            return;
-        }
-
-        $errors = $form->getErrors();
-        $form->clearErrors();
-        foreach ($errors as $error) {
-            if (!self::isAntiSpamError($error)) {
-                $form->addError($error);
+        if ($form instanceof ClearableErrorsInterface) {
+            $errors = $form->getErrors();
+            $form->clearErrors();
+            foreach ($errors as $error) {
+                if (!self::isAntiSpamError($error)) {
+                    $form->addError($error);
+                }
             }
-        }
-        foreach ($form->all() as $child) {
-            $this->recursiveClearAntiSpamErrors($child);
+            foreach ($form->all() as $child) {
+                $this->recursiveClearAntiSpamErrors($child);
+            }
         }
     }
 

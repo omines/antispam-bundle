@@ -34,7 +34,6 @@ class QuarantineSubscriber implements EventSubscriberInterface
     ) {
     }
 
-    /** @infection-ignore-all this function is never called at runtime */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -61,9 +60,11 @@ class QuarantineSubscriber implements EventSubscriberInterface
 
         $filename = sprintf('%s.yaml', $now->format('Y-m-d'));
         $path = Path::join($config['dir'], $filename);
+        $data = $result->asArray();
+        $data['time'] = $this->now()->format('c');
 
         $fs = new Filesystem();
         $fs->appendToFile($path, sprintf("#\n# ----- %s -----\n%s", $now->format('c'),
-            Yaml::dump([$result->asArray()], 5, flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK)));
+            Yaml::dump([$data], 5, flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK)));
     }
 }

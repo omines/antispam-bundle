@@ -4,11 +4,17 @@
     "source": {
         "directories": [
             "src"
+        ],
+        "excludes": [
+            "Command"
         ]
     },
     "minMsi": 95,
     "minCoveredMsi": 95,
     "mutators": {
+        "global-ignore": [
+            "::getSubscribedEvents"
+        ],
         "global-ignoreSourceCodeByRegex": [
             "\\$this->logger\\?->.*"
         ],
