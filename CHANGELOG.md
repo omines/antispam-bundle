@@ -4,6 +4,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.4] - 2023-11-17
+### Added
+ - Implement ResetInterface for proper adaptation to long running servers (#10)
+ - Implement basic quarantine functionality
+ - Add PSR-compliant application logging
+ - Add basic antispam::stats command
+
+### Fixed
+ - Stealth behavior in embedded forms should now be correct
+
 ## [0.1.3] - 2023-11-15
 ### Added
  - All caught spam is now put into a quarantine folder
@@ -29,7 +39,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 0.1.0 - 2023-11-10
 First public release.
 
-[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.3...master
+[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.4...master
+[0.1.4]: https://github.com/omines/antispam-bundle/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/omines/antispam-bundle/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/omines/antispam-bundle/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/omines/antispam-bundle/compare/0.1.0...0.1.1
