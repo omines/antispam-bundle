@@ -19,4 +19,7 @@ php -d "zend.assertions=1" vendor/bin/phpunit --testdox --coverage-text --displa
 vendor/bin/infection --threads=max --git-diff-filter=AM --min-msi=80 --min-covered-msi=80 \
     --coverage=build/coverage
 
+# Update default config in documentation
+bin/console config:dump-reference antispam > docs/includes/default-config.yaml
+
 echo "All good, ready for commit!"

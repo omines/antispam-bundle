@@ -6,6 +6,4 @@ export APP_ENV=test
 export APP_DEBUG=1
 export XDEBUG_MODE=coverage
 
-# Next line not needed for now as the composer level integration works fine
-#[ ! -f "infection/infection.phar" ] && bin/install-infection
 vendor/bin/infection --threads=max $@
