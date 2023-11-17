@@ -152,14 +152,12 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
         }
     }
 
-    /**
-     * @infection-ignore-all Infection creates an endless loop here
-     */
     private static function uniqueFieldName(FormInterface $form, string $basename): string
     {
         $field = $basename;
         $counter = 0;
         while ($form->has($field)) {
+            /** @infection-ignore-all Infection creates an endless loop here */
             $field = $basename . ++$counter;
         }
 

@@ -92,7 +92,8 @@ class AntiSpamFormResult
     /**
      * @return array<string, mixed>
      *
-     * @infection-ignore-all
+     * @infection-ignore-all useless to test for infections as long as this API is expanding
+     * @todo add relevant tests when stabilized
      */
     public function asArray(): array
     {

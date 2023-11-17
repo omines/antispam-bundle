@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * @infection-ignore-all As infection does not clear caches mutating the extension has no effect
+ * @infection-ignore-all As infection cannot clear caches reliably mutating the extension has no effect
  */
 class AntiSpamExtension extends Extension implements PrependExtensionInterface
 {

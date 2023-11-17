@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\Utility;
 
+/**
+ * @internal not part of the public API of this bundle
+ */
 class StringCounter
 {
     /** @var array<string, int> */

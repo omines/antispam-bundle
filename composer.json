@@ -2,7 +2,7 @@
     "name": "omines/antispam-bundle",
     "type": "symfony-bundle",
     "description": "The Swiss Army Knife for protecting your Symfony forms from all kinds of spam",
-    "keywords": ["symfony","spam","antispam", "honeypot", "cyrillic"],
+    "keywords": ["symfony","spam","antispam","honeypot","spam timer","cyrillic"],
     "license": "MIT",
     "authors": [
         {
