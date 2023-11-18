@@ -13,8 +13,8 @@ antispam:
     # Quarantine settings determine what to do with caught spam
     quarantine:
 
-        # When false ham submits are also put in the quarantine, allowing you to analyze false negatives
-        only_spam:            true
+        # Either a service ID to a custom quarantine driver or the alias of one of the bundled drivers
+        driver:               file # Required
         file:
             dir:                  '%kernel.project_dir%/var/quarantine'
             max_days:             14

@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
-class AntiSpamBundle extends AbstractBundle
+final class AntiSpamBundle extends AbstractBundle
 {
     public const ALIAS = 'antispam';
     public const TRANSLATION_DOMAIN = 'antispam';
@@ -28,8 +28,10 @@ class AntiSpamBundle extends AbstractBundle
         return new AntiSpamExtension();
     }
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new AddEventAliasesPass(AntiSpamEvents::ALIASES));
+        $container
+            ->addCompilerPass(new AddEventAliasesPass(AntiSpamEvents::ALIASES))
+        ;
     }
 }

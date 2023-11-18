@@ -12,7 +12,8 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\Command;
 
-use Omines\AntiSpamBundle\AntiSpam;
+use Omines\AntiSpamBundle\Quarantine\Driver\FileQuarantineDriver;
+use Omines\AntiSpamBundle\Quarantine\Quarantine;
 use Omines\AntiSpamBundle\Utility\StringCounter;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -27,7 +28,7 @@ use Symfony\Component\Yaml\Yaml;
 #[AsCommand('antispam:stats', description: 'List statistics from the file quarantine')]
 class StatisticsCommand extends Command
 {
-    public function __construct(private readonly AntiSpam $antiSpam)
+    public function __construct(private readonly Quarantine $quarantine)
     {
         parent::__construct();
     }
@@ -35,7 +36,7 @@ class StatisticsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'Number of results to show in rankings. Defaults to number of days in quarantine.')
+            ->addOption('limit', 'l', InputOption::VALUE_OPTIONAL, 'Number of results to show in rankings', 25)
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command lists general statistics from the file based anti-spam quarantine.
 
@@ -48,21 +49,19 @@ EOF
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (null === ($config = $this->antiSpam->getQuarantineConfig()['file'])) {
-            $output->writeln('<error>The file quarantine is disabled in your configuration.</error>');
-
-            return self::FAILURE;
+        $driver = $this->quarantine->getDriver();
+        if (!$driver instanceof FileQuarantineDriver) {
+            throw new \RuntimeException('Statistics currently only available for file quarantine');
         }
-
-        $output->writeln(sprintf('<info>Analyzing data from quarantine folder at %s</info>', $config['dir']));
+        $output->writeln(sprintf('<info>Analyzing data from quarantine using driver %s...</info>', $driver::class));
 
         $limit = $input->getOption('limit');
-        $limit = (is_string($limit) ? intval($limit) : 0) ?: $config['max_days'] ?: 25;
+        $limit = (is_string($limit) ? intval($limit) : 0) ?: 25;
 
         $finder = (new Finder())
             ->files()
             ->name('*.yaml')
-            ->in($config['dir'])
+            ->in($driver->getDir())
             ->sortByName()
         ;
 

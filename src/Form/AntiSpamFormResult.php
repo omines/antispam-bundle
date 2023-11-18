@@ -30,6 +30,7 @@ class AntiSpamFormResult
 
     public function __construct(
         private readonly FormInterface $form,
+        private readonly \DateTimeImmutable $timestamp,
         private readonly ?Request $request = null,
         private readonly ?Profile $profile = null,
     ) {
@@ -74,6 +75,16 @@ class AntiSpamFormResult
     public function getProfile(): ?Profile
     {
         return $this->profile;
+    }
+
+    public function getRequest(): ?Request
+    {
+        return $this->request;
+    }
+
+    public function getTimestamp(): \DateTimeImmutable
+    {
+        return $this->timestamp;
     }
 
     public function hasAntiSpamErrors(): bool
