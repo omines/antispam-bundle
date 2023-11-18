@@ -14,7 +14,7 @@ namespace Omines\AntiSpamBundle\EventSubscriber;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamEvents;
-use Omines\AntiSpamBundle\Event\FormResultEvent;
+use Omines\AntiSpamBundle\Event\FormProcessedEvent;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,7 +41,7 @@ class QuarantineSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onFormProcessed(FormResultEvent $event): void
+    public function onFormProcessed(FormProcessedEvent $event): void
     {
         $result = $event->getResult();
         $config = $this->antiSpam->getQuarantineConfig();

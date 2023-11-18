@@ -14,17 +14,6 @@ namespace Omines\AntiSpamBundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class AntiSpamEvent extends Event
+abstract class AntiSpamEvent extends Event
 {
-    private bool $cancelled = false;
-
-    public function cancel(): void
-    {
-        $this->cancelled = true;
-    }
-
-    public function isCancelled(): bool
-    {
-        return $this->cancelled;
-    }
 }

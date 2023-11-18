@@ -36,23 +36,21 @@ abstract class AntiSpamConstraintValidator extends ConstraintValidator
      */
     protected function failValidation(AntiSpamConstraint $constraint, string $messageTemplate, array $parameters, string $invalidValue): void
     {
-        $event = new ValidatorViolationEvent($constraint, $invalidValue);
-        if ($this->eventDispatcher->dispatch($event, AntiSpamEvents::VALIDATOR_VIOLATION)->isCancelled()) {
-            return;
-        }
-
-        if ($constraint->stealth ?? $this->antiSpam->getStealth()) {
-            $this->context->buildViolation(self::STEALTHED_TRANSLATION_KEY)
-                ->setInvalidValue($invalidValue)
-                ->setTranslationDomain(AntiSpamBundle::TRANSLATION_DOMAIN)
-                ->setCause($this->translator->trans($messageTemplate, $parameters, AntiSpamBundle::TRANSLATION_DOMAIN))
-                ->addViolation();
-        } else {
-            $this->context->buildViolation($messageTemplate, $parameters)
-                ->setInvalidValue($invalidValue)
-                ->setTranslationDomain(AntiSpamBundle::TRANSLATION_DOMAIN)
-                ->setCause(static::class)
-                ->addViolation();
+        $event = $this->eventDispatcher->dispatch(new ValidatorViolationEvent($constraint, $invalidValue), AntiSpamEvents::VALIDATOR_VIOLATION);
+        if (!$event->isCancelled()) {
+            if ($constraint->stealth ?? $this->antiSpam->getStealth()) {
+                $this->context->buildViolation(self::STEALTHED_TRANSLATION_KEY)
+                    ->setInvalidValue($invalidValue)
+                    ->setTranslationDomain(AntiSpamBundle::TRANSLATION_DOMAIN)
+                    ->setCause($this->translator->trans($messageTemplate, $parameters, AntiSpamBundle::TRANSLATION_DOMAIN))
+                    ->addViolation();
+            } else {
+                $this->context->buildViolation($messageTemplate, $parameters)
+                    ->setInvalidValue($invalidValue)
+                    ->setTranslationDomain(AntiSpamBundle::TRANSLATION_DOMAIN)
+                    ->setCause(static::class)
+                    ->addViolation();
+            }
         }
     }
 }

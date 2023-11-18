@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Omines\AntiSpamBundle\AntiSpamBundle;
+use Omines\AntiSpamBundle\AntiSpamEvents;
 use Omines\AntiSpamBundle\DependencyInjection\AntiSpamExtension;
 use Omines\AntiSpamBundle\DependencyInjection\Configuration;
 use Omines\AntiSpamBundle\Form\Extension\FormTypeAntiSpamExtension;
@@ -24,6 +25,7 @@ use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -47,7 +49,9 @@ class BundleTest extends TestCase
         $builder->registerExtension(new TwigExtension());
         $builder->loadFromExtension('twig');
 
-        $extension = (new AntiSpamBundle())->getContainerExtension();
+        $bundle = new AntiSpamBundle();
+        $bundle->build($builder);
+        $extension = $bundle->getContainerExtension();
         $this->assertInstanceOf(AntiSpamExtension::class, $extension);
         $extension->load(['antispam' => ['profiles' => ['default' => []]]], $builder);
         $extension->prepend($builder);
@@ -58,6 +62,18 @@ class BundleTest extends TestCase
 
         $this->assertTrue($builder->has('antispam.profile.default'));
         $this->assertTrue($builder->has(FormTypeAntiSpamExtension::class));
+
+        foreach ($builder->getCompilerPassConfig()->getPasses() as $pass) {
+            if ($pass instanceof AddEventAliasesPass) {
+                $pass->process($builder);
+            }
+        }
+
+        $classes = $builder->getParameter('event_dispatcher.event_aliases');
+        $this->assertIsArray($classes);
+        foreach (AntiSpamEvents::ALIASES as $class => $alias) {
+            $this->assertArrayHasKey($class, $classes);
+        }
     }
 
     public function testConfigurationDefaultsAreEmpty(): void

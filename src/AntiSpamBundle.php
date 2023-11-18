@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle;
 
 use Omines\AntiSpamBundle\DependencyInjection\AntiSpamExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class AntiSpamBundle extends AbstractBundle
@@ -24,5 +26,10 @@ class AntiSpamBundle extends AbstractBundle
     public function getContainerExtension(): ?ExtensionInterface
     {
         return new AntiSpamExtension();
+    }
+
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new AddEventAliasesPass(AntiSpamEvents::ALIASES));
     }
 }

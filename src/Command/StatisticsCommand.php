@@ -85,7 +85,7 @@ EOF
                 }
                 $dates->add((new \DateTimeImmutable($item['time']))->format('Y-m-d'));
                 foreach ($item['antispam'] as $antispam) {
-                    $causes->add($antispam['cause']);
+                    $causes->add($antispam['cause'] ?? $antispam['message'] ?? 'unknown');
                 }
             }
         }

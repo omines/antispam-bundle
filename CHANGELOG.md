@@ -7,9 +7,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
  - `FORM_PROCESSED` event allows processing ham as well as spam
  - `quarantine.only_spam` configuration enables storing only spam or both ham and spam in quarantine
 
-### Breaking
- - `FormViolationEvent` renamed to `FormResultEvent`
-
 ## [0.1.4] - 2023-11-17
 ### Added
  - Implement ResetInterface for proper adaptation to long running servers (#10)

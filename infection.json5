@@ -13,7 +13,7 @@
     "minCoveredMsi": 95,
     "mutators": {
         "global-ignore": [
-            "::getSubscribedEvents"
+            "*::getSubscribedEvents"
         ],
         "global-ignoreSourceCodeByRegex": [
             "\\$this->logger\\?->.*"

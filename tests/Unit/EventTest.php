@@ -13,12 +13,14 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Omines\AntiSpamBundle\AntiSpam;
-use Omines\AntiSpamBundle\Event\FormResultEvent;
+use Omines\AntiSpamBundle\Event\FormProcessedEvent;
+use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\EventSubscriber\PassiveModeSubscriber;
 use Omines\AntiSpamBundle\EventSubscriber\QuarantineSubscriber;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -65,9 +67,43 @@ class EventTest extends KernelTestCase
         $antispam = $this->createMock(AntiSpam::class);
         $antispam->expects($this->once())->method('getPassive')->willReturn(true);
 
-        $handler = new PassiveModeSubscriber($antispam);
-        $event = new FormResultEvent($this->createMock(AntiSpamFormResult::class));
-        $handler->onFormViolation($event);
+        $subscriber = new PassiveModeSubscriber($antispam);
+        $event = new FormViolationEvent($this->createMock(AntiSpamFormResult::class));
+        $subscriber->onFormViolation($event);
         $this->assertTrue($event->isCancelled());
+    }
+
+    #[DataProvider('provideOnlySpamVariants')]
+    public function testOnlySpamWillNotLogHam(bool $onlySpam, bool $isSpam): void
+    {
+        $antispam = $this->createMock(AntiSpam::class);
+        $antispam->expects($this->once())->method('getQuarantineConfig')->willReturn([
+            'only_spam' => $onlySpam,
+            'file' => [
+                'dir' => '/tmp',
+            ],
+        ]);
+        $result = $this->createMock(AntiSpamFormResult::class);
+        $result->expects($this->once())->method('hasAntiSpamErrors')->willReturn($isSpam);
+
+        $constraint = ($onlySpam && !$isSpam) ? $this->never() : $this->once();
+        $result->expects($constraint)->method('asArray');
+
+        $subscriber = new QuarantineSubscriber($antispam);
+        $event = new FormProcessedEvent($result);
+        $subscriber->onFormProcessed($event);
+    }
+
+    /**
+     * @return array<string, array{bool, bool}>
+     */
+    public static function provideOnlySpamVariants(): array
+    {
+        return [
+            'only spam with spam' => [true, true],
+            'only spam with ham' => [true, false],
+            'also ham with spam' => [false, true],
+            'also ham with ham' => [false, false],
+        ];
     }
 }

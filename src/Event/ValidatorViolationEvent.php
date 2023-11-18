@@ -16,6 +16,8 @@ use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraint;
 
 class ValidatorViolationEvent extends AntiSpamEvent
 {
+    use CancellableEventTrait;
+
     public function __construct(
         private readonly AntiSpamConstraint $constraint,
         private readonly string $value,

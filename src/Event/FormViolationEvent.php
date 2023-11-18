@@ -12,16 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\Event;
 
-use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
-
-abstract class FormResultEvent extends AntiSpamEvent
+class FormViolationEvent extends FormResultEvent
 {
-    public function __construct(private readonly AntiSpamFormResult $result)
-    {
-    }
-
-    public function getResult(): AntiSpamFormResult
-    {
-        return $this->result;
-    }
+    use CancellableEventTrait;
 }
