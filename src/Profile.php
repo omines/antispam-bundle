@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle;
 
 use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
-use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraint;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedScripts;
@@ -23,8 +22,8 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @phpstan-type BannedMarkupConfig array{html: bool, bbcode: bool}
  * @phpstan-type BannedPhrasesConfig array{phrases: string[]}
- * @phpstan-type BannedScriptsConfig array{scripts: Type\Script[], max_percentage: int, max_characters: int}
- * @phpstan-type UrlCountConfig array{max: int, max_identical: ?int}
+ * @phpstan-type BannedScriptsConfig array{scripts: Type\Script[], maxPercentage: int, maxCharacters: int}
+ * @phpstan-type UrlCountConfig array{max: int, maxIdentical: ?int}
  * @phpstan-type HoneypotConfig array{field: string, attributes: array<string, string>}
  * @phpstan-type TimerConfig array{min: int, max: int, field: string}
  * @phpstan-type ProfileConfig array{banned_markup?: BannedMarkupConfig, banned_phrases?: BannedPhrasesConfig,
@@ -35,6 +34,19 @@ class Profile
 {
     /** @var Constraint[] */
     private array $constraints;
+
+    /**
+     * Note that constraints are added in order of increasing cost/effectiveness balance so the resulting array
+     * can be used Sequentially efficiently. Iow: add new costly ones at the end, cheap ones up front.
+     *
+     * @var array<string, class-string>
+     */
+    public const CONFIG_KEY_TO_VALIDATOR_MAPPING = [
+        'banned_markup' => BannedMarkup::class,
+        'url_count' => UrlCount::class,
+        'banned_phrases' => BannedPhrases::class,
+        'banned_scripts' => BannedScripts::class,
+    ];
 
     /**
      * @param ProfileConfig $config
@@ -100,63 +112,18 @@ class Profile
     }
 
     /**
-     * Note that constraints are added in order of increasing cost/effectiveness balance so the resulting array
-     * can be used Sequentially efficiently. Iow: add new costly ones at the end, cheap ones up front.
-     *
      * @return Constraint[]
      */
     protected function buildTextTypeConstraints(): array
     {
-        static $types;
-
-        if (!isset($types)) {
-            $types = [
-                'banned_markup' => fn ($config) => $this->createBannedMarkupConstraint($config),
-                'banned_phrases' => fn ($config) => $this->createBannedPhrasesConstraint($config),
-                'banned_scripts' => fn ($config) => $this->createBannedScriptsConstraint($config),
-                'url_count' => fn ($config) => $this->createUrlCountConstraints($config),
-            ];
-        }
-
         $this->constraints = [];
-        foreach ($types as $key => $closure) {
+        foreach (self::CONFIG_KEY_TO_VALIDATOR_MAPPING as $key => $class) {
             if ($config = $this->config[$key] ?? null) {
-                $this->constraints[] = $closure($config);
+                /* @phpstan-ignore-next-line poor PHPStan goes bonkers over this */
+                $this->constraints[] = new $class(...$config);
             }
         }
 
         return $this->constraints;
-    }
-
-    /**
-     * @param BannedMarkupConfig $config
-     */
-    protected function createBannedMarkupConstraint(array $config): AntiSpamConstraint
-    {
-        return new BannedMarkup(...$config);
-    }
-
-    /**
-     * @param BannedPhrasesConfig $config
-     */
-    protected function createBannedPhrasesConstraint(array $config): AntiSpamConstraint
-    {
-        return new BannedPhrases($config['phrases']);
-    }
-
-    /**
-     * @param BannedScriptsConfig $config
-     */
-    protected function createBannedScriptsConstraint(array $config): AntiSpamConstraint
-    {
-        return new BannedScripts($config['scripts'], $config['max_percentage'], $config['max_characters']);
-    }
-
-    /**
-     * @param UrlCountConfig $config
-     */
-    protected function createUrlCountConstraints(array $config): AntiSpamConstraint
-    {
-        return new UrlCount(max: $config['max'], maxIdentical: $config['max_identical']);
     }
 }

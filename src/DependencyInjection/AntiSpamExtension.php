@@ -40,6 +40,16 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
                 $profile['passive'] = $mergedConfig['passive'];
             }
 
+            foreach (array_keys(Profile::CONFIG_KEY_TO_VALIDATOR_MAPPING) as $key) {
+                if (array_key_exists($key, $profile)) {
+                    $newConfig = [];
+                    foreach ($profile[$key] as $param => $value) {
+                        $newConfig[lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $param))))] = $value;
+                    }
+                    $profile[$key] = $newConfig;
+                }
+            }
+
             $id = 'antispam.profile.' . $name;
             $container
                 ->register($id, Profile::class)

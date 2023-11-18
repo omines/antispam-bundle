@@ -4,15 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
- - `FORM_PROCESSED` event allows processing ham as well as spam
- - `quarantine.only_spam` configuration enables storing only spam or both ham and spam in quarantine
+ - New `FORM_PROCESSED` event allows processing ham as well as spam
+ - New `quarantine.only_spam` configuration enables also storing ham in quarantine
 
 ## [0.1.4] - 2023-11-17
 ### Added
  - Implement ResetInterface for proper adaptation to long running servers (#10)
  - Implement basic quarantine functionality
  - Add PSR-compliant application logging
- - Add basic antispam::stats command
+ - Add basic `antispam::stats` console command
 
 ### Fixed
  - Stealth behavior in embedded forms should now be correct
