@@ -16,6 +16,10 @@ use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
 use Omines\AntiSpamBundle\Profile;
+use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
+use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
+use Omines\AntiSpamBundle\Validator\Constraints\BannedScripts;
+use Omines\AntiSpamBundle\Validator\Constraints\UrlCount;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -28,6 +32,19 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AntiSpamExtension extends Extension implements PrependExtensionInterface
 {
+    /**
+     * Note that constraints are added in order of increasing cost/effectiveness balance so the resulting array
+     * can be used Sequentially efficiently. Iow: add new costly ones at the end, cheap ones up front.
+     *
+     * @var array<string, class-string>
+     */
+    public const CONFIG_KEY_TO_VALIDATOR_MAPPING = [
+        'banned_markup' => BannedMarkup::class,
+        'url_count' => UrlCount::class,
+        'banned_phrases' => BannedPhrases::class,
+        'banned_scripts' => BannedScripts::class,
+    ];
+
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
@@ -40,7 +57,7 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
                 $profile['passive'] = $mergedConfig['passive'];
             }
 
-            foreach (array_keys(Profile::CONFIG_KEY_TO_VALIDATOR_MAPPING) as $key) {
+            foreach (array_keys(self::CONFIG_KEY_TO_VALIDATOR_MAPPING) as $key) {
                 if (array_key_exists($key, $profile)) {
                     $newConfig = [];
                     foreach ($profile[$key] as $param => $value) {

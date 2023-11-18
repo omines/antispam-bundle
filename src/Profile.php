@@ -12,11 +12,8 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle;
 
+use Omines\AntiSpamBundle\DependencyInjection\AntiSpamExtension;
 use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
-use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
-use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
-use Omines\AntiSpamBundle\Validator\Constraints\BannedScripts;
-use Omines\AntiSpamBundle\Validator\Constraints\UrlCount;
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -34,19 +31,6 @@ class Profile
 {
     /** @var Constraint[] */
     private array $constraints;
-
-    /**
-     * Note that constraints are added in order of increasing cost/effectiveness balance so the resulting array
-     * can be used Sequentially efficiently. Iow: add new costly ones at the end, cheap ones up front.
-     *
-     * @var array<string, class-string>
-     */
-    public const CONFIG_KEY_TO_VALIDATOR_MAPPING = [
-        'banned_markup' => BannedMarkup::class,
-        'url_count' => UrlCount::class,
-        'banned_phrases' => BannedPhrases::class,
-        'banned_scripts' => BannedScripts::class,
-    ];
 
     /**
      * @param ProfileConfig $config
@@ -117,7 +101,7 @@ class Profile
     protected function buildTextTypeConstraints(): array
     {
         $this->constraints = [];
-        foreach (self::CONFIG_KEY_TO_VALIDATOR_MAPPING as $key => $class) {
+        foreach (AntiSpamExtension::CONFIG_KEY_TO_VALIDATOR_MAPPING as $key => $class) {
             if ($config = $this->config[$key] ?? null) {
                 /* @phpstan-ignore-next-line poor PHPStan goes bonkers over this */
                 $this->constraints[] = new $class(...$config);
