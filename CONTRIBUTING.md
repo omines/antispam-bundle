@@ -18,6 +18,7 @@ for functional tests and for actual visual development:
 ```sh
 bin/testsite
 ```
+Check the Symfony CLI output for IP and port information where the site is running.
 
 ## Update documentation
 
@@ -28,10 +29,11 @@ pip install mkdocs mkdocs-material mkdocs-material-extensions
 bin/serve-docs
 ```
 
-By default MkDocs binds to port 8000 and is thus accessible on http://127.0.0.1:8000. If you get a port conflict,
-append the `-a` parameter for custom binding:
+By default MkDocs binds to port 8000 and is thus accessible on http://127.0.0.1:8000. If you get a port
+conflict, append the `-a` parameter for custom binding:
 
 ```shell
 # Bind to localhost port 4000
 bin/serve-docs -a 127.0.0.1:4000
 ```
+On pushes to the `master` branch the docs are automatically released to https://omines.github.io/antispam-bundle/

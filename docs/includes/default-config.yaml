@@ -18,7 +18,6 @@ antispam:
         file:
             dir:                  '%kernel.project_dir%/var/quarantine'
             max_days:             14
-        email:                ~
 
     # A named list of different profiles used throughout your application
     profiles:

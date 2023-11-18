@@ -12,18 +12,10 @@
 
 You have found the Swiss Army Knife of battling form spam in your Symfony application!
 
-This bundle provides a ton of different mechanisms for detecting and stopping spammers,
-scammers and abusers using your forms for their nefarious purposes, and brings them
-all together in an easy to configure profile system.
+This bundle provides a ton of different mechanisms for detecting and stopping spammers, scammers and abusers
+using your forms for their nefarious purposes, and brings them all together in an easy to configure profile system.
 
 This bundle is compatible with PHP 8.1+ and Symfony 6.3 or later.
-
-## Development status
-
-**This bundle is in active development.** It is not unstable, releases follow semantic
-versioning, and you can safely upgrade without hitting breaking changes. But it is
-*not yet* feature complete, and the APIs may change before reaching the 1.0 milestone.
-[The major version is therefore 0 for now](https://omines.github.io/antispam-bundle/#why-not-a-stable-version-number).
 
 ## Documentation
 
@@ -31,8 +23,7 @@ Extensive documentation can be found at https://omines.github.io/antispam-bundle
 
 ## What does it do
 
-This bundle provides you with a ton of methods to easily combat spam through tested and
-proven methods:
+This bundle provides you with a ton of methods to easily combat spam through tested and proven methods:
 
 - *Honeypot*: hidden field to bait spammers
 - *Timer*: Rejects forms being submitted too fast or too slow
@@ -44,6 +35,14 @@ proven methods:
 All components can either be used standalone or deployed through easily configured antispam profiles.
 
 [Read more in the documentation](https://omines.github.io/antispam-bundle/#features).
+
+## Development
+
+This bundle is in active development, but its API is currently considered stable. Releases follow semantic
+versioning, and you can safely upgrade without hitting breaking changes.
+
+The bundle is *not* feature complete, and its API may change before reaching version 1.0.
+[The major version is therefore 0 for now](https://omines.github.io/antispam-bundle/#why-not-a-stable-version-number).
 
 ## Contributing
 

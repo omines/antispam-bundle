@@ -31,8 +31,8 @@ nav:
   - About: index.md
   - Quickstart: quickstart.md
   - Features: features.md
-  - Configuration: configuration.md
   - Advanced Usage: advanced.md
+  - Configuration Reference: configuration.md
   - Form Types Reference:
       - Honeypot: form/honeypot.md
       - Submit Timer: form/submit_timer.md
@@ -40,7 +40,6 @@ nav:
       - Banned Markup: validator/banned_markup.md
       - Banned Phrases: validator/banned_phrases.md
       - Banned Scripts: validator/banned_scripts.md
-#      - Profile: validator/profile.md
       - URL Count: validator/url_count.md
 
 markdown_extensions:

@@ -72,15 +72,16 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
-                    ->scalarNode('email')
-                        ->validate()->always(function ($email) {
-                            if (!empty($email) && false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                                throw new InvalidConfigurationException(sprintf('%s is not a valid email address', $email));
-                            }
-
-                            return $email;
-                        })->end()
-                    ->end()
+// @todo not implemented
+//                    ->scalarNode('email')
+//                        ->validate()->always(function ($email) {
+//                            if (!empty($email) && false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+//                                throw new InvalidConfigurationException(sprintf('%s is not a valid email address', $email));
+//                            }
+//
+//                            return $email;
+//                        })->end()
+//                    ->end()
                 ->end()
             ->end()
         ;
