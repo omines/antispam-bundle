@@ -21,7 +21,6 @@
         "symfony/clock": "^6.3|^7.0",
         "symfony/form": "^6.3|^7.0",
         "symfony/framework-bundle": "^6.3|^7.0",
-        "symfony/options-resolver": "^6.3|^7.0",
         "symfony/translation": "^6.3|^7.0",
         "symfony/twig-bridge": "^6.3|^7.0",
         "symfony/validator": "^6.3|^7.0",

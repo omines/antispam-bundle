@@ -10,4 +10,4 @@ services:
         channel: 'antispam'
 
   Omines\AntiSpamBundle\:
-    resource: '../src/{Command,EventSubscriber,Form,Type,Validator}'
+    resource: '../src'
