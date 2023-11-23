@@ -1,0 +1,33 @@
+form:
+  stealthed: 'Le formulaire soumis n'a pas pu être traité. Veuillez nous contacter si le problème persiste.'
+
+  honeypot:
+    not_empty: 'Le champ de pot de miel devait être vide mais ne l'est pas.'
+  timer:
+    corrupted: 'Des raisons techniques ont empêché le traitement du formulaire.'
+    mismatch_ip: 'Votre adresse IP a changé pendant la soumission du formulaire. Veuillez réessayer.'
+    too_fast: 'Le formulaire a été soumis de manière déraisonnablement rapide. Veuillez patienter un peu avant de réessayer.'
+    too_slow: 'Le formulaire a été soumis de manière déraisonnablement lente. Veuillez recharger la page et réessayer.'
+
+validator:
+  stealthed: 'La valeur soumise n'a pas pu être traitée. Veuillez nous contacter si le problème persiste.'
+
+  banned_markup:
+    html: 'La valeur contient une balise HTML, ce qui n'est pas autorisé.'
+    bbcode: 'La valeur contient une balise BBCode, ce qui n'est pas autorisé.'
+
+  banned_phrases:
+    phrase_found: 'La valeur contient la phrase non autorisée "{phrase}".'
+
+  banned_scripts:
+    not_allowed: 'La valeur contient des caractères de scripts non autorisés ({scripts}).'
+    percentage_exceeded: 'La valeur contient {percentage}% de caractères de scripts non autorisés ({scripts}), alors que seuls {max}% sont autorisés.'
+    characters_exceeded: 'La valeur contient {count} caractères de scripts non autorisés ({scripts}), alors que seuls {max} sont autorisés.'
+
+  url_count:
+    exceeded: >-
+      {count, plural,
+        =1    {La valeur contient une URL. Ceci n'est pas autorisé.}
+        other {La valeur contient # URLs. Il devrait y en avoir au maximum {limit}.}
+      }
+    duplicates: 'La valeur contient l'URL {url} {count} fois, ce qui dépasse la limite autorisée de {limit}.'
