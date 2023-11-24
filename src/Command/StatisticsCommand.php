@@ -46,7 +46,7 @@ EOF
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (null === ($config = $this->antiSpam->getQuarantineConfig()['file'])) {
             $output->writeln('<error>The file quarantine is disabled in your configuration.</error>');
