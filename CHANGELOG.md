@@ -3,6 +3,8 @@ All notable changes to `omines\antispam-bundle` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.1.5] - 2023-11-24
 ### Added
  - New `FORM_PROCESSED` event allows processing ham as well as spam
  - New `quarantine.only_spam` configuration enables also storing ham in quarantine
@@ -46,7 +48,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 0.1.0 - 2023-11-10
 First public release.
 
-[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.4...master
+[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.5...master
+[0.1.5]: https://github.com/omines/antispam-bundle/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/omines/antispam-bundle/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/omines/antispam-bundle/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/omines/antispam-bundle/compare/0.1.1...0.1.2
