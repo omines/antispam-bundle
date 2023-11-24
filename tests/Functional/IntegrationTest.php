@@ -283,10 +283,35 @@ class IntegrationTest extends WebTestCase
 
     public function testProfileTest3(): void
     {
+        static::mockTime('2023-11-17 12:34:56.123');
+
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/test3');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('#basic_form_email1', 'Duplicate field name should add counter');
+
+        $formData = [
+            'basic_form[name]' => 'Priya Kaila',
+            'basic_form[email]' => 'foo@example.org',
+            'basic_form[message]' => 'Buy some VIAGRA',
+        ];
+
+        // Test millisecond timings
+        static::mockTime('+1115 milliseconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler, ['could not be processed']);
+
+        static::mockTime('+1234 milliseconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler);
+
+        static::mockTime('+68345 milliseconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler);
+
+        static::mockTime('+68456 milliseconds');
+        $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
+        $this->expectFormErrors($crawler, ['could not be processed']);
     }
 
     public function testEmbeddedFormsWithConflictingProfiles(): void

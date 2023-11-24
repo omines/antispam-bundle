@@ -176,11 +176,11 @@ class BundleTest extends TestCase
             ],
             'min timer not an int' => [
                 ['timer' => ['min' => '0']],
-                'Expected "int"',
+                'Expected "float"',
             ],
             'max timer not an int' => [
                 ['timer' => ['max' => '60']],
-                'Expected "int"',
+                'Expected "float"',
             ],
             'honeypot attributes should not be empty' => [
                 ['honeypot' => ['field' => 'bar', 'attributes' => []]],

@@ -22,3 +22,7 @@ antispam:
         field: poohbear
         attributes:
           class: "d-none"
+
+      timer:
+        min: 6.84
+        max: 68.4

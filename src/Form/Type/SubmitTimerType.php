@@ -48,8 +48,8 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
             'secret' => $this->secret,
         ]);
 
-        $resolver->setAllowedTypes('min', 'int');
-        $resolver->setAllowedTypes('max', 'int');
+        $resolver->setAllowedTypes('min', ['float', 'int']);
+        $resolver->setAllowedTypes('max', ['float', 'int']);
         $resolver->setAllowedTypes('secret', 'string');
     }
 
@@ -80,7 +80,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
                     $this->createFormError($form, 'form.timer.mismatch_ip', cause: "The client IP address changed from $ip to $currentIp");
                 }
 
-                $age = $this->now()->getTimestamp() - intval($ts);
+                $age = $this->getTimestampMilliseconds() - floatval($ts);
                 if ($age < $options['min']) {
                     $this->createFormError($form, 'form.timer.too_fast', cause: "Form was submitted after $age seconds");
                 } elseif ($age > $options['max']) {
@@ -96,7 +96,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $ip = $this->requestStack->getMainRequest()?->getClientIp() ?? self::NO_IP;
-        $ts = $this->now()->getTimestamp();
+        $ts = $this->getTimestampMilliseconds();
         $secret = $options['secret'];
         $view->vars['value'] = \base64_encode(implode('|', [$ip, $ts, hash('sha256', "$ts|$ip|$secret")]));
     }
@@ -104,5 +104,12 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
     public function getBlockPrefix(): string
     {
         return 'antispam_submit_timer';
+    }
+
+    private function getTimestampMilliseconds(): float
+    {
+        $now = $this->now();
+
+        return $now->getTimestamp() + intval($now->format('v')) / 1000;
     }
 }

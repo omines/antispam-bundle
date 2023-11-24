@@ -41,7 +41,9 @@ antispam:
           class: "d-none"
 
     test3:
-      timer: ~
+      timer:
+        min: 1.2
+        max: 68.4
       honeypot: email
 
     stealthy_empty:

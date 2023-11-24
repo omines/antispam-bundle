@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
  - New `FORM_PROCESSED` event allows processing ham as well as spam
  - New `quarantine.only_spam` configuration enables also storing ham in quarantine
+ - Add French translation (#14) (@Huluti)
+
+### Changed
+ - Submit Timer now uses millisecond precision and configuration (#13)
 
 ## [0.1.4] - 2023-11-17
 ### Added

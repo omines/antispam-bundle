@@ -45,8 +45,8 @@ class SubmitTimerTypeTest extends KernelTestCase
     public static function provideSubmitTimerConfigurations(): array
     {
         return [
-            'min not an int' => [['min' => 'foo'], 'expected to be of type "int"'],
-            'max not an int' => [['max' => 'bar'], 'expected to be of type "int"'],
+            'min not a float' => [['min' => 'foo'], 'expected to be of type "float"'],
+            'max not a float' => [['max' => 'bar'], 'expected to be of type "float"'],
             'secret not a string' => [['secret' => 684], 'expected to be of type "string"'],
         ];
     }

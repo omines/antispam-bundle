@@ -72,16 +72,6 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
-// @todo not implemented
-//                    ->scalarNode('email')
-//                        ->validate()->always(function ($email) {
-//                            if (!empty($email) && false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
-//                                throw new InvalidConfigurationException(sprintf('%s is not a valid email address', $email));
-//                            }
-//
-//                            return $email;
-//                        })->end()
-//                    ->end()
                 ->end()
             ->end()
         ;
@@ -227,8 +217,8 @@ class Configuration implements ConfigurationInterface
                         ->info('Base name of the injected field')
                         ->defaultValue('_validation')
                     ->end()
-                    ->integerNode('min')->defaultValue(SubmitTimerType::DEFAULT_MIN)->min(0)->end()
-                    ->integerNode('max')->defaultValue(SubmitTimerType::DEFAULT_MAX)->min(60)->end()
+                    ->floatNode('min')->defaultValue(SubmitTimerType::DEFAULT_MIN)->min(0)->end()
+                    ->floatNode('max')->defaultValue(SubmitTimerType::DEFAULT_MAX)->min(60)->end()
                 ->end()
             ->end()
         ;
