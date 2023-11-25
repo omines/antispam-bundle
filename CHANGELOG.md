@@ -3,6 +3,8 @@ All notable changes to `omines\antispam-bundle` will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+ - Update French Translation antispam+intl-icu.fr.yaml (#15) (@celinora)
 
 ## [0.1.5] - 2023-11-24
 ### Added
