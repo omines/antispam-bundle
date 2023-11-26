@@ -15,9 +15,11 @@ namespace Tests\Unit;
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LocalizationTest extends KernelTestCase
@@ -70,5 +72,24 @@ class LocalizationTest extends KernelTestCase
             }
         }
         $this->assertEmpty($errors, implode("\n", $errors));
+    }
+
+    public static function provideTranslationFiles(): \Generator
+    {
+        $finder = (new Finder())
+            ->files()
+            ->in(dirname(dirname(__DIR__)) . '/translations')
+            ->name('*.yaml');
+        foreach ($finder as $result) {
+            $path = $result->getPathname();
+
+            yield $path => [$path];
+        }
+    }
+
+    #[DataProvider('provideTranslationFiles')]
+    public function testLocalizationFilesAreValid(string $path): void
+    {
+        $this->assertIsArray(Yaml::parseFile($path));
     }
 }
