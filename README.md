@@ -46,7 +46,7 @@ The bundle is *not* feature complete, and its API may change before reaching ver
 
 ## Contributing
 
-Please see [CONTRIBUTING.md](https://github.com/omines/antispam-bundle/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](https://github.com/omines/antispam-bundle/blob/master/.github/CONTRIBUTING.md) for details.
 
 ## Legal
 
