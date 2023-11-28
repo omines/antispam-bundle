@@ -22,10 +22,14 @@ Check the Symfony CLI output for IP and port information where the site is runni
 
 ## Update documentation
 
-To serve the MkDocs site in `/docs` run:
+To serve the MkDocs site in `/docs` install dependencies:
 
 ```sh
 pip install mkdocs mkdocs-material mkdocs-material-extensions
+
+Then serve the docs with live updates:
+
+```sh
 bin/serve-docs
 ```
 
