@@ -16,14 +16,16 @@ use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Symfony\Component\Form\FormError;
 
 /**
- * @phpstan-type SerializedItem array{timestamp: string}
+ * @phpstan-type SerializedError array{message: string, cause: ?string, field: ?string}
+ * @phpstan-type SerializedRequest array{uri: string, client_ip: ?string, referrer: ?string, user_agent: ?string}
+ * @phpstan-type QuarantineArray array{timestamp: string, is_spam: bool, data: mixed, antispam: SerializedError[], other: SerializedError[], request: ?SerializedRequest}
  */
 final class QuarantineItem
 {
-    /** @var SerializedItem $data */
-    private array $data;
-
-    private function __construct()
+    /**
+     * @param QuarantineArray $data
+     */
+    private function __construct(private readonly array $data)
     {
     }
 
@@ -32,51 +34,49 @@ final class QuarantineItem
         return new \DateTimeImmutable($this->data['timestamp']);
     }
 
+    /**
+     * @param QuarantineArray $array
+     */
+    public static function fromArray(array $array): self
+    {
+        return new self($array);
+    }
+
     public static function fromResult(AntiSpamFormResult $result): self
     {
-        $item = new self();
-        $item->data = [
+        return new self([
             'timestamp' => $result->getTimestamp()->format('c'),
             'is_spam' => $result->hasAntiSpamErrors(),
-            'values' => $result->getForm()->getData(),
-            'antispam' => array_map(fn (FormError $error) => [
-                'message' => $error->getMessage(),
-                'cause' => $error->getCause(),
-                'field' => $error->getOrigin()?->getName(),
-            ], $result->getAntiSpamErrors()),
-            'other' => array_map(fn (FormError $error) => [
-                'message' => $error->getMessage(),
-                'field' => $error->getOrigin()?->getName(),
-            ], $result->getFormErrors()),
-        ];
-
-        if (null !== ($request = $result->getRequest())) {
-            $item->data['request'] = [
+            'data' => $result->getForm()->getData(),
+            'antispam' => self::serializeFormErrors($result->getAntiSpamErrors()),
+            'other' => self::serializeFormErrors($result->getFormErrors()),
+            'request' => (null === ($request = $result->getRequest())) ? null : [
                 'uri' => $request->getRequestUri(),
                 'client_ip' => $request->getClientIp(),
                 'referrer' => $request->headers->get('referer'),
                 'user_agent' => $request->headers->get('user-agent'),
-            ];
-        } else {
-            $item->data['request'] = null;
-        }
-
-        return $item;
+            ],
+        ]);
     }
 
     /**
-     * @return SerializedItem
+     * @param FormError[] $errors
+     * @return SerializedError[]
      */
-    public function __serialize(): array
+    private static function serializeFormErrors(array $errors): array
+    {
+        return array_map(fn (FormError $error) => [
+            'message' => $error->getMessage(),
+            'cause' => is_string($error->getCause()) ? $error->getCause() : null,
+            'field' => $error->getOrigin()?->getName(),
+        ], $errors);
+    }
+
+    /**
+     * @return QuarantineArray
+     */
+    public function toArray(): array
     {
         return $this->data;
-    }
-
-    /**
-     * @param SerializedItem $data
-     */
-    public function __unserialize(array $data): void
-    {
-        $this->data = $data;
     }
 }

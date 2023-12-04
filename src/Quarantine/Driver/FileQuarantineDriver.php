@@ -43,12 +43,12 @@ class FileQuarantineDriver implements QuarantineDriverInterface
     {
         $ts = $item->getTimestamp();
 
-        $filename = sprintf('%s.yaml', $ts->format('Y-m-d'));
-        $path = Path::join($this->dir, $filename);
+        $filename = sprintf('%s.yaml', $ts->format('H-i-s'));
+        $path = Path::join($this->dir, $ts->format('Y-m-d'), $filename);
 
         $fs = new Filesystem();
         $fs->appendToFile($path, sprintf("#\n# ----- %s -----\n%s", $ts->format('c'),
-            Yaml::dump([(array) $item], 5, flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK)));
+            Yaml::dump($item->toArray(), 5, flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK)));
     }
 
     public function getMaxDays(): int

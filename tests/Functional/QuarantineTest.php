@@ -10,11 +10,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Yaml;
@@ -24,14 +25,14 @@ class QuarantineTest extends KernelTestCase
 {
     use ClockSensitiveTrait;
 
-    public function testQuarantineIsGenerated(): void
+    public function testFileQuarantine(): void
     {
         self::mockTime('2021-03-20 12:00:00');
 
         $fs = new Filesystem();
         $fs->remove($quarantinePath = dirname(__DIR__) . '/Fixture/var/quarantine');
-        $quarantinePath .= '/2021-03-20.yaml';
 
+        $quarantinePath = Path::join($quarantinePath, '2021-03-20', '12-00-10.yaml');
         $this->assertFileDoesNotExist($quarantinePath);
 
         $formFactory = static::getContainer()->get(FormFactoryInterface::class);
@@ -57,10 +58,23 @@ class QuarantineTest extends KernelTestCase
         $this->assertFileExists($quarantinePath);
         $data = Yaml::parseFile($quarantinePath);
 
-        /*
-         * @todo expand more about the content of the tests
-         */
-        $this->assertIsArray($data);
-        $this->assertCount(1, $data, 'There should be a single message in quarantine');
+        $this->assertSame([
+            'timestamp' => '2021-03-20T12:00:10+00:00',
+            'is_spam' => true,
+            'data' => [
+                'name' => 'John Doe',
+                'email' => 'foo@example.org',
+                'message' => 'Message for testing',
+            ],
+            'antispam' => [
+                [
+                    'message' => 'Technical reasons prevented processing the form.',
+                    'cause' => 'Data could not be decoded',
+                    'field' => '__custom_timer_field',
+                ],
+            ],
+            'other' => [],
+            'request' => null,
+        ], $data);
     }
 }
