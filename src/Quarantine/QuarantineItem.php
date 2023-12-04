@@ -13,24 +13,53 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle\Quarantine;
 
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
+use Symfony\Component\Form\FormError;
 
 /**
  * @phpstan-type SerializedItem array{timestamp: string}
  */
-class QuarantineItem
+final class QuarantineItem
 {
-    public function __construct(private readonly \DateTimeInterface $timestamp)
+    /** @var SerializedItem $data */
+    private array $data;
+
+    private function __construct()
     {
     }
 
-    public function getTimestamp(): \DateTimeInterface
+    public function getTimestamp(): \DateTimeImmutable
     {
-        return $this->timestamp;
+        return new \DateTimeImmutable($this->data['timestamp']);
     }
 
     public static function fromResult(AntiSpamFormResult $result): self
     {
-        $item = new self($result->getTimestamp());
+        $item = new self();
+        $item->data = [
+            'timestamp' => $result->getTimestamp()->format('c'),
+            'is_spam' => $result->hasAntiSpamErrors(),
+            'values' => $result->getForm()->getData(),
+            'antispam' => array_map(fn (FormError $error) => [
+                'message' => $error->getMessage(),
+                'cause' => $error->getCause(),
+                'field' => $error->getOrigin()?->getName(),
+            ], $result->getAntiSpamErrors()),
+            'other' => array_map(fn (FormError $error) => [
+                'message' => $error->getMessage(),
+                'field' => $error->getOrigin()?->getName(),
+            ], $result->getFormErrors()),
+        ];
+
+        if (null !== ($request = $result->getRequest())) {
+            $item->data['request'] = [
+                'uri' => $request->getRequestUri(),
+                'client_ip' => $request->getClientIp(),
+                'referrer' => $request->headers->get('referer'),
+                'user_agent' => $request->headers->get('user-agent'),
+            ];
+        } else {
+            $item->data['request'] = null;
+        }
 
         return $item;
     }
@@ -40,9 +69,7 @@ class QuarantineItem
      */
     public function __serialize(): array
     {
-        return [
-            'timestamp' => $this->timestamp->format('c'),
-        ];
+        return $this->data;
     }
 
     /**
@@ -50,6 +77,6 @@ class QuarantineItem
      */
     public function __unserialize(array $data): void
     {
-        $this->timestamp = new \DateTimeImmutable($data['timestamp']);
+        $this->data = $data;
     }
 }
