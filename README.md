@@ -38,8 +38,9 @@ All components can either be used standalone or deployed through easily configur
 
 ## Development
 
-This bundle is in active development, but its API is currently considered stable. Releases follow semantic
-versioning, and you can safely upgrade without hitting breaking changes.
+This bundle is in active development, but most of its current API is considered stable. Releases follow
+semantic versioning, and you can therefore safely upgrade without hitting breaking changes when using
+proper caret constraints in Composer.
 
 The bundle is *not* feature complete, and its API may change before reaching version 1.0.
 [The major version is therefore 0 for now](https://omines.github.io/antispam-bundle/#why-not-a-stable-version-number).

@@ -19,9 +19,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Contracts\Service\ResetInterface;
 
 /**
- * @phpstan-type FileQuarantineOptions array{dir: string, max_days: int}
- * @phpstan-type QuarantineOptions array{file: ?FileQuarantineOptions, only_spam: bool}
- * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, enabled: bool, quarantine: QuarantineOptions}
+ * @phpstan-type GlobalOptions array{passive: bool, stealth: bool, enabled: bool}
  */
 class AntiSpam implements ResetInterface
 {
@@ -59,14 +57,6 @@ class AntiSpam implements ResetInterface
     public function enable(): void
     {
         $this->enabled = true;
-    }
-
-    /**
-     * @return QuarantineOptions
-     */
-    public function getQuarantineConfig(): array
-    {
-        return $this->options['quarantine'];
     }
 
     public function getPassive(): bool

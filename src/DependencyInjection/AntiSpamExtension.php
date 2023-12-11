@@ -16,6 +16,7 @@ use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
 use Omines\AntiSpamBundle\Profile;
+use Omines\AntiSpamBundle\Quarantine\Driver\QuarantineDriverInterface;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedScripts;
@@ -30,7 +31,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @infection-ignore-all As infection cannot clear caches reliably mutating the extension has no effect
  */
-class AntiSpamExtension extends Extension implements PrependExtensionInterface
+final class AntiSpamExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * Note that constraints are added in order of increasing cost/effectiveness balance so the resulting array
@@ -77,7 +78,21 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
             ;
         }
 
-        unset($mergedConfig['profiles']);
+        $quarantineConfig = $mergedConfig['quarantine'];
+        $driver = $quarantineConfig['driver'];
+        $driverOptions = $quarantineConfig[$driver] ?? $quarantineConfig['options'] ?? [];
+        $alias = sprintf('antispam.quarantine.%s', $driver);
+        if ($container->hasAlias($alias)) {
+            $alias = $container->getAlias($alias);
+            $definition = $container->getDefinition((string) $alias);
+            $container->setAlias(QuarantineDriverInterface::class, $alias);
+        } else {
+            $definition = $container->getDefinition($driver);
+            $container->setAlias(QuarantineDriverInterface::class, $driver);
+        }
+        $definition->addMethodCall('setOptions', [$driverOptions]);
+
+        unset($mergedConfig['profiles'], $mergedConfig['quarantine']);
         $container
             ->register(AntiSpam::class, AntiSpam::class)
             ->setArgument(1, $mergedConfig)
