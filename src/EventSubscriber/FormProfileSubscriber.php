@@ -24,6 +24,7 @@ use Omines\AntiSpamBundle\Form\Type\SubmitTimerType;
 use Omines\AntiSpamBundle\Profile;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Event\PostSubmitEvent;
@@ -40,6 +41,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Autoconfigure(shared: false)]
 class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInterface
 {
+    use ClockAwareTrait;
     use LoggerAwareTrait;
 
     private Profile $profile;
@@ -125,7 +127,7 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
         $form = $event->getForm();
         $request = $this->requestStack->getMainRequest();
 
-        $result = new AntiSpamFormResult($form, $request, $this->profile);
+        $result = new AntiSpamFormResult($form, $this->now(), $request, $this->profile);
         $this->eventDispatcher->dispatch(new FormProcessedEvent($result), AntiSpamEvents::FORM_PROCESSED);
         AntiSpam::setLastResult($result);
 

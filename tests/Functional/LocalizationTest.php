@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Functional;
 
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use PHPUnit\Framework\Attributes\DataProvider;

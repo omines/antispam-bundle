@@ -27,14 +27,14 @@ class FormProcessingTest extends KernelTestCase
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('submitted form');
-        new AntiSpamFormResult($factory->create(KitchenSinkForm::class));
+        new AntiSpamFormResult($factory->create(KitchenSinkForm::class), new \DateTimeImmutable());
     }
 
     public function testFormsMustImplementClearableErrorsInterface(): void
     {
         $form = $this->createMock(FormInterface::class);
         $form->expects($this->once())->method('isSubmitted')->willReturn(true);
-        $result = new AntiSpamFormResult($form);
+        $result = new AntiSpamFormResult($form, new \DateTimeImmutable());
         $this->assertSame($form, $result->getForm());
     }
 }

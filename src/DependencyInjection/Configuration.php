@@ -20,7 +20,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -56,9 +56,11 @@ class Configuration implements ConfigurationInterface
                 ->info('Quarantine settings determine what to do with caught spam')
                 ->addDefaultsIfNotSet()
                 ->children()
-                    ->booleanNode('only_spam')
-                        ->info('When false ham submits are also put in the quarantine, allowing you to analyze false negatives')
-                        ->defaultTrue()
+                    ->scalarNode('driver')
+                        ->info('Either a service ID to a custom quarantine driver or the alias of one of the bundled drivers')
+                        ->defaultValue('file')
+                        ->treatNullLike('null')
+                        ->isRequired()
                     ->end()
                     ->arrayNode('file')
                         ->addDefaultsIfNotSet()
@@ -194,7 +196,7 @@ class Configuration implements ConfigurationInterface
                             ->validate()->always(function (array $v) {
                                 foreach ($v as $key => $value) {
                                     if (!is_string($key) || !is_string($value)) {
-                                        throw new InvalidConfigurationException('Honeypot attributes must be an array with string keys and values');
+                                        throw new InvalidConfigurationException('Honeypot attributes element must be an array with string keys and values');
                                     }
                                 }
 

@@ -3,7 +3,7 @@ stealth: false
 enabled: true
 
 quarantine:
-  only_spam: true
+  driver: file
 
   file:
     dir: "%kernel.project_dir%/var/quarantine"
