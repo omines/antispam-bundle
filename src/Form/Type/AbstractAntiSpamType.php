@@ -49,7 +49,7 @@ abstract class AbstractAntiSpamType extends AbstractType
     /**
      * @param array<string, mixed> $parameters
      */
-    protected function createFormError(FormInterface $form, string $template, array $parameters = [], string $cause = null): void
+    protected function createFormError(FormInterface $form, string $template, array $parameters = [], ?string $cause = null): void
     {
         $stealth = (null !== ($profile = self::getProfile($form))) ? $profile->getStealth() : $this->antiSpam->getStealth();
         if ($stealth) {

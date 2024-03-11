@@ -18,9 +18,9 @@ class BannedMarkup extends AntiSpamConstraint
     public function __construct(
         public bool $html = true,
         public bool $bbcode = true,
-        bool $passive = null,
-        bool $stealth = null,
-        array $groups = null,
+        ?bool $passive = null,
+        ?bool $stealth = null,
+        ?array $groups = null,
         mixed $payload = null,
     ) {
         parent::__construct($passive, $stealth, $groups, $payload);

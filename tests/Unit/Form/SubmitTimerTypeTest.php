@@ -27,7 +27,7 @@ class SubmitTimerTypeTest extends KernelTestCase
      * @param array<string, mixed> $options
      */
     #[DataProvider('provideSubmitTimerConfigurations')]
-    public function testSubmitTimerConfiguration(array $options, string $expectedError = null): void
+    public function testSubmitTimerConfiguration(array $options, ?string $expectedError = null): void
     {
         $factory = static::getContainer()->get(FormFactoryInterface::class);
         $this->assertInstanceOf(FormFactoryInterface::class, $factory);

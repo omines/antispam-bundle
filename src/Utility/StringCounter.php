@@ -40,7 +40,7 @@ class StringCounter
     /**
      * @return array{string, int}[]
      */
-    public function getRanking(int $max = null): array
+    public function getRanking(?int $max = null): array
     {
         arsort($this->scores, SORT_NUMERIC);
 

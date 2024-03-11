@@ -29,9 +29,9 @@ class BannedPhrases extends AntiSpamConstraint
     #[HasNamedArguments]
     public function __construct(
         string|array $phrases,
-        bool $passive = null,
-        bool $stealth = null,
-        array $groups = null,
+        ?bool $passive = null,
+        ?bool $stealth = null,
+        ?array $groups = null,
         mixed $payload = null)
     {
         $this->phrases = is_string($phrases) ? [$phrases] : $phrases;

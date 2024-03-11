@@ -72,7 +72,7 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
     }
 
     #[DataProvider('provideBannedMarkupMessages')]
-    public function testBannedMarkupValidation(string $message, string $expectedError = null): void
+    public function testBannedMarkupValidation(string $message, ?string $expectedError = null): void
     {
         static $constraint = new BannedMarkup();
 

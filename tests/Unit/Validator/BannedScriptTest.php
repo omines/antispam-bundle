@@ -125,7 +125,7 @@ class BannedScriptTest extends ConstraintValidatorTestCase
     }
 
     #[DataProvider('provideBannedScripts')]
-    public function testBannedScriptValidation(BannedScripts $constraint, string $message, string $expectedError = null): void
+    public function testBannedScriptValidation(BannedScripts $constraint, string $message, ?string $expectedError = null): void
     {
         $errors = $this->validate($message, $constraint);
         if (null === $expectedError) {

@@ -31,9 +31,9 @@ class BannedScripts extends AntiSpamConstraint
         Script|array $scripts,
         public int $maxPercentage = 0,
         public ?int $maxCharacters = null,
-        bool $passive = null,
-        bool $stealth = null,
-        array $groups = null,
+        ?bool $passive = null,
+        ?bool $stealth = null,
+        ?array $groups = null,
         mixed $payload = null)
     {
         $this->scripts = is_array($scripts) ? $scripts : [$scripts];

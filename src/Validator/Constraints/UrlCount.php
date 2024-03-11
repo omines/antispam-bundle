@@ -21,9 +21,9 @@ class UrlCount extends AntiSpamConstraint
     public function __construct(
         public ?int $max = 0,
         public ?int $maxIdentical = null,
-        bool $passive = null,
-        bool $stealth = null,
-        array $groups = null,
+        ?bool $passive = null,
+        ?bool $stealth = null,
+        ?array $groups = null,
         mixed $payload = null,
     ) {
         parent::__construct($passive, $stealth, $groups, $payload);

@@ -138,7 +138,7 @@ class BundleTest extends TestCase
      * @param array<string, mixed> $input
      */
     #[DataProvider('provideValidationTests')]
-    public function testConfigurationValidation(array $input, string $expectedError = null): void
+    public function testConfigurationValidation(array $input, ?string $expectedError = null): void
     {
         $wrapped = [
             'antispam' => [

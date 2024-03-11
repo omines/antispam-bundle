@@ -21,7 +21,7 @@ abstract class AntiSpamConstraint extends Constraint
     protected function __construct(
         public readonly ?bool $passive = null,
         public readonly ?bool $stealth = null,
-        array $groups = null,
+        ?array $groups = null,
         mixed $payload = null,
     ) {
         parent::__construct([], $groups, $payload);
