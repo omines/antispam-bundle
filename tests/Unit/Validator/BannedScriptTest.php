@@ -162,7 +162,7 @@ class BannedScriptTest extends ConstraintValidatorTestCase
             ],
             'partial Cyrillic text' => [
                 new BannedScripts(Script::Cyrillic), self::SAMPLE_LATIN . self::SAMPLE_CYRILLIC,
-                    'contains characters of disallowed scripts (Cyrillic)',
+                'contains characters of disallowed scripts (Cyrillic)',
             ],
             'sufficiently high percentage' => [
                 new BannedScripts(Script::Hebrew, maxPercentage: 50),
