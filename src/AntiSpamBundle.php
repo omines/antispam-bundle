@@ -28,7 +28,7 @@ class AntiSpamBundle extends AbstractBundle
         return new AntiSpamExtension();
     }
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new AddEventAliasesPass(AntiSpamEvents::ALIASES));
     }
