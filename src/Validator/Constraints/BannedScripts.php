@@ -24,11 +24,11 @@ class BannedScripts extends AntiSpamConstraint
     private string $characterClass;
 
     /**
-     * @param Script|Script[] $scripts
+     * @param string|Script|array<string|Script> $scripts
      */
     #[HasNamedArguments]
     public function __construct(
-        Script|array $scripts,
+        Script|string|array $scripts,
         public int $maxPercentage = 0,
         public ?int $maxCharacters = null,
         ?bool $passive = null,
@@ -36,7 +36,7 @@ class BannedScripts extends AntiSpamConstraint
         ?array $groups = null,
         mixed $payload = null)
     {
-        $this->scripts = is_array($scripts) ? $scripts : [$scripts];
+        $this->scripts = array_map(fn ($v) => is_string($v) ? Script::from($v) : $v, is_array($scripts) ? $scripts : [$scripts]);
 
         parent::__construct($passive, $stealth, $groups, $payload);
     }
@@ -44,7 +44,6 @@ class BannedScripts extends AntiSpamConstraint
     public function getCharacterClass(): string
     {
         if (!isset($this->characterClass)) {
-            $this->scripts = array_map(fn (Script|string $v) => is_string($v) ? Script::from($v) : $v, $this->scripts);
             $this->characterClass = sprintf('[%s]', implode('', array_map(fn (Script $script) => sprintf('\\p{%s}', $script->value), $this->scripts)));
         }
 
