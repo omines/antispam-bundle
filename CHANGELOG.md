@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.7] = 2024-05-27
+
+Maintenance release, upgrade PHPunit, Infection, freeform BannedScript constructor. 
+
 ## [0.1.6] - 2023-11-27
 ### Changed
  - Update French Translation antispam+intl-icu.fr.yaml (#15) (@celinora)
@@ -55,7 +59,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 0.1.0 - 2023-11-10
 First public release.
 
-[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.6...master
+[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.7...master
+[0.1.6]: https://github.com/omines/antispam-bundle/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/omines/antispam-bundle/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/omines/antispam-bundle/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/omines/antispam-bundle/compare/0.1.3...0.1.4
