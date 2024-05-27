@@ -60,7 +60,7 @@ Maintenance release, upgrade PHPunit, Infection, freeform BannedScript construct
 First public release.
 
 [Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.7...master
-[0.1.6]: https://github.com/omines/antispam-bundle/compare/0.1.6...0.1.7
+[0.1.7]: https://github.com/omines/antispam-bundle/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/omines/antispam-bundle/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/omines/antispam-bundle/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/omines/antispam-bundle/compare/0.1.3...0.1.4
