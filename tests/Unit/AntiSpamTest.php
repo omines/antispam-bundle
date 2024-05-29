@@ -16,6 +16,9 @@ use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\Exception\InvalidProfileException;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Profile;
+use Omines\AntiSpamBundle\Quarantine\Driver\FileQuarantineDriver;
+use Omines\AntiSpamBundle\Quarantine\Driver\QuarantineDriverInterface;
+use Omines\AntiSpamBundle\Quarantine\Quarantine;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -63,11 +66,13 @@ class AntiSpamTest extends KernelTestCase
         $antispam->enable();
         $this->assertTrue($antispam->isEnabled());
 
-        $config = $antispam->getQuarantineConfig();
-        $this->assertIsArray($config['file']);
-        $this->assertSame(14, $config['file']['max_days']);
-        $this->assertSame(dirname(__DIR__) . '/Fixture/var/quarantine', $config['file']['dir']);
-        $this->assertArrayNotHasKey('email', $config);
+        $quarantine = static::getContainer()->get(Quarantine::class);
+        $this->assertInstanceOf(Quarantine::class, $quarantine);
+
+        $driver = static::getContainer()->get(QuarantineDriverInterface::class);
+        $this->assertInstanceOf(FileQuarantineDriver::class, $driver);
+        $this->assertSame(14, $driver->getMaxDays());
+        $this->assertSame(dirname(__DIR__) . '/Fixture/var/quarantine', $driver->getDir());
     }
 
     public function testUnknownProfileThrows(): void
