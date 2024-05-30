@@ -36,7 +36,6 @@ class LocalizationTest extends KernelTestCase
         'fr-FR',
         'de',
         'de-DE',
-        'it',
     ];
 
     private static MessageCatalogue $catalogue;

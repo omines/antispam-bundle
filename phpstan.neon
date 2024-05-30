@@ -1,7 +1,8 @@
 parameters:
     level: max
     paths:
-        - src
-        - tests/Fixture/src
-        - tests/Functional
-        - tests/Unit
+    - src
+    - tests
+    excludePaths:
+    - tests/Fixture/var
+    - tests/Fixture/vendor
