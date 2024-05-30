@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.1.7] = 2024-05-27
+## [0.1.7] - 2024-05-27
 
 Maintenance release, upgrade PHPunit, Infection, freeform BannedScript constructor. 
 
