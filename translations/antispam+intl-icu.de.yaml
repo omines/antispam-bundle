@@ -1,0 +1,33 @@
+form:
+  stealthed: 'Das Formular konnte nicht verarbeitet werden. Bitte kontaktieren Sie uns, wenn dieses Problem weiterhin besteht.'
+
+  honeypot:
+    not_empty: 'Das Honeypot Feld sollte leer sein, ist es jedoch nicht.'
+  timer:
+    corrupted: 'Aus technischen Gründen konnte das Formular nicht bearbeitet werden.'
+    mismatch_ip: 'Ihre IP-Adresse hat sich während des Absendens des Formulars geändert. Bitte versuchen Sie es erneut.'
+    too_fast: 'Das Formular wurde ungewöhnlich schnell abgeschickt. Bitte warten Sie ein wenig, bevor Sie es erneut versuchen.'
+    too_slow: 'Das Formular wurde ungewöhnlich langsam übermittelt. Bitte laden Sie die Seite neu und versuchen Sie es noch einmal.'
+
+validator:
+  stealthed: 'Der übermittelte Wert konnte nicht verarbeitet werden. Bitte kontaktieren Sie uns, wenn dieses Problem weiterhin besteht.'
+
+  banned_markup:
+    html: 'Der Wert enthält HTML-Code, die nicht zulässig sind.'
+    bbcode: 'Der Wert enthält BBCode, die nicht zulässig sind.'
+
+  banned_phrases:
+    phrase_found: 'Der Wert enthält die unzulässige Formulierung „{phrase}“.'
+
+  banned_scripts:
+    not_allowed: 'Der Wert enthält Zeichen von nicht zugelassenen Skripten ({scripts}).'
+    percentage_exceeded: 'Der Wert besteht für {percentage}% der Zeichen aus nicht zugelassenen Skripten ({scripts}), während nur {max}% erlaubt sind.'
+    characters_exceeded: 'Der Wert enthält {count} Zeichen aus nicht zugelassenen Skripten ({scripts}), während nur {max} erlaubt sind.'
+
+  url_count:
+    exceeded: >-
+      {count, plural,
+        =1  {Der Wert enthält eine URL. Dies ist nicht zulässig.}
+        other {Der Wert enthält # URLs. Er sollte höchstens {limit} enthalten sein.}
+      }
+    duplicates: 'Der Wert enthält die URL {url} {count} mal, was mehr ist als {limit} die erlaubt sind.'
