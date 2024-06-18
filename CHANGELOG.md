@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.8] - 2024-06-18
+
+Add German translations and sanity check on installed PCRE version.
+
 ## [0.1.7] - 2024-05-27
 
 Maintenance release, upgrade PHPunit, Infection, freeform BannedScript constructor. 
@@ -59,7 +63,8 @@ Maintenance release, upgrade PHPunit, Infection, freeform BannedScript construct
 ## 0.1.0 - 2023-11-10
 First public release.
 
-[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.7...master
+[Unreleased]: https://github.com/omines/antispam-bundle/compare/0.1.8...master
+[0.1.8]: https://github.com/omines/antispam-bundle/compare/0.1.7...0.1.8
 [0.1.7]: https://github.com/omines/antispam-bundle/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/omines/antispam-bundle/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/omines/antispam-bundle/compare/0.1.4...0.1.5
