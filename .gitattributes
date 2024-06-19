@@ -1,8 +1,10 @@
 /.git*             export-ignore
 /.env              export-ignore
 /.php-cs-fixer.php export-ignore
+/bin               export-ignore
 /CHANGELOG.md      export-ignore
 /docs              export-ignore
+/infection.*       export-ignore
 /phpstan.neon      export-ignore
 /phpunit.xml.dist  export-ignore
 /README.md         export-ignore
