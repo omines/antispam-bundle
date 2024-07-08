@@ -50,6 +50,18 @@ class BannedScriptTest extends ConstraintValidatorTestCase
         $this->constraintValidator->validate(684, new Length(min: 3));
     }
 
+    public function testMinimumPCREVersionIsSatisfied(): void
+    {
+        $constraint = new class(Script::Armenian) extends BannedScripts {
+            public const MINIMUM_PCRE_VERSION = '684.666';
+        };
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('requires at least version 684.666');
+
+        $constraint->getCharacterClass();
+    }
+
     public function testOnlyStringablesAndNullAreAccepted(): void
     {
         $constraint = new BannedScripts(Script::Bengali);
