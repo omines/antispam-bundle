@@ -46,7 +46,8 @@ class BannedScripts extends AntiSpamConstraint
     public function getCharacterClass(): string
     {
         if (!isset($this->characterClass)) {
-            if (version_compare(static::MINIMUM_PCRE_VERSION, PCRE_VERSION) > 0) {
+            // Some distros use exotic version strings like "10.40 2022-04-14" which version_compare can't handle, hence the extra check
+            if (version_compare(static::MINIMUM_PCRE_VERSION, PCRE_VERSION) > 0 && strtok(PCRE_VERSION, ' ') !== static::MINIMUM_PCRE_VERSION) {
                 throw new \LogicException(sprintf('PHP is using PCRE version %s but requires at least version %s to detect banned scripts. Update your PHP installation and/or operating system.', PCRE_VERSION, static::MINIMUM_PCRE_VERSION));
             }
             $this->characterClass = sprintf('[%s]', implode('', array_map(fn (Script $script) => sprintf('\\p{%s}', $script->value), $this->scripts)));
