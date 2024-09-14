@@ -75,7 +75,7 @@ class BannedScriptTest extends ConstraintValidatorTestCase
         $this->validate(684, $constraint);
         $this->assertNoViolation();
 
-        $this->validate(new class() implements \Stringable {
+        $this->validate(new class implements \Stringable {
             public function __toString(): string
             {
                 return 'foo';

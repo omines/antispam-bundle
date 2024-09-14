@@ -47,7 +47,7 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
