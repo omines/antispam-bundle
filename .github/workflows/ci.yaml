@@ -19,6 +19,7 @@ jobs:
           - '8.1'
           - '8.2'
           - '8.3'
+          - '8.4'
         dependencies: [ stable, beta, lowest ]
         experimental: [ false ]
         include:
@@ -29,7 +30,7 @@ jobs:
           - description: 'beta/RC dependencies'
             dependencies: beta
           # - description: 'nightly with stable dependencies'
-          #   php: 8.4
+          #   php: 8.5
           #   experimental: true
 
     name: PHP ${{ matrix.php }} ${{ matrix.description }}
@@ -61,6 +62,8 @@ jobs:
       - name: Check code style
         run: vendor/bin/php-cs-fixer fix --dry-run
         if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
 
       - name: Run PHPStan static analysis
         run: vendor/bin/phpstan
