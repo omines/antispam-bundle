@@ -29,7 +29,7 @@
     "require-dev": {
         "ekino/phpstan-banned-code": "^3.0",
         "friendsofphp/php-cs-fixer": "^3.68.0",
-        "infection/infection": "^0.29.10",
+        "infection/infection": "^0.29.8",
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan": "^2.1.1",
         "phpstan/phpstan-phpunit": "^2.0.3",
