@@ -15,16 +15,16 @@
       "issues": "https://github.com/omines/antispam-bundle/issues"
     },
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-mbstring": "*",
         "psr/log": "^3.0",
-        "symfony/clock": "^6.3|^7.0",
-        "symfony/form": "^6.3|^7.0",
-        "symfony/framework-bundle": "^6.3|^7.0",
-        "symfony/translation": "^6.3|^7.0",
-        "symfony/twig-bridge": "^6.3|^7.0",
-        "symfony/validator": "^6.3|^7.0",
-        "symfony/yaml": "^6.3|^7.0"
+        "symfony/clock": "^6.4|^7.1",
+        "symfony/form": "^6.4|^7.1",
+        "symfony/framework-bundle": "^6.4|^7.1",
+        "symfony/translation": "^6.4|^7.1",
+        "symfony/twig-bridge": "^6.4|^7.1",
+        "symfony/validator": "^6.4|^7.1",
+        "symfony/yaml": "^6.4|^7.1"
     },
     "require-dev": {
         "ekino/phpstan-banned-code": "^3.0",
@@ -34,16 +34,16 @@
         "phpstan/phpstan": "^2.1.1",
         "phpstan/phpstan-phpunit": "^2.0.3",
         "phpstan/phpstan-symfony": "^2.0.1",
-        "phpunit/phpunit": "^10.5.15 || ^11.5.3",
-        "symfony/browser-kit": "^6.3|^7.2.0",
-        "symfony/css-selector": "^6.3|^7.2.0",
-        "symfony/debug-bundle": "^6.3|^7.2.0",
-        "symfony/dotenv": "^6.3|^7.2.0",
+        "phpunit/phpunit": "^11.5.3",
+        "symfony/browser-kit": "^6.4|^7.2.0",
+        "symfony/css-selector": "^6.4|^7.2.0",
+        "symfony/debug-bundle": "^6.4|^7.2.0",
+        "symfony/dotenv": "^6.4|^7.2.0",
         "symfony/monolog-bundle": "^3.10",
-        "symfony/routing": "^6.3|^7.2.0",
-        "symfony/runtime": "^6.3|^7.2.0",
-        "symfony/twig-bundle": "^6.3|^7.2.0",
-        "symfony/web-profiler-bundle": "^6.3|^7.2.2"
+        "symfony/routing": "^6.4|^7.2.0",
+        "symfony/runtime": "^6.4|^7.2.0",
+        "symfony/twig-bundle": "^6.4|^7.2.0",
+        "symfony/web-profiler-bundle": "^6.4|^7.2.2"
     },
     "conflict": {
         "monolog/monolog": "<3",
