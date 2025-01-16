@@ -15,7 +15,7 @@ You have found the Swiss Army Knife of battling form spam in your Symfony applic
 This bundle provides a ton of different mechanisms for detecting and stopping spammers, scammers and abusers
 using your forms for their nefarious purposes, and brings them all together in an easy to configure profile system.
 
-This bundle is compatible with PHP 8.1+ and Symfony 6.3 or later.
+This bundle is compatible with PHP 8.2+ and Symfony 6.4 LTS or 7.1+.
 
 ## Documentation
 
@@ -38,11 +38,8 @@ All components can either be used standalone or deployed through easily configur
 
 ## Development
 
-This bundle is in active development, but its API is currently considered stable. Releases follow semantic
-versioning, and you can safely upgrade without hitting breaking changes.
-
-The bundle is *not* feature complete, and its API may change before reaching version 1.0.
-[The major version is therefore 0 for now](https://omines.github.io/antispam-bundle/#why-not-a-stable-version-number).
+This bundle can be considered stable, and the current API is not likely to change as we prepare for
+releasing version 1.0.
 
 ## Contributing
 
