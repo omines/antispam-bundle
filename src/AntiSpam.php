@@ -14,7 +14,7 @@ namespace Omines\AntiSpamBundle;
 
 use Omines\AntiSpamBundle\Exception\InvalidProfileException;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
-use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Contracts\Service\ResetInterface;
 
@@ -34,7 +34,7 @@ class AntiSpam implements ResetInterface
      * @param ServiceLocator<Profile> $profiles
      */
     public function __construct(
-        #[TaggedLocator('antispam.profile')]
+        #[AutowireLocator('antispam.profile')]
         private readonly ServiceLocator $profiles,
         private readonly array $options,
     ) {
