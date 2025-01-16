@@ -43,38 +43,9 @@ class Configuration implements ConfigurationInterface
                 ->end()
         ;
 
-        $this->addQuarantineSection($children);
         $this->addProfilesSection($children);
 
         return $treeBuilder;
-    }
-
-    private function addQuarantineSection(NodeBuilder $rootNode): void
-    {
-        $rootNode
-            ->arrayNode('quarantine')
-                ->info('Quarantine settings determine what to do with caught spam')
-                ->addDefaultsIfNotSet()
-                ->children()
-                    ->booleanNode('only_spam')
-                        ->info('When false ham submits are also put in the quarantine, allowing you to analyze false negatives')
-                        ->defaultTrue()
-                    ->end()
-                    ->arrayNode('file')
-                        ->addDefaultsIfNotSet()
-                        ->children()
-                            ->scalarNode('dir')
-                                ->defaultValue('%kernel.project_dir%/var/quarantine')
-                            ->end()
-                            ->integerNode('max_days')
-                                ->defaultValue(14)
-                                ->min(1)
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
     }
 
     private function addProfilesSection(NodeBuilder $rootNode): void

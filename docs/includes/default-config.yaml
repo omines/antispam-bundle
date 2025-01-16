@@ -10,15 +10,6 @@ antispam:
     # Allows you to globally disable all bundle functions, specifically for functional testing
     enabled:              true
 
-    # Quarantine settings determine what to do with caught spam
-    quarantine:
-
-        # When false ham submits are also put in the quarantine, allowing you to analyze false negatives
-        only_spam:            true
-        file:
-            dir:                  '%kernel.project_dir%/var/quarantine'
-            max_days:             14
-
     # A named list of different profiles used throughout your application
     profiles:
 

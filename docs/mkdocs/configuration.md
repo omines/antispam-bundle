@@ -28,11 +28,6 @@ functional testing](advanced.md#testing-your-application), where it may interfer
 
 Default [passive setting](features.md#passive-mode) for *all* validators and form types of the bundle.
 
-## `quarantine`
-
-When forms have been validated, they can be put in quarantine for analysis and logging purposes. Quarantine also allows
-you to review false positives and, if `only_spam` is disabled, false negatives.
-
 ## `stealth`
 
 **type**: `boolean` **default**: `false`

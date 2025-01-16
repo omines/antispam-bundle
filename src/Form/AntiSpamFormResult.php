@@ -98,40 +98,6 @@ class AntiSpamFormResult
         return $this->hasAntiSpamErrors();
     }
 
-    /**
-     * @return array<string, mixed>
-     *
-     * @infection-ignore-all useless to test for infections as long as this API is expanding
-     * @todo add relevant tests when stabilized
-     */
-    public function asArray(): array
-    {
-        $array = [
-            'is_spam' => $this->hasAntiSpamErrors(),
-            'values' => $this->form->getData(),
-            'antispam' => array_map(fn (FormError $error) => [
-                'message' => $error->getMessage(),
-                'cause' => $error->getCause(),
-                'field' => $error->getOrigin()?->getName(),
-            ], $this->antiSpamErrors),
-            'other' => array_map(fn (FormError $error) => [
-                'message' => $error->getMessage(),
-                'field' => $error->getOrigin()?->getName(),
-            ], $this->formErrors),
-        ];
-
-        if (null !== ($request = $this->request)) {
-            $array['request'] = [
-                'uri' => $request->getRequestUri(),
-                'client_ip' => $request->getClientIp(),
-                'referrer' => $request->headers->get('referer'),
-                'user_agent' => $request->headers->get('user-agent'),
-            ];
-        }
-
-        return $array;
-    }
-
     private static function isAntiSpamError(FormError $error): bool
     {
         if ($error instanceof AntiSpamFormError) {

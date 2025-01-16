@@ -26,18 +26,14 @@ the configuration. It is **disabled** by default.
 When enabled all validators and other components still generate errors as usual, following `stealth` rules where
 enabled. At the end of the process all errors are dropped, not hampering successful validation.
 
-All quarantine and logging are still present, all events are still dispatched. This allows you both to evaluate form
+All logging is still present, all events are still dispatched. This allows you both to evaluate form
 filtering rules, and to implement custom behavior such as *"fake pass"*.
 
 By default `passive` is **disabled** both at the form and component level.
 
 ## Quarantine
 
-Whenever a form fails validation due to antispam measures, the form evaluation result is put in the **Quarantine**.
-
-In the default configuration only file based quarantine is enabled at `var/quarantine` in your project root. All
-spam detections are logged as YAML arrays per day, making the date-stamped files both readable by humans and by code
-should you want to run analysis.
+Quarantine was removed from the base bundle and is left up to the implementor via events.
 
 ## Forms
 

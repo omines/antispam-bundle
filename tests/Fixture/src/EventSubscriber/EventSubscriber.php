@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Tests\Fixture\EventSubscriber;
 
 use Omines\AntiSpamBundle\AntiSpamEvents;
+use Omines\AntiSpamBundle\Event\FormViolationEvent;
 use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -22,6 +23,7 @@ class EventSubscriber implements EventSubscriberInterface
     {
         return [
             AntiSpamEvents::VALIDATOR_VIOLATION => 'onValidatorViolation',
+            AntiSpamEvents::FORM_VIOLATION => 'onFormViolation',
         ];
     }
 
@@ -31,5 +33,9 @@ class EventSubscriber implements EventSubscriberInterface
         if (str_contains($event->getValue(), 'CANCEL')) {
             $event->cancel();
         }
+    }
+
+    public function onFormViolation(FormViolationEvent $event): void
+    {
     }
 }

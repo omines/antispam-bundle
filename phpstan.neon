@@ -5,12 +5,7 @@ parameters:
 
     # Legacy stuff to be periodically reviewed
     ignoreErrors:
-    -   # This error only occurs on PHP 8.1 and can be removed after it's dropped
-        identifier: offsetAccess.nonOffsetAccessible
-        path: src/Form/Type/SubmitTimerType.php
-        count: 1
-        reportUnmatched: false
-
-    excludePaths:
-    # Obsolete code
-    - src/Command/StatisticsCommand.php
+    -   # Legacy quarantine implementatioo leftovers, need to be ported
+        identifier: property.onlyWritten
+        path: src/Form/AntiSpamFormResult.php
+        count: 2

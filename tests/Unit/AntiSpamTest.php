@@ -62,12 +62,6 @@ class AntiSpamTest extends KernelTestCase
         $this->assertFalse($antispam->isEnabled());
         $antispam->enable();
         $this->assertTrue($antispam->isEnabled());
-
-        $config = $antispam->getQuarantineConfig();
-        $this->assertIsArray($config['file']);
-        $this->assertSame(14, $config['file']['max_days']);
-        $this->assertSame(dirname(__DIR__) . '/Fixture/var/quarantine', $config['file']['dir']);
-        $this->assertArrayNotHasKey('email', $config);
     }
 
     public function testUnknownProfileThrows(): void
