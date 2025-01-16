@@ -89,6 +89,9 @@ class PageController extends AbstractController
         ]);
     }
 
+    /**
+     * @param FormInterface<array<string, string>> $form
+     */
     private function finishRequest(FormInterface $form, Request $request): Response
     {
         $form->handleRequest($request);
@@ -102,6 +105,9 @@ class PageController extends AbstractController
         ]);
     }
 
+    /**
+     * @return string[]
+     */
     private static function getLanguages(): array
     {
         return array_map(fn (string $match) => mb_substr($match, -7, 2), glob(__DIR__ . '/../../../../translations/antispam+intl-icu.[a-z][a-z].yaml'));
