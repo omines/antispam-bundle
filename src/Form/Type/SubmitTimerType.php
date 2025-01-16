@@ -98,6 +98,8 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
         $ip = $this->requestStack->getMainRequest()?->getClientIp() ?? self::NO_IP;
         $ts = $this->getTimestampMilliseconds();
         $secret = $options['secret'];
+
+        assert(is_array($view->vars));
         $view->vars['value'] = \base64_encode(implode('|', [$ip, $ts, hash('sha256', "$ts|$ip|$secret")]));
     }
 
