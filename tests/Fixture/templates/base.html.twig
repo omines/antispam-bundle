@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="{{ app.request.locale }}" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ title }}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.8"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.12"></script>
         {% block stylesheets %}
         {% endblock %}
 
@@ -13,8 +16,24 @@
         {% endblock %}
     </head>
     <body>
-        <div class="container my-3">
-            <h1>{{ title|default('No title set') }}</h1>
+        <header class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container">
+                <a class="navbar-brand" href="/">{{ title|default('No title set') }}</a>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% trans %}Languages{% endtrans %}
+                        </a>
+                        <ul class="dropdown-menu">
+                        {% for language in languages %}
+                            <li><a class="dropdown-item" href="/{{ language }}/">{{ ('languages.native.' ~ language)|trans }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <main class="container my-3">
             {% for message in app.session.flashBag.get('message') %}
                 <div class="alert alert-primary alert-dismissible fade show">
                     {{ message }}
@@ -22,7 +41,7 @@
                 </div>
             {% endfor %}
             {% block body %}{% endblock %}
-        </div>
+        </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
 </html>

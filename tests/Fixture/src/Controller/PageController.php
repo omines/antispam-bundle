@@ -85,6 +85,7 @@ class PageController extends AbstractController
 
         return $this->render('form.html.twig', [
             'form' => $form->createView(),
+            'languages' => self::getLanguages(),
         ]);
     }
 
@@ -97,6 +98,12 @@ class PageController extends AbstractController
 
         return $this->render('form.html.twig', [
             'form' => $form->createView(),
+            'languages' => self::getLanguages(),
         ]);
+    }
+
+    private static function getLanguages(): array
+    {
+        return array_map(fn (string $match) => mb_substr($match, -7, 2), glob(__DIR__ . '/../../../../translations/antispam+intl-icu.[a-z][a-z].yaml'));
     }
 }
