@@ -2,7 +2,6 @@ parameters:
     level: max
     paths:
     - src
-    - tests
     excludePaths:
-    - tests/Fixture/var
-    - tests/Fixture/vendor
+    # Obsolete code
+    - src/Command/StatisticsCommand.php

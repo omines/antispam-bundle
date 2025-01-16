@@ -17,11 +17,15 @@ use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\Form\AntiSpamFormError;
 use Omines\AntiSpamBundle\Profile;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Service\Attribute\Required;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @extends AbstractType<FormType>
+ */
 abstract class AbstractAntiSpamType extends AbstractType
 {
     protected AntiSpam $antiSpam;
@@ -47,6 +51,7 @@ abstract class AbstractAntiSpamType extends AbstractType
     }
 
     /**
+     * @param FormInterface<mixed> $form
      * @param array<string, mixed> $parameters
      */
     protected function createFormError(FormInterface $form, string $template, array $parameters = [], ?string $cause = null): void
@@ -60,6 +65,9 @@ abstract class AbstractAntiSpamType extends AbstractType
         $form->addError(new AntiSpamFormError($message, $template, $parameters, cause: $cause));
     }
 
+    /**
+     * @param FormInterface<mixed> $form
+     */
     private static function getProfile(FormInterface $form): ?Profile
     {
         do {

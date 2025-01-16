@@ -28,6 +28,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @phpstan-type AntiSpamProfile array{passive: ?bool, banned_markup: array<string, mixed>, url_count: array<string, mixed>, banned_phrases: array<string, mixed>, banned_scripts: array<string, mixed>}
+ * @phpstan-type AntiSpamConfiguration array{enabled: bool, passive: bool, profiles: array<string, AntiSpamProfile>}
  * @infection-ignore-all As infection cannot clear caches reliably mutating the extension has no effect
  */
 class AntiSpamExtension extends Extension implements PrependExtensionInterface
@@ -35,8 +37,6 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
     /**
      * Note that constraints are added in order of increasing cost/effectiveness balance so the resulting array
      * can be used Sequentially efficiently. Iow: add new costly ones at the end, cheap ones up front.
-     *
-     * @var array<string, class-string>
      */
     public const CONFIG_KEY_TO_VALIDATOR_MAPPING = [
         'banned_markup' => BannedMarkup::class,
@@ -50,6 +50,7 @@ class AntiSpamExtension extends Extension implements PrependExtensionInterface
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('services.yaml');
 
+        /** @var AntiSpamConfiguration $mergedConfig */
         $mergedConfig = $this->processConfiguration(new Configuration(), $configs);
         $container->setParameter('antispam.enabled', $mergedConfig['enabled']);
         foreach ($mergedConfig['profiles'] as $name => $profile) {

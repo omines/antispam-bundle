@@ -82,6 +82,7 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
             $type = $config->getType();
             while (null !== $type) {
                 if ($type->getInnerType() instanceof TextType) {
+                    /** @var array{constraints: Constraint[], ...} $options */
                     $options = $config->getOptions();
                     $this->applyTextTypeProfile($options);
                     $event->getForm()->add($name, $config->getType()->getInnerType()::class, $options);
@@ -154,6 +155,9 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
         }
     }
 
+    /**
+     * @param FormInterface<mixed> $form
+     */
     private static function uniqueFieldName(FormInterface $form, string $basename): string
     {
         $field = $basename;

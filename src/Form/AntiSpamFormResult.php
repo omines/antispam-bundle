@@ -22,12 +22,15 @@ use Symfony\Component\Validator\ConstraintViolation;
 
 class AntiSpamFormResult
 {
-    /** @var array<FormError> */
+    /** @var FormError[] */
     private array $antiSpamErrors = [];
 
-    /** @var array<FormError> */
+    /** @var FormError[] */
     private array $formErrors = [];
 
+    /**
+     * @param FormInterface<mixed> $form
+     */
     public function __construct(
         private readonly FormInterface $form,
         private readonly ?Request $request = null,
@@ -50,6 +53,9 @@ class AntiSpamFormResult
         $this->recursiveClearAntiSpamErrors($this->form);
     }
 
+    /**
+     * @param FormInterface<mixed> $form
+     */
     private function recursiveClearAntiSpamErrors(FormInterface $form): void
     {
         if ($form instanceof ClearableErrorsInterface) {
@@ -66,6 +72,9 @@ class AntiSpamFormResult
         }
     }
 
+    /**
+     * @return FormInterface<mixed>
+     */
     public function getForm(): FormInterface
     {
         return $this->form;

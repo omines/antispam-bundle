@@ -18,6 +18,10 @@ use Symfony\Component\Validator\Attribute\HasNamedArguments;
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class BannedScripts extends AntiSpamConstraint
 {
+    /**
+     * @var string
+     * @todo Make a typed constant when PHP <8.3 support is dropped
+     */
     public const MINIMUM_PCRE_VERSION = '10.40';
 
     /** @var Script[] */
