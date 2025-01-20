@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Form;
 
+use Omines\AntiSpamBundle\AntiSpamEvents;
+use Omines\AntiSpamBundle\Event\FormProcessedEvent;
 use Omines\AntiSpamBundle\Form\Type\HoneypotType;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -23,6 +26,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Tests\Fixture\Form\Type\KitchenSinkForm;
 
 class FormTypesTest extends KernelTestCase
@@ -33,10 +37,7 @@ class FormTypesTest extends KernelTestCase
 
     public static function setUpBeforeClass(): void
     {
-        $formFactory = static::getContainer()->get(FormFactoryInterface::class);
-        assert($formFactory instanceof FormFactoryInterface);
-
-        self::$formFactory = $formFactory;
+        self::$formFactory = static::getContainer()->get(FormFactoryInterface::class);
     }
 
     /**
@@ -45,6 +46,11 @@ class FormTypesTest extends KernelTestCase
     private static function createForm(string $class, array $options = []): FormBuilderInterface
     {
         return self::$formFactory->createBuilder($class, options: $options);
+    }
+
+    private static function getEventDispatcher(): EventDispatcherInterface
+    {
+        return static::getContainer()->get(EventDispatcherInterface::class);
     }
 
     public function testNonInteractiveFormTypesAreUnmapped(): void
@@ -121,5 +127,34 @@ class FormTypesTest extends KernelTestCase
         $this->assertFalse($form->isSubmitted() && $form->isValid());
         $this->assertNotEmpty($errors = $form->getErrors());
         $this->assertStringContainsString('could not be processed', $errors[0]->getMessage());
+    }
+
+    /**
+     * Run in separate process as we modify global event dispatcher state.
+     */
+    #[RunInSeparateProcess]
+    public function testEventsAreDispatched(): void
+    {
+        $form = $this->createForm(KitchenSinkForm::class, [
+            'antispam_profile' => 'test1',
+        ])->getForm();
+
+        $view = $form->createView();
+        self::mockTime('+10 seconds');
+
+        static::getEventDispatcher()->addListener(AntiSpamEvents::FORM_PROCESSED, function (FormProcessedEvent $event) {
+            self::assertTrue($event->getResult()->isSpam());
+        });
+
+        $request = Request::create('/', method: 'POST', parameters: [
+            'kitchen_sink_form' => [
+                'name' => 'John Doe',
+                'email' => 'foo@example.org',
+                'message' => 'Message for testing',
+                'timer' => $view['timer']->vars['value'],
+            ],
+        ]);
+        $form->handleRequest($request);
+        $form->isValid() && $form->isSubmitted();
     }
 }

@@ -119,7 +119,8 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
     }
 
     /**
-     * Merge all AntiSpamFormError instances into one if we are running a stealthy operation in this form profile.
+     * Dispatch aggegrated events and merge all AntiSpamFormError instances into one if we are running a stealthy
+     * operation in this form profile.
      */
     public function onPostSubmit(PostSubmitEvent $event): void
     {
