@@ -22,6 +22,9 @@ jobs:
         dependencies: [ stable, beta ]
         experimental: [ false ]
         include:
+          - php: '8.4'
+            dependencies: stable
+            isReference: true
           - php: '8.2'
             description: 'lowest dependencies'
             dependencies: lowest
@@ -79,6 +82,6 @@ jobs:
 
       - name: Run infection tests
         run: vendor/bin/infection --threads=max
-        if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
+        if: ${{ matrix.isReference }}
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_TOKEN }}
