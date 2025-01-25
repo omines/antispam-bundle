@@ -2,7 +2,9 @@
 set -e
 cd $(dirname $0)/../docs
 
-echo "If need be install mkdocs with 'pip install mkdocs-material mkdocs-material-extensions'"
-echo "You can choose a different port with 'bin/serve-docs -a 127.0.0.1:4000'"
+BIND=${1:-8000}
+echo "Serving documentation on http://127.0.0.1:${BIND}"
+echo "If you get an 'address already in use' error from Docker, pass another port and/or binding as parameter to this script."
 echo
-mkdocs serve $@
+
+docker run --rm -it -p ${BIND}:8000 -v .:/docs squidfunk/mkdocs-material

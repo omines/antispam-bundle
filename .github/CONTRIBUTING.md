@@ -22,22 +22,18 @@ Check the Symfony CLI output for IP and port information where the site is runni
 
 ## Update documentation
 
-To serve the MkDocs site in `/docs` install dependencies:
-
-```sh
-pip install mkdocs mkdocs-material mkdocs-material-extensions
-
-Then serve the docs with live updates:
+To serve the MkDocs site in `/docs` ensure you have installed Docker, and run the provided script
+to serve the docs with live updates:
 
 ```sh
 bin/serve-docs
 ```
 
 By default MkDocs binds to port 8000 and is thus accessible on http://127.0.0.1:8000. If you get a port
-conflict, append the `-a` parameter for custom binding:
+conflict, pass the bind target as a parameter:
 
 ```shell
 # Bind to localhost port 4000
-bin/serve-docs -a 127.0.0.1:4000
+bin/serve-docs 127.0.0.1:4000
 ```
 On pushes to the `master` branch the docs are automatically released to https://omines.github.io/antispam-bundle/
