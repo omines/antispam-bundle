@@ -29,12 +29,12 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 /**
  * @phpstan-type AntiSpamProfile array{passive: ?bool, banned_markup: array<string, mixed>, url_count: array<string, mixed>, banned_phrases: array<string, mixed>, banned_scripts: array<string, mixed>}
  * @phpstan-type AntiSpamConfiguration array{enabled: bool, passive: bool, profiles: array<string, AntiSpamProfile>}
- * @infection-ignore-all As infection cannot clear caches reliably mutating the bundle class has no effect
  */
 class AntiSpamBundle extends AbstractBundle
 {
-    public const TRANSLATION_DOMAIN = 'antispam';
     public const ANTISPAM_ALIAS = 'antispam';
+    public const MONOLOG_CHANNEL_NAME = 'antispam';
+    public const TRANSLATION_DOMAIN = 'antispam';
 
     protected string $extensionAlias = self::ANTISPAM_ALIAS;
 
@@ -61,8 +61,8 @@ class AntiSpamBundle extends AbstractBundle
     {
         $services = $container->services();
         $services->defaults()->autowire()->autoconfigure();
-        $services->instanceof(LoggerAwareInterface::class)->tag('monolog.logger', ['channel' => 'antispam']);
-        $services->load('Omines\\AntiSpamBundle\\', __DIR__);
+        $services->instanceof(LoggerAwareInterface::class)->tag('monolog.logger', ['channel' => self::MONOLOG_CHANNEL_NAME]);
+        $services->load(__NAMESPACE__ . '\\', __DIR__);
 
         $builder->setParameter('antispam.enabled', $config['enabled']);
         foreach ($config['profiles'] as $name => $profile) {
