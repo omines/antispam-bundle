@@ -10,23 +10,18 @@
 
 declare(strict_types=1);
 
-namespace Omines\AntiSpamBundle\DependencyInjection;
+namespace Omines\AntiSpamBundle;
 
-use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\Form\Type\SubmitTimerType;
 use Omines\AntiSpamBundle\Type\Script;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
-class Configuration implements ConfigurationInterface
+final class Configuration
 {
-    public function getConfigTreeBuilder(): TreeBuilder
+    public static function load(ArrayNodeDefinition $rootNode): void
     {
-        $treeBuilder = new TreeBuilder(AntiSpamBundle::ALIAS);
-        $rootNode = $treeBuilder->getRootNode();
-
         $children = $rootNode
             ->children()
                 ->booleanNode('passive')
@@ -43,12 +38,10 @@ class Configuration implements ConfigurationInterface
                 ->end()
         ;
 
-        $this->addProfilesSection($children);
-
-        return $treeBuilder;
+        self::addProfilesSection($children);
     }
 
-    private function addProfilesSection(NodeBuilder $rootNode): void
+    private static function addProfilesSection(NodeBuilder $rootNode): void
     {
         $profile = $rootNode
             ->arrayNode('profiles')
@@ -76,15 +69,15 @@ class Configuration implements ConfigurationInterface
         ;
 
         // Add profile subsections
-        $this->addBannedMarkupSection($profile);
-        $this->addBannedPhrasesSection($profile);
-        $this->addBannedScriptsSection($profile);
-        $this->addHoneypotSection($profile);
-        $this->addTimerSection($profile);
-        $this->addUrlCountSection($profile);
+        self::addBannedMarkupSection($profile);
+        self::addBannedPhrasesSection($profile);
+        self::addBannedScriptsSection($profile);
+        self::addHoneypotSection($profile);
+        self::addTimerSection($profile);
+        self::addUrlCountSection($profile);
     }
 
-    private function addBannedMarkupSection(NodeBuilder $profile): void
+    private static function addBannedMarkupSection(NodeBuilder $profile): void
     {
         $profile
             ->arrayNode('banned_markup')
@@ -97,7 +90,7 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-    private function addBannedPhrasesSection(NodeBuilder $profile): void
+    private static function addBannedPhrasesSection(NodeBuilder $profile): void
     {
         $profile
             ->arrayNode('banned_phrases')
@@ -115,7 +108,7 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-    private function addBannedScriptsSection(NodeBuilder $profile): void
+    private static function addBannedScriptsSection(NodeBuilder $profile): void
     {
         $profile
             ->arrayNode('banned_scripts')
@@ -143,7 +136,7 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-    private function addHoneypotSection(NodeBuilder $profile): void
+    private static function addHoneypotSection(NodeBuilder $profile): void
     {
         $profile
             ->arrayNode('honeypot')
@@ -178,7 +171,7 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-    private function addTimerSection(NodeBuilder $profile): void
+    private static function addTimerSection(NodeBuilder $profile): void
     {
         $profile
             ->arrayNode('timer')
@@ -195,7 +188,7 @@ class Configuration implements ConfigurationInterface
         ;
     }
 
-    private function addUrlCountSection(NodeBuilder $profile): void
+    private static function addUrlCountSection(NodeBuilder $profile): void
     {
         $profile
             ->arrayNode('url_count')

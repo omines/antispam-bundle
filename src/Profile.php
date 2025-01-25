@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle;
 
-use Omines\AntiSpamBundle\DependencyInjection\AntiSpamExtension;
 use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
 use Symfony\Component\Validator\Constraint;
 
@@ -101,7 +100,7 @@ class Profile
     protected function buildTextTypeConstraints(): array
     {
         $this->constraints = [];
-        foreach (AntiSpamExtension::CONFIG_KEY_TO_VALIDATOR_MAPPING as $key => $class) {
+        foreach (AntiSpamBundle::CONFIG_KEY_TO_VALIDATOR_MAPPING as $key => $class) {
             if ($config = $this->config[$key] ?? null) {
                 /* @phpstan-ignore-next-line poor PHPStan goes bonkers over this */
                 $this->constraints[] = new $class(...$config);

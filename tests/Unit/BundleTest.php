@@ -14,25 +14,26 @@ namespace Tests\Unit;
 
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\AntiSpamEvents;
-use Omines\AntiSpamBundle\DependencyInjection\AntiSpamExtension;
-use Omines\AntiSpamBundle\DependencyInjection\Configuration;
+use Omines\AntiSpamBundle\Configuration;
 use Omines\AntiSpamBundle\Form\Extension\FormTypeAntiSpamExtension;
 use Omines\AntiSpamBundle\Type\Script;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 #[CoversClass(AntiSpamBundle::class)]
-#[CoversClass(AntiSpamExtension::class)]
 #[CoversClass(Configuration::class)]
-class BundleTest extends TestCase
+class BundleTest extends KernelTestCase
 {
     public function testBundleIsLoadedCorrectlyWithExtension(): void
     {
@@ -45,14 +46,13 @@ class BundleTest extends TestCase
 
     public function testBundleInjectsDependencies(): void
     {
-        $builder = new ContainerBuilder();
+        $builder = new ContainerBuilder(new ParameterBag(static::getContainer()->getParameterBag()->all()));
         $builder->registerExtension(new TwigExtension());
         $builder->loadFromExtension('twig');
 
         $bundle = new AntiSpamBundle();
         $bundle->build($builder);
         $extension = $bundle->getContainerExtension();
-        $this->assertInstanceOf(AntiSpamExtension::class, $extension);
         $extension->load(['antispam' => ['profiles' => ['default' => []]]], $builder);
         $extension->prepend($builder);
 
@@ -79,7 +79,7 @@ class BundleTest extends TestCase
     public function testConfigurationDefaultsAreEmpty(): void
     {
         $processor = new Processor();
-        $result = $processor->processConfiguration(new Configuration(), []);
+        $result = $processor->processConfiguration(self::loadConfiguration(), []);
 
         $this->assertEmpty($result['profiles']);
     }
@@ -92,9 +92,22 @@ class BundleTest extends TestCase
     public function testProfileExpansionAndParsing(array $input, array $expected): void
     {
         $processor = new Processor();
-        $result = $processor->processConfiguration(new Configuration(), $input);
+        $result = $processor->processConfiguration(self::loadConfiguration(), $input);
 
         $this->assertEquals($expected, $result);
+    }
+
+    private static function loadConfiguration(): ConfigurationInterface
+    {
+        return new class implements ConfigurationInterface {
+            public function getConfigTreeBuilder(): TreeBuilder
+            {
+                $builder = new TreeBuilder(AntiSpamBundle::ANTISPAM_ALIAS);
+                Configuration::load($builder->getRootNode());
+
+                return $builder;
+            }
+        };
     }
 
     /**
@@ -133,7 +146,7 @@ class BundleTest extends TestCase
             $this->expectException(InvalidConfigurationException::class);
             $this->expectExceptionMessage($expectedError);
         }
-        $this->assertIsArray((new Processor())->processConfiguration(new Configuration(), $wrapped));
+        $this->assertIsArray((new Processor())->processConfiguration(self::loadConfiguration(), $wrapped));
     }
 
     /**
@@ -207,17 +220,17 @@ class BundleTest extends TestCase
     public function testBannedScriptConfigIsExpandedAndNormalized(): void
     {
         $processor = new Processor();
-        $resultString = $processor->processConfiguration(new Configuration(), [
+        $resultString = $processor->processConfiguration(self::loadConfiguration(), [
             'antispam' => ['profiles' => ['default' => [
                 'banned_scripts' => Script::Armenian->value,
             ]]],
         ]);
-        $resultArray = $processor->processConfiguration(new Configuration(), [
+        $resultArray = $processor->processConfiguration(self::loadConfiguration(), [
             'antispam' => ['profiles' => ['default' => [
                 'banned_scripts' => [Script::Armenian->value],
             ]]],
         ]);
-        $resultObject = $processor->processConfiguration(new Configuration(), [
+        $resultObject = $processor->processConfiguration(self::loadConfiguration(), [
             'antispam' => ['profiles' => ['default' => [
                 'banned_scripts' => [
                     'scripts' => [Script::Armenian->value],
@@ -236,7 +249,7 @@ class BundleTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('valid ISO-15924 script name');
 
-        (new Processor())->processConfiguration(new Configuration(), [
+        (new Processor())->processConfiguration(self::loadConfiguration(), [
             'antispam' => ['profiles' => ['default' => ['banned_scripts' => 'monkeys']]],
         ]);
     }
