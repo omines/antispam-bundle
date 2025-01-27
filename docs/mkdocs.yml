@@ -22,7 +22,7 @@ theme:
 
 extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css
-  - stylesheets/extra.css
+#  - stylesheets/extra.css
 
 watch:
   - includes
