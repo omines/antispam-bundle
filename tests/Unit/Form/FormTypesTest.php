@@ -143,7 +143,11 @@ class FormTypesTest extends KernelTestCase
         self::mockTime('+10 seconds');
 
         static::getEventDispatcher()->addListener(AntiSpamEvents::FORM_PROCESSED, function (FormProcessedEvent $event) {
-            self::assertTrue($event->getResult()->isSpam());
+            $result = $event->getResult();
+
+            self::assertTrue($result->isSpam());
+            self::assertCount(1, $result->getAntiSpamErrors());
+            self::assertCount(0, $result->getFormErrors());
         });
 
         $request = Request::create('/', method: 'POST', parameters: [

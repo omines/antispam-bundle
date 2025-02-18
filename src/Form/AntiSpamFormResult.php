@@ -17,7 +17,6 @@ use Omines\AntiSpamBundle\Validator\Constraints\AntiSpamConstraint;
 use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ConstraintViolation;
 
 class AntiSpamFormResult
@@ -33,7 +32,6 @@ class AntiSpamFormResult
      */
     public function __construct(
         private readonly FormInterface $form,
-        private readonly ?Request $request = null,
         private readonly ?Profile $profile = null,
     ) {
         if (!$form->isSubmitted()) {
@@ -83,6 +81,18 @@ class AntiSpamFormResult
     public function getProfile(): ?Profile
     {
         return $this->profile;
+    }
+
+    /** @return FormError[] */
+    public function getAntiSpamErrors(): array
+    {
+        return $this->antiSpamErrors;
+    }
+
+    /** @return FormError[] */
+    public function getFormErrors(): array
+    {
+        return $this->formErrors;
     }
 
     public function hasAntiSpamErrors(): bool

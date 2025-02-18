@@ -127,7 +127,7 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
         $form = $event->getForm();
         $request = $this->requestStack->getMainRequest();
 
-        $result = new AntiSpamFormResult($form, $request, $this->profile);
+        $result = new AntiSpamFormResult($form, $this->profile);
         $this->eventDispatcher->dispatch(new FormProcessedEvent($result), AntiSpamEvents::FORM_PROCESSED);
         AntiSpam::setLastResult($result);
 

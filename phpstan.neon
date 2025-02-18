@@ -3,9 +3,9 @@ parameters:
     paths:
     - src
 
-    # Legacy stuff to be periodically reviewed
+#    # Legacy stuff to be periodically reviewed
     ignoreErrors:
-    -   # Legacy quarantine implementatioo leftovers, need to be ported
-        identifier: property.onlyWritten
-        path: src/Form/AntiSpamFormResult.php
-        count: 2
+#    -   # Example of an ignore entry
+#        identifier: property.onlyWritten
+#        path: src/Form/AntiSpamFormResult.php
+#        count: 2
