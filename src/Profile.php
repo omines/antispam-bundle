@@ -36,7 +36,7 @@ class Profile
      */
     public function __construct(
         private readonly string $name,
-        private readonly array $config,
+        private array $config,
         private readonly FormProfileSubscriber $formEventSubscriber,
     ) {
         $formEventSubscriber->setProfile($this);
@@ -53,6 +53,16 @@ class Profile
     public function getConfig(): array
     {
         return $this->config;
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     */
+    public function setConfig(array $config): self
+    {
+        $this->config = $config;
+        
+        return $this;
     }
 
     public function getFormEventSubscriber(): FormProfileSubscriber
