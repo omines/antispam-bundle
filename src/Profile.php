@@ -48,7 +48,7 @@ class Profile
     }
 
     /**
-     * @return array<string, mixed>
+     * @return ProfileConfig
      */
     public function getConfig(): array
     {
@@ -56,12 +56,12 @@ class Profile
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param ProfileConfig $config
      */
     public function setConfig(array $config): self
     {
         $this->config = $config;
-        
+
         return $this;
     }
 

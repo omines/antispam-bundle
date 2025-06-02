@@ -82,9 +82,16 @@ class AntiSpamTest extends KernelTestCase
 
         $profile = $antispam->getProfile('test1');
         $this->assertSame('test1', $profile->getName());
-        $this->assertNotEmpty($profile->getConfig());
         $this->assertFalse($profile->getStealth());
         $this->assertFalse($profile->getPassive());
+
+        $config = $profile->getConfig();
+        $this->assertFalse($config['stealth']);
+        $this->assertFalse($config['passive']);
+
+        $config['passive'] = true;
+        $profile->setConfig($config);
+        $this->assertTrue($profile->getPassive());
     }
 
     public function testProfileCachesConstraints(): void
