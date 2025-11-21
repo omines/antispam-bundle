@@ -71,7 +71,7 @@ jobs:
 
       - name: Run PHPStan static analysis
         run: vendor/bin/phpstan
-        if: ${{ matrix.dependencies != 'lowest' && !matrix.experimental }}
+        if: ${{ matrix.dependencies == 'stable' && !matrix.experimental }}
 
       - name: Run automated tests
         run: vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
