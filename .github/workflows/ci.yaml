@@ -19,10 +19,11 @@ jobs:
           - '8.2'
           - '8.3'
           - '8.4'
+          - '8.5'
         dependencies: [ stable, beta ]
         experimental: [ false ]
         include:
-          - php: '8.4'
+          - php: '8.5'
             dependencies: stable
             isReference: true
           - php: '8.2'
@@ -32,9 +33,9 @@ jobs:
             dependencies: stable
           - description: 'beta/RC dependencies'
             dependencies: beta
-          # - description: 'nightly with stable dependencies'
-          #   php: 8.5
-          #   experimental: true
+#            - description: 'nightly with stable dependencies'
+#              php: 8.5
+#              experimental: true
 
     name: PHP ${{ matrix.php }} ${{ matrix.description }}
     steps:
