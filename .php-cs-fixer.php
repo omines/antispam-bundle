@@ -26,9 +26,10 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__ . '/tests/Fixture/src')
 ;
 
-$config = new PhpCsFixer\Config();
-
-return $config
+return (new PhpCsFixer\Config())
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
+    ->setUnsupportedPhpVersionAllowed(true)
+    
     ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,

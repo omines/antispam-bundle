@@ -4,7 +4,11 @@ parameters:
     - src
 
 #    # Legacy stuff to be periodically reviewed
+
     ignoreErrors:
+    # Symfony Config component is not compatible with high PHPstan levels yet
+     - '#Symfony\\Component\\Config\\Definition\\Builder#'
+
 #    -   # Example of an ignore entry
 #        identifier: property.onlyWritten
 #        path: src/Form/AntiSpamFormResult.php
