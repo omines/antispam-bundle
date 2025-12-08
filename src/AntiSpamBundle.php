@@ -18,7 +18,6 @@ use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedScripts;
 use Omines\AntiSpamBundle\Validator\Constraints\UrlCount;
 use Psr\Log\LoggerAwareInterface;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -109,9 +108,6 @@ class AntiSpamBundle extends AbstractBundle
 
     public function configure(DefinitionConfigurator $definition): void
     {
-        $rootNode = $definition->rootNode();
-        assert($rootNode instanceof ArrayNodeDefinition);
-
-        Configuration::load($rootNode);
+        Configuration::load($definition->rootNode());
     }
 }
