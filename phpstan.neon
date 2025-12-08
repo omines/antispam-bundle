@@ -6,7 +6,7 @@ parameters:
 #    # Legacy stuff to be periodically reviewed
 
     ignoreErrors:
-    # Symfony Config component is not compatible with high PHPstan levels yet
+    # Symfony Config component is not compatible with high PHPstan levels yet, and simple annotations as workaround get destroyed by PHP CS Fixer
      - '#Symfony\\Component\\Config\\Definition\\Builder#'
 
 #    -   # Example of an ignore entry

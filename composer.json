@@ -39,7 +39,7 @@
         "symfony/css-selector": "^6.4|^7.3|^8.0",
         "symfony/debug-bundle": "^6.4|^7.3|^8.0",
         "symfony/dotenv": "^6.4|^7.3|^8.0",
-        "symfony/monolog-bundle": "^3.11.1",
+        "symfony/monolog-bundle": "^3.11.1|^v4.0.0",
         "symfony/routing": "^6.4|^7.3|^8.0.1",
         "symfony/runtime": "^6.4|^7.3|^8.0.1",
         "symfony/twig-bundle": "^6.4|^7.3|^8.0",

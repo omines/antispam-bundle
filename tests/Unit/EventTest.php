@@ -52,7 +52,7 @@ class EventTest extends KernelTestCase
         $antispam->expects($this->once())->method('getPassive')->willReturn(true);
 
         $subscriber = new PassiveModeSubscriber($antispam);
-        $event = new FormViolationEvent($this->createMock(AntiSpamFormResult::class));
+        $event = new FormViolationEvent($this->createStub(AntiSpamFormResult::class));
         $subscriber->onFormViolation($event);
         $this->assertTrue($event->isCancelled());
     }
