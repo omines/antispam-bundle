@@ -86,7 +86,6 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
                     $options = $config->getOptions();
                     $this->applyTextTypeProfile($options);
                     $event->getForm()->add($name, $config->getType()->getInnerType()::class, $options);
-                    /* @infection-ignore-all don't try to make this into an endless loop kthnxbye */
                     break;
                 }
                 $type = $type->getParent();
@@ -164,7 +163,6 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
         $field = $basename;
         $counter = 0;
         while ($form->has($field)) {
-            /** @infection-ignore-all Infection creates an endless loop here */
             $field = $basename . ++$counter;
         }
 

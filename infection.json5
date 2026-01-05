@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/infection/infection/0.27.0/resources/schema.json",
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.32.0/resources/schema.json",
     "timeout": 10,
     "source": {
         "directories": [
@@ -12,17 +12,12 @@
     "minMsi": 95,
     "minCoveredMsi": 95,
     "mutators": {
-        "global-ignore": [
-            "*::getSubscribedEvents"
-        ],
-        "global-ignoreSourceCodeByRegex": [
-            "\\$this->logger\\?->.*"
-        ],
         "@default": true,
         "@conditional_boundary": false,
         "@number": false,
         "MBString": false,
-        "ProtectedVisibility": false
+        "ProtectedVisibility": false,
+        "ReturnRemoval": false
     },
     "logs": {
         "text": "build/infection/infection.log",

@@ -60,6 +60,7 @@ class BundleTest extends KernelTestCase
         $twigConfig = $builder->getExtensionConfig('twig');
         $this->assertContains('@AntiSpam/form/widgets.html.twig', $twigConfig[0]['form_themes']);
 
+        $this->assertTrue($builder->getParameter('antispam.enabled'));
         $this->assertTrue($builder->has('antispam.profile.default'));
         $this->assertTrue($builder->has(FormTypeAntiSpamExtension::class));
 
