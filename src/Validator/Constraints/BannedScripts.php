@@ -44,7 +44,7 @@ class BannedScripts extends AntiSpamConstraint
     {
         $this->scripts = array_map(fn ($v) => is_string($v) ? Script::from($v) : $v, is_array($scripts) ? $scripts : [$scripts]);
 
-        parent::__construct($passive, $stealth, $groups, $payload);
+        parent::__construct(passive: $passive, stealth: $stealth, groups: $groups, payload: $payload);
     }
 
     public function getCharacterClass(): string

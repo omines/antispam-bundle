@@ -23,6 +23,6 @@ class BannedMarkup extends AntiSpamConstraint
         ?array $groups = null,
         mixed $payload = null,
     ) {
-        parent::__construct($passive, $stealth, $groups, $payload);
+        parent::__construct(passive: $passive, stealth: $stealth, groups: $groups, payload: $payload);
     }
 }

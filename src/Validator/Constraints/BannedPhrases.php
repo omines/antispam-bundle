@@ -36,7 +36,7 @@ class BannedPhrases extends AntiSpamConstraint
     {
         $this->phrases = is_string($phrases) ? [$phrases] : $phrases;
 
-        parent::__construct($passive, $stealth, $groups, $payload);
+        parent::__construct(passive: $passive, stealth: $stealth, groups: $groups, payload: $payload);
     }
 
     public function getRegularExpression(): string
