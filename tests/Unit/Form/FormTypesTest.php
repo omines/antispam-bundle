@@ -18,6 +18,7 @@ use Omines\AntiSpamBundle\Form\Type\HoneypotType;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,7 +27,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Tests\Fixture\Form\Type\KitchenSinkForm;
 
 class FormTypesTest extends KernelTestCase
@@ -37,11 +37,17 @@ class FormTypesTest extends KernelTestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$formFactory = static::getContainer()->get(FormFactoryInterface::class);
+        $formFactory = static::getContainer()->get(FormFactoryInterface::class);
+        if ($formFactory instanceof FormFactoryInterface) {
+            self::$formFactory = $formFactory;
+        }
     }
 
     /**
+     * @template T
+     * @param class-string<T> $class
      * @param array<string, mixed> $options
+     * @return FormBuilderInterface<T|string[]>
      */
     private static function createForm(string $class, array $options = []): FormBuilderInterface
     {
@@ -50,7 +56,12 @@ class FormTypesTest extends KernelTestCase
 
     private static function getEventDispatcher(): EventDispatcherInterface
     {
-        return static::getContainer()->get(EventDispatcherInterface::class);
+        $dispatcher = static::getContainer()->get(EventDispatcherInterface::class);
+        if (!$dispatcher instanceof EventDispatcherInterface) {
+            throw new \LogicException('Broken container');
+        }
+
+        return $dispatcher;
     }
 
     public function testNonInteractiveFormTypesAreUnmapped(): void
@@ -142,7 +153,7 @@ class FormTypesTest extends KernelTestCase
         $view = $form->createView();
         self::mockTime('+10 seconds');
 
-        static::getEventDispatcher()->addListener(AntiSpamEvents::FORM_PROCESSED, function (FormProcessedEvent $event) {
+        self::getEventDispatcher()->addListener(AntiSpamEvents::FORM_PROCESSED, function (FormProcessedEvent $event) {
             $result = $event->getResult();
 
             self::assertTrue($result->isSpam());

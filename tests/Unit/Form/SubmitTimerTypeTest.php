@@ -17,7 +17,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 #[CoversClass(SubmitTimerType::class)]
@@ -36,7 +35,7 @@ class SubmitTimerTypeTest extends KernelTestCase
             $this->expectException(InvalidOptionsException::class);
             $this->expectExceptionMessage($expectedError);
         }
-        $this->assertInstanceOf(FormInterface::class, $factory->create(SubmitTimerType::class, options: $options));
+        $factory->create(SubmitTimerType::class, options: $options);
     }
 
     /**

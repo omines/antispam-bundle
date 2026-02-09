@@ -70,6 +70,10 @@ class LocalizationTest extends KernelTestCase
         }
         $errors = [];
         foreach (self::$translator->getCollectedMessages() as $message) {
+            if (!is_array($message)) {
+                continue;
+            }
+            /** @var array{fallbackLocale: ?string, id: ?string, locale: ?string, translation: ?string} $message */
             if (null !== $message['fallbackLocale'] && !in_array($message['fallbackLocale'], self::SUPPORTED_LOCALES, true)) {
                 $errors[] = sprintf("Message '%s' was not translated to locale '%s':\n    %s",
                     $message['id'], $message['locale'], $message['translation']);

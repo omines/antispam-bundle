@@ -26,7 +26,8 @@ use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 /**
- * @phpstan-type AntiSpamProfile array{passive: ?bool, banned_markup: array<string, mixed>, url_count: array<string, mixed>, banned_phrases: array<string, mixed>, banned_scripts: array<string, mixed>}
+ * @phpstan-type BannedScriptsConfig array{scripts: Type\Script[], max_percentage: int, max_characters: ?int}
+ * @phpstan-type AntiSpamProfile array{passive: ?bool, banned_markup: array<string, mixed>, url_count: array<string, mixed>, banned_phrases: array<string, mixed>, banned_scripts: BannedScriptsConfig}
  * @phpstan-type AntiSpamConfiguration array{enabled: bool, passive: bool, profiles: array<string, AntiSpamProfile>}
  */
 class AntiSpamBundle extends AbstractBundle

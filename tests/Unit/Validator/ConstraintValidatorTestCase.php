@@ -75,7 +75,10 @@ abstract class ConstraintValidatorTestCase extends KernelTestCase
      */
     abstract protected function getValidatorClass(): string;
 
-    /** @phpstan-ignore-next-line Forwarded function into Symfony validator */
+    /**
+     * @param Constraint|Constraint[]|null $constraints
+     * @param string|GroupSequence|array<string|GroupSequence>|null $groups
+     */
     public function validate(mixed $value, Constraint|array|null $constraints = null, string|GroupSequence|array|null $groups = null): ConstraintViolationListInterface
     {
         return $this->lastViolations = $this->validator->validate($value, $constraints, $groups);

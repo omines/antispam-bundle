@@ -26,11 +26,15 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @phpstan-import-type AntiSpamConfiguration from AntiSpamBundle
+ */
 #[CoversClass(AntiSpamBundle::class)]
 #[CoversClass(Configuration::class)]
 class BundleTest extends KernelTestCase
@@ -53,6 +57,7 @@ class BundleTest extends KernelTestCase
         $bundle = new AntiSpamBundle();
         $bundle->build($builder);
         $extension = $bundle->getContainerExtension();
+        $this->assertInstanceOf(PrependExtensionInterface::class, $extension);
         $extension->load(['antispam' => ['profiles' => ['default' => []]]], $builder);
         $extension->prepend($builder);
 
@@ -146,8 +151,10 @@ class BundleTest extends KernelTestCase
         if (null !== $expectedError) {
             $this->expectException(InvalidConfigurationException::class);
             $this->expectExceptionMessage($expectedError);
+        } else {
+            $this->expectNotToPerformAssertions();
         }
-        $this->assertIsArray((new Processor())->processConfiguration(self::loadConfiguration(), $wrapped));
+        (new Processor())->processConfiguration(self::loadConfiguration(), $wrapped);
     }
 
     /**
@@ -231,6 +238,8 @@ class BundleTest extends KernelTestCase
                 'banned_scripts' => [Script::Armenian->value],
             ]]],
         ]);
+
+        /** @var AntiSpamConfiguration $resultObject */
         $resultObject = $processor->processConfiguration(self::loadConfiguration(), [
             'antispam' => ['profiles' => ['default' => [
                 'banned_scripts' => [

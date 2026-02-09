@@ -74,9 +74,7 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
     #[DataProvider('provideBannedMarkupMessages')]
     public function testBannedMarkupValidation(string $message, ?string $expectedError = null): void
     {
-        static $constraint = new BannedMarkup();
-
-        $errors = $this->validate($message, $constraint);
+        $errors = $this->validate($message, new BannedMarkup());
         if (null === $expectedError) {
             $this->assertNoViolation();
         } else {

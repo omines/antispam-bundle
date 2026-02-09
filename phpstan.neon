@@ -2,6 +2,9 @@ parameters:
     level: max
     paths:
     - src
+    - tests
+    excludePaths:
+    - tests/Fixture
 
 #    # Legacy stuff to be periodically reviewed
 
