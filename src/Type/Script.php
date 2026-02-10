@@ -51,6 +51,7 @@ enum Script: string
     case Elbasan = 'elbasan';
     case Elymaic = 'elymaic';
     case Ethiopic = 'ethiopic';
+    case Garay = 'garay';
     case Georgian = 'georgian';
     case Glagolitic = 'glagolitic';
     case Gunjala_Gondi = 'gunjala_gondi';
@@ -59,6 +60,7 @@ enum Script: string
     case Grantha = 'grantha';
     case Greek = 'greek';
     case Gujarati = 'gujarati';
+    case Gurung_Khema = 'gurung_khema';
     case Gurmukhi = 'gurmukhi';
     case Hangul = 'hangul';
     case Han = 'han';
@@ -74,11 +76,13 @@ enum Script: string
     case Javanese = 'javanese';
     case Kayah_Li = 'kayah_li';
     case Katakana = 'katakana';
+    case Kawi = 'kawi';
     case Kharoshthi = 'kharoshthi';
     case Khmer = 'khmer';
     case Khojki = 'khojki';
     case Khitan_Small_Script = 'khitan_small_script';
     case Kannada = 'kannada';
+    case Kirat_Rai = 'kirat_rai';
     case Kaithi = 'kaithi';
     case Tai_Tham = 'tai_tham';
     case Lao = 'lao';
@@ -106,6 +110,7 @@ enum Script: string
     case Meetei_Mayek = 'meetei_mayek';
     case Multani = 'multani';
     case Myanmar = 'myanmar';
+    case Nag_Mundari = 'nag_mundari';
     case Nandinagari = 'nandinagari';
     case Old_North_Arabian = 'old_north_arabian';
     case Nabataean = 'nabataean';
@@ -114,6 +119,7 @@ enum Script: string
     case Nushu = 'nushu';
     case Ogham = 'ogham';
     case Ol_Chiki = 'ol_chiki';
+    case Ol_Onal = 'ol_onal';
     case Old_Turkic = 'old_turkic';
     case Oriya = 'oriya';
     case Osage = 'osage';
@@ -145,6 +151,7 @@ enum Script: string
     case Sora_Sompeng = 'sora_sompeng';
     case Soyombo = 'soyombo';
     case Sundanese = 'sundanese';
+    case Sunuwar = 'sunuwar';
     case Syloti_Nagri = 'syloti_nagri';
     case Syriac = 'syriac';
     case Tagbanwa = 'tagbanwa';
@@ -162,7 +169,9 @@ enum Script: string
     case Tibetan = 'tibetan';
     case Tirhuta = 'tirhuta';
     case Tangsa = 'tangsa';
+    case Todhri = 'todhri';
     case Toto = 'toto';
+    case Tulu_Tigalari = 'tulu_tigalari';
     case Ugaritic = 'ugaritic';
     case Vai = 'vai';
     case Vithkuqi = 'vithkuqi';

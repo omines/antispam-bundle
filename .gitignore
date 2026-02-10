@@ -6,4 +6,6 @@
 /log
 /tmp
 /vendor
+
 *~
+**/config/reference.php
