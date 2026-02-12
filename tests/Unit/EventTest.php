@@ -14,6 +14,7 @@ namespace Tests\Unit;
 
 use Omines\AntiSpamBundle\AntiSpam;
 use Omines\AntiSpamBundle\Event\FormViolationEvent;
+use Omines\AntiSpamBundle\Event\ValidatorViolationEvent;
 use Omines\AntiSpamBundle\EventSubscriber\PassiveModeSubscriber;
 use Omines\AntiSpamBundle\Form\AntiSpamFormResult;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
@@ -26,9 +27,11 @@ class EventTest extends KernelTestCase
 {
     public function testBuiltInEventsHaveCorrectPriority(): void
     {
-        $subscriptions = [
-            PassiveModeSubscriber::getSubscribedEvents(),
-        ];
+        $passiveModeEvents = PassiveModeSubscriber::getSubscribedEvents();
+        $this->assertArrayHasKey(FormViolationEvent::class, $passiveModeEvents);
+        $this->assertArrayHasKey(ValidatorViolationEvent::class, $passiveModeEvents);
+
+        $subscriptions = [$passiveModeEvents];
         foreach ($subscriptions as $subscription) {
             foreach ($subscription as $event => $details) {
                 $this->assertIsArray($details);
