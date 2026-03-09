@@ -81,9 +81,10 @@ comes with the territory that feedback points out unforeseen issues. So we keep 
 version at 0 until we feel sufficiently confident that the core API, DX and mechanisms
 are stable.
 
-### Can I customize the translations?
+### Can I customize the error messages?
 
-Of course, all localization is handled via standard Symfony translation practices. All
-messages are defined in the `antispam` translation domain, and you can override this in
-your local project by adding a domain file in which you define just the messages you wish to
-override. [See the Symfony documentation on overriding bundle features](https://symfony.com/doc/current/bundles/override.html#translations).
+All messages are generated via [Symfony translation](https://symfony.com/doc/current/bundles/override.html#translations).
+To customize them, start by copying `vendor/omines/antispam-bundle/translations/antispam+intl-icu.XX.yaml`
+to `translations/antispam+intl-icu.XX.yaml` and edit the messages you wish to override. 
+
+[Edit this page](https://github.com/omines/antispam-bundle/tree/master/docs/mkdocs)
