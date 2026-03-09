@@ -80,3 +80,10 @@ so we use this bundle internally on multiple projects. When putting it out there
 comes with the territory that feedback points out unforeseen issues. So we keep the major
 version at 0 until we feel sufficiently confident that the core API, DX and mechanisms
 are stable.
+
+### Can I customize the translations?
+
+Of course, all localization is handled via standard Symfony translation practices. All
+messages are defined in the `antispam` translation domain, and you can override this in
+your local project by adding a domain file in which you define just the messages you wish to
+override. [See the Symfony documentation on overriding bundle features](https://symfony.com/doc/current/bundles/override.html#translations).
