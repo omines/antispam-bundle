@@ -5,6 +5,8 @@ via a profile in `config/packages/antispam.yaml`. Or, if you want to fine-tune t
 them manually to your form:
 
 ```php
+use Omines\AntiSpamBundle\Form\Type\HoneypotType;
+
 $builder->add('email_confirm', HoneypotType::class, ['required' => false, ...]);
 ```
 
