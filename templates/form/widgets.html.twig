@@ -6,5 +6,6 @@
 
 {% block antispam_submit_timer_row %}
     {%- set type = 'hidden' -%}
+    {%- set required = false -%}
     {{- block('form_widget_simple') -}}
 {% endblock %}

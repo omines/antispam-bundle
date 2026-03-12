@@ -64,6 +64,7 @@ class IntegrationTest extends WebTestCase
         $this->assertCount(1, $timer);
         $this->assertSame('input', $timer->nodeName());
         $this->assertSame('hidden', $timer->attr('type'));
+        $this->assertNotSame('required', $timer->attr('required'));
     }
 
     public function testFastAndSlowResponsesAreCaught(): void
