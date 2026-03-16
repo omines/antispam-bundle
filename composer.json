@@ -27,7 +27,7 @@
         "symfony/yaml": "^6.4|^7.4|^8.0"
     },
     "require-dev": {
-        "ekino/phpstan-banned-code": "3.0.0",
+        "ekino/phpstan-banned-code": "3.2.0",
         "friendsofphp/php-cs-fixer": "^3.94.2",
         "infection/infection": "^0.32.6",
         "phpstan/extension-installer": "^1.4.3",
