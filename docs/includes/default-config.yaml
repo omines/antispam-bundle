@@ -33,9 +33,9 @@ antispam:
 
             # Banned script types, like Cyrillic or Arabic (see docs for commonly used ISO 15924 names)
             banned_scripts:
-                scripts:              []
+                scripts:              [cyrillic, arabic]
                 max_characters:       null
-                max_percentage:       0
+                max_percentage:       0.5
 
             # Inject an invisible honeypot field in forms, baiting spambots to fill it in
             honeypot:
