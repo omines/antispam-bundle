@@ -35,7 +35,7 @@ antispam:
             banned_scripts:
                 scripts:              [cyrillic, arabic]
                 max_characters:       null
-                max_percentage:       0.5
+                max_percentage:       50
 
             # Inject an invisible honeypot field in forms, baiting spambots to fill it in
             honeypot:
