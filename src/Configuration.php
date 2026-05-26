@@ -112,12 +112,13 @@ final class Configuration
     {
         $profile
             ->arrayNode('banned_scripts')
-                ->info('Banned script types, like Cyrillic or Arabic (see docs for commonly used ISO 15924 names)')
+                ->info('Ban specific character sets indicating (part of) the input is for example written in Hebrew or Chinese')
                 ->beforeNormalization()
                     ->always(fn (array|string $v) => isset($v[0]) ? ['scripts' => is_string($v) ? [$v] : $v] : $v)
                 ->end()
                 ->children()
                     ->arrayNode('scripts')
+                        ->info("An array of ISO 15924 script names, for example ['Cyrillic', 'Arabic']")
                         ->requiresAtLeastOneElement()
                         ->scalarPrototype()
                             ->validate()->always(function (string $v) {
@@ -129,8 +130,14 @@ final class Configuration
                             })->end()
                         ->end()
                     ->end()
-                    ->integerNode('max_characters')->min(0)->defaultNull()->end()
-                    ->floatNode('max_percentage')->min(0)->max(100)->defaultValue(0)->end()
+                    ->integerNode('max_characters')
+                        ->info('When set allows the specified number of characters in banned scripts without failing')
+                        ->min(0)->defaultNull()
+                    ->end()
+                    ->floatNode('max_percentage')
+                        ->info('Sets the maximum percentage of characters in banned scripts allowed without failing')
+                        ->min(0)->max(100)->defaultValue(0)
+                    ->end()
                 ->end()
             ->end()
         ;
