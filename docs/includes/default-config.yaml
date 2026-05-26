@@ -31,10 +31,16 @@ antispam:
             banned_phrases:
                 phrases:              []
 
-            # Banned script types, like Cyrillic or Arabic (see docs for commonly used ISO 15924 names)
+            # Ban specific character sets indicating (part of) the input is for example written in Hebrew or Chinese
             banned_scripts:
+
+                # An array of ISO 15924 script names, for example ['Cyrillic', 'Arabic']
                 scripts:              []
+
+                # When set allows the specified number of characters in banned scripts without failing
                 max_characters:       null
+
+                # Sets the maximum percentage of characters in banned scripts allowed without failing
                 max_percentage:       0
 
             # Inject an invisible honeypot field in forms, baiting spambots to fill it in
