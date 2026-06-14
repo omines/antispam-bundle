@@ -1,11 +1,13 @@
 name: build-docs
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
     paths:
       - docs/**
+      - src/Configuration.php
 
 permissions:
   contents: write
