@@ -31,15 +31,6 @@ class HoneypotType extends NonInteractiveAntiSpamType
         });
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        parent::configureOptions($resolver);
-
-        $resolver->setDefault('attr', [
-            'style' => 'display:none',
-        ]);
-    }
-
     public function getParent(): ?string
     {
         return FormType::class;
