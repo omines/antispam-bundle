@@ -4,7 +4,7 @@
     "config:recommended"
   ],
   "constraints": {
-    "php": "8.2"
+    "php": "8.5.7"
   },
   "constraintsFiltering": "strict"
 }
