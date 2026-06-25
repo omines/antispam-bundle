@@ -15,7 +15,7 @@ You have found the Swiss Army Knife of battling form spam in your Symfony applic
 This bundle provides a ton of different mechanisms for detecting and stopping spammers, scammers and abusers
 using your forms for their nefarious purposes, and brings them all together in an easy to configure profile system.
 
-This bundle is compatible with PHP 8.2+ and Symfony 6.4 LTS or 7.1+.
+This bundle is compatible with PHP 8.2+ and Symfony 6.4 LTS, 7.4 LTS and 8.x.
 
 ## Documentation
 
