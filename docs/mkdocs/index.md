@@ -19,8 +19,8 @@ The bundle is compatible with PHP 8.2+ and Symfony 6.4 or later in active suppor
 This bundle provides you with a ton of methods to easily combat spam through tested and
 proven methods:
 
-- **[Honeypot](form/honeypot.md)**: Insert a hidden field in your forms that lures spambots into filling it in.
-- **[Submit Timer](form/submit_timer.md)**: Reject forms that have been submitted unfeasibly fast or unrealistically slow.
+- **[`HoneypotType`](form_types.md)**: Insert a hidden field in your forms that lures spambots into filling it in.
+- **[`SubmitTimerType`](form_types.md)**: Reject forms that have been submitted unfeasibly fast or unrealistically slow.
 - **[Banned markup](validator/banned_markup.md)**: Reject text fields containing HTML or UBB tags.
 - **[Banned phrases](validator/banned_phrases.md)**: Reject text fields containing signature phrases targeting your site.
 - **[Banned scripts](validator/banned_scripts.md)**: Reject text fields that contain too many characters in scripts not

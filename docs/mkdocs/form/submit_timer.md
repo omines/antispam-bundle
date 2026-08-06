@@ -1,3 +1,0 @@
-# SubmitTimerType FIeld
-
-TBD.

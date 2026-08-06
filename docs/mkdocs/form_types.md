@@ -1,4 +1,16 @@
-# HoneypotType Field
+# Form Types
+
+This bundle adds two new form types: `HoneypotType` and `SubmitTimerType`. You can add them to your form either
+via a profile in `config/packages/antispam.yaml`. Or, if you want to fine-tune their rendering, you can add
+them manually to your form:
+
+```php
+use Omines\AntiSpamBundle\Form\Type\HoneypotType;
+
+$builder->add('email_confirm', HoneypotType::class, ['required' => false, ...]);
+```
+
+# `HoneypotType` Field
 
 The `HoneypotType` field is a text field being rendered invisible in your forms. It will raise a form validation error
 if any non-empty value is submitted.
@@ -14,3 +26,7 @@ forms being filled in automatically by automated agents.
     # replace 'FooType' by the class name of your form type
     $ php bin/console debug:form FooType
     ```
+
+# `SubmitTimerType` Field
+
+TBD.
