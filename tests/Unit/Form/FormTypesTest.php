@@ -26,6 +26,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Tests\Fixture\Form\Type\KitchenSinkForm;
 
@@ -44,10 +45,10 @@ class FormTypesTest extends KernelTestCase
     }
 
     /**
-     * @template T
-     * @param class-string<T> $class
+     * @template TData
+     * @param class-string<FormTypeInterface<TData>> $class
      * @param array<string, mixed> $options
-     * @return FormBuilderInterface<T|string[]>
+     * @return FormBuilderInterface<TData|null>
      */
     private static function createForm(string $class, array $options = []): FormBuilderInterface
     {
