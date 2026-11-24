@@ -28,14 +28,14 @@ class EventTest extends KernelTestCase
     public function testBuiltInEventsHaveCorrectPriority(): void
     {
         $passiveModeEvents = PassiveModeSubscriber::getSubscribedEvents();
-        $this->assertArrayHasKey(FormViolationEvent::class, $passiveModeEvents);
-        $this->assertArrayHasKey(ValidatorViolationEvent::class, $passiveModeEvents);
+        self::assertArrayHasKey(FormViolationEvent::class, $passiveModeEvents);
+        self::assertArrayHasKey(ValidatorViolationEvent::class, $passiveModeEvents);
 
         $subscriptions = [$passiveModeEvents];
         foreach ($subscriptions as $subscription) {
             foreach ($subscription as $event => $details) {
-                $this->assertIsArray($details);
-                $this->assertLessThan(0, $details[1]);
+                self::assertIsArray($details);
+                self::assertLessThan(0, $details[1]);
             }
         }
     }
@@ -45,8 +45,8 @@ class EventTest extends KernelTestCase
         $validator = static::getContainer()->get(ValidatorInterface::class);
         assert($validator instanceof ValidatorInterface);
 
-        $this->assertNotEmpty($validator->validate('<strong>HTML</strong>', new BannedMarkup(passive: false)));
-        $this->assertEmpty($validator->validate('<strong>HTML</strong>', new BannedMarkup(passive: true)));
+        self::assertNotEmpty($validator->validate('<strong>HTML</strong>', new BannedMarkup(passive: false)));
+        self::assertEmpty($validator->validate('<strong>HTML</strong>', new BannedMarkup(passive: true)));
     }
 
     public function testGlobalPassiveModeIsRespected(): void
@@ -55,8 +55,8 @@ class EventTest extends KernelTestCase
         $antispam->expects($this->once())->method('getPassive')->willReturn(true);
 
         $subscriber = new PassiveModeSubscriber($antispam);
-        $event = new FormViolationEvent($this->createStub(AntiSpamFormResult::class));
+        $event = new FormViolationEvent(self::createStub(AntiSpamFormResult::class));
         $subscriber->onFormViolation($event);
-        $this->assertTrue($event->isCancelled());
+        self::assertTrue($event->isCancelled());
     }
 }

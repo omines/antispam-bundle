@@ -45,13 +45,13 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
         $constraint = new BannedMarkup();
 
         $this->validate('aap', $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(null, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(684, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(new class implements \Stringable {
             public function __toString(): string
@@ -59,7 +59,7 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
                 return 'example-text';
             }
         }, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->expectException(UnexpectedValueException::class);
         $this->constraintValidator->validate($this, $constraint);
@@ -68,7 +68,7 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
     public function testStealthedValidationError(): void
     {
         $errors = $this->expectViolations('<b>HTML IS COOL</b>', new BannedMarkup(stealth: true));
-        $this->assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
+        self::assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
     }
 
     #[DataProvider('provideBannedMarkupMessages')]
@@ -76,10 +76,10 @@ class BannedMarkupTest extends ConstraintValidatorTestCase
     {
         $errors = $this->validate($message, new BannedMarkup());
         if (null === $expectedError) {
-            $this->assertNoViolation();
+            self::assertNoViolation();
         } else {
-            $this->assertNotEmpty($errors, sprintf('Message "%s" was expected to contain %s', $message, $expectedError));
-            $this->assertStringContainsString($expectedError, (string) $errors->get(0)->getMessage());
+            self::assertNotEmpty($errors, sprintf('Message "%s" was expected to contain %s', $message, $expectedError));
+            self::assertStringContainsString($expectedError, (string) $errors->get(0)->getMessage());
         }
     }
 

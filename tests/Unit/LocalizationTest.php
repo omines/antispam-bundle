@@ -79,7 +79,7 @@ class LocalizationTest extends KernelTestCase
                     $message['id'], $message['locale'], $message['translation']);
             }
         }
-        $this->assertEmpty($errors, implode("\n", $errors));
+        self::assertEmpty($errors, implode("\n", $errors));
     }
 
     public static function provideTranslationFiles(): \Generator
@@ -98,6 +98,6 @@ class LocalizationTest extends KernelTestCase
     #[DataProvider('provideTranslationFiles')]
     public function testLocalizationFilesAreValid(string $path): void
     {
-        $this->assertIsArray(Yaml::parseFile($path));
+        self::assertIsArray(Yaml::parseFile($path));
     }
 }

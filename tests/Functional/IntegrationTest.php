@@ -51,20 +51,20 @@ class IntegrationTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/');
-        $this->assertResponseIsSuccessful('The request failed');
+        self::assertResponseIsSuccessful('The request failed');
 
         $honeypot = $crawler->filter('input[name="kitchen_sink_form[honeypot]"]');
-        $this->assertCount(1, $honeypot);
-        $this->assertSame('input', $honeypot->nodeName());
-        $this->assertSame('text', $honeypot->attr('type'));
-        $this->assertSame('display:none', $honeypot->attr('style'));
-        $this->assertNull($honeypot->attr('required'));
+        self::assertCount(1, $honeypot);
+        self::assertSame('input', $honeypot->nodeName());
+        self::assertSame('text', $honeypot->attr('type'));
+        self::assertSame('display:none', $honeypot->attr('style'));
+        self::assertNull($honeypot->attr('required'));
 
         $timer = $crawler->filter('input[name="kitchen_sink_form[timer]"]');
-        $this->assertCount(1, $timer);
-        $this->assertSame('input', $timer->nodeName());
-        $this->assertSame('hidden', $timer->attr('type'));
-        $this->assertNotSame('required', $timer->attr('required'));
+        self::assertCount(1, $timer);
+        self::assertSame('input', $timer->nodeName());
+        self::assertSame('hidden', $timer->attr('type'));
+        self::assertNotSame('required', $timer->attr('required'));
     }
 
     public function testFastAndSlowResponsesAreCaught(): void
@@ -73,7 +73,7 @@ class IntegrationTest extends WebTestCase
 
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $formData = [
             'kitchen_sink_form[name]' => 'John Doe',
@@ -83,37 +83,37 @@ class IntegrationTest extends WebTestCase
 
         static::mockTime('+4 seconds');
         $crawler = $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertSelectorExists('.alert-danger', 'The form was submitted too quickly to pass');
-        $this->assertSelectorTextContains('.alert-danger', 'unreasonably fast');
+        self::assertSelectorExists('.alert-danger', 'The form was submitted too quickly to pass');
+        self::assertSelectorTextContains('.alert-danger', 'unreasonably fast');
 
         static::mockTime('+5 seconds');
         $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertSelectorNotExists('.alert-danger', 'The form was submitted after a reasonable delay');
+        self::assertSelectorNotExists('.alert-danger', 'The form was submitted after a reasonable delay');
 
         static::mockTime('+3594 seconds');
         $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertSelectorNotExists('.alert-danger', 'The form was submitted after a reasonable delay');
+        self::assertSelectorNotExists('.alert-danger', 'The form was submitted after a reasonable delay');
 
         static::mockTime('+1 second');
         $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertSelectorNotExists('.alert-danger', 'The form was submitted after a reasonable delay');
+        self::assertSelectorNotExists('.alert-danger', 'The form was submitted after a reasonable delay');
 
         static::mockTime('+1 second');
         $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertSelectorExists('.alert-danger', 'The form was submitted too slow to pass');
-        $this->assertSelectorTextContains('.alert-danger', 'unreasonably slow');
+        self::assertSelectorExists('.alert-danger', 'The form was submitted too slow to pass');
+        self::assertSelectorTextContains('.alert-danger', 'unreasonably slow');
 
         static::mockTime('+3 days');
         $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertSelectorExists('.alert-danger', 'The form was submitted too slow to pass');
-        $this->assertSelectorTextContains('.alert-danger', 'unreasonably slow');
+        self::assertSelectorExists('.alert-danger', 'The form was submitted too slow to pass');
+        self::assertSelectorTextContains('.alert-danger', 'unreasonably slow');
     }
 
     public function testFillingInTheHoneypotFailsTheForm(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $formData = [
             'kitchen_sink_form[name]' => 'John Doe',
@@ -123,16 +123,16 @@ class IntegrationTest extends WebTestCase
         ];
 
         $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.alert-danger', 'The form should not have passed with the honeypot filled');
-        $this->assertSelectorTextContains('.alert-danger', 'honeypot field was supposed');
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('.alert-danger', 'The form should not have passed with the honeypot filled');
+        self::assertSelectorTextContains('.alert-danger', 'honeypot field was supposed');
     }
 
     public function testCorruptingTheHashFailsValidation(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $formData = [
             'kitchen_sink_form[name]' => 'John Doe',
@@ -143,27 +143,27 @@ class IntegrationTest extends WebTestCase
         $crawler = $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData, [
             'REMOTE_ADDR' => '1.2.3.4',
         ]);
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->expectFormErrors($crawler, ['Your IP address changed', 'unreasonably fast']);
 
         $formData['kitchen_sink_form[timer]'] = '';
         $crawler = $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->expectFormErrors($crawler, 'Technical reasons');
 
         $formData['kitchen_sink_form[timer]'] = '%%%%%NOT_BASE_64%%%%%%';
         $crawler = $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->expectFormErrors($crawler, 'Technical reasons');
 
         $formData['kitchen_sink_form[timer]'] = \base64_encode('incorrect structure');
         $crawler = $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->expectFormErrors($crawler, 'Technical reasons');
 
         $formData['kitchen_sink_form[timer]'] = \base64_encode('123456|127.0.0.1|invalid_hash');
         $crawler = $client->submit($crawler->filter('form[name=kitchen_sink_form]')->form(), $formData);
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $this->expectFormErrors($crawler, 'Technical reasons');
     }
 
@@ -171,13 +171,13 @@ class IntegrationTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/test1');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('#basic_form___custom_timer_field', 'Configured custom name for timer field');
-        $this->assertSelectorExists('input#basic_form_email[type=email]', 'EmailType must not change type');
-        $this->assertSelectorExists('textarea#basic_form_message', 'TextAreaType must not change type');
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('#basic_form___custom_timer_field', 'Configured custom name for timer field');
+        self::assertSelectorExists('input#basic_form_email[type=email]', 'EmailType must not change type');
+        self::assertSelectorExists('textarea#basic_form_message', 'TextAreaType must not change type');
 
         $honeypot = $crawler->filter('#basic_form_email_address')->first();
-        $this->assertSame('display:none', $honeypot->attr('style'), 'Honeypot should by default be hidden with inline style');
+        self::assertSame('display:none', $honeypot->attr('style'), 'Honeypot should by default be hidden with inline style');
 
         $formData = [
             'basic_form[name]' => 'Priya Kaila',
@@ -249,12 +249,12 @@ class IntegrationTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/test2');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         // Honeypot is hidden with Bootstrap "d-none" class instead of default
         $honeypot = $crawler->filter('#basic_form_message1')->first();
-        $this->assertEmpty($honeypot->attr('style'), 'Default hiding inline style should be overriden');
-        $this->assertContains('d-none', array_map('trim', explode(' ', $honeypot->attr('class') ?? '')),
+        self::assertEmpty($honeypot->attr('style'), 'Default hiding inline style should be overriden');
+        self::assertContains('d-none', array_map('trim', explode(' ', $honeypot->attr('class') ?? '')),
             'Honeypot should be hidden with "d-none" class');
 
         $formData = [
@@ -277,9 +277,9 @@ class IntegrationTest extends WebTestCase
         $this->expectFormErrors($crawler, formErrors: ['could not be processed'], fieldErrors: ['10 characters']);
 
         $logs = $this->getLogs();
-        $this->assertCount(1, $logs);
-        $this->assertSame('antispam', $logs[0]->channel);
-        $this->assertStringContainsString('127.0.0.1 at /en/profile/test2', $logs[0]->message);
+        self::assertCount(1, $logs);
+        self::assertSame('antispam', $logs[0]->channel);
+        self::assertStringContainsString('127.0.0.1 at /en/profile/test2', $logs[0]->message);
     }
 
     public function testProfileTest3(): void
@@ -288,8 +288,8 @@ class IntegrationTest extends WebTestCase
 
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/test3');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('#basic_form_email1', 'Duplicate field name should add counter');
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('#basic_form_email1', 'Duplicate field name should add counter');
 
         $formData = [
             'basic_form[name]' => 'Priya Kaila',
@@ -319,7 +319,7 @@ class IntegrationTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/embedded');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $formData = [
             'embedding_form[embedded][name]' => 'Priya Kaila',
@@ -352,7 +352,7 @@ class IntegrationTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/passive_empty');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $formData = [
             'basic_form[name]' => 'Priya Kaila',
@@ -366,16 +366,16 @@ class IntegrationTest extends WebTestCase
         $this->expectFormErrors($crawler);
 
         $crawler = $client->request('GET', '/en/fake_success');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
         $crawler = $client->submit($crawler->filter('form[name=basic_form]')->form(), $formData);
-        $this->assertSelectorTextContains('h1', 'FAKED');
+        self::assertSelectorTextContains('h1', 'FAKED');
     }
 
     public function testEmptyProfile(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/en/profile/empty');
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     private function expectNoErrors(Crawler $crawler): void
@@ -390,7 +390,7 @@ class IntegrationTest extends WebTestCase
     private function expectFormErrors(Crawler $crawler, string|array $formErrors = [], string|array $fieldErrors = []): void
     {
         if (empty($formErrors) && empty($fieldErrors)) {
-            $this->assertSelectorExists('.alert-primary', 'The form was not accepted successfully.');
+            self::assertSelectorExists('.alert-primary', 'The form was not accepted successfully.');
         } else {
             $this->expectErrors($crawler, '.alert-danger', 'form level', (array) $formErrors);
             $this->expectErrors($crawler, '.invalid-feedback', 'field level', (array) $fieldErrors);
@@ -411,10 +411,10 @@ class IntegrationTest extends WebTestCase
                     continue 2;
                 }
             }
-            $this->fail(sprintf('Unexpected %s error: "%s"', $type, $element->textContent));
+            self::fail(sprintf('Unexpected %s error: "%s"', $type, $element->textContent));
         }
         if (!empty($errors)) {
-            $this->fail(sprintf('Expected %s errors not found: "%s", actual errors: "%s"',
+            self::fail(sprintf('Expected %s errors not found: "%s", actual errors: "%s"',
                 $type, implode('", "', $errors), implode('", "', $actual)));
         }
     }

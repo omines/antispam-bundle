@@ -28,13 +28,13 @@ class UtilityTest extends TestCase
         $test->add('baz');
 
         $unsorted = $test->getScores(false);
-        $this->assertSame(['foo', 1], $unsorted[0]);
+        self::assertSame(['foo', 1], $unsorted[0]);
 
         $sorted = $test->getScores();
-        $this->assertSame(['bar', 2], $sorted[0]);
+        self::assertSame(['bar', 2], $sorted[0]);
 
         $ranking = $test->getRanking(2);
-        $this->assertCount(2, $ranking);
-        $this->assertSame(['baz', 3], $ranking[0]);
+        self::assertCount(2, $ranking);
+        self::assertSame(['baz', 3], $ranking[0]);
     }
 }

@@ -27,8 +27,8 @@ class AntiSpamTest extends KernelTestCase
     #[RunInSeparateProcess]
     public function testStaticFunctions(): void
     {
-        $this->assertNull(AntiSpam::getLastResult());
-        $this->assertFalse(AntiSpam::isSpam());
+        self::assertNull(AntiSpam::getLastResult());
+        self::assertFalse(AntiSpam::isSpam());
 
         $mock = $this->createMock(AntiSpamFormResult::class);
         $mock
@@ -38,30 +38,30 @@ class AntiSpamTest extends KernelTestCase
         ;
 
         AntiSpam::setLastResult($mock);
-        $this->assertTrue(AntiSpam::isSpam());
+        self::assertTrue(AntiSpam::isSpam());
 
         /** @var AntiSpam $antispam */
         $antispam = static::getContainer()->get(AntiSpam::class);
         $antispam->disable();
         $antispam->reset();
 
-        $this->assertNull(AntiSpam::getLastResult());
-        $this->assertTrue($antispam->isEnabled());
+        self::assertNull(AntiSpam::getLastResult());
+        self::assertTrue($antispam->isEnabled());
     }
 
     public function testConfigurationDefaultsAreExpanded(): void
     {
         $antispam = static::getContainer()->get(AntiSpam::class);
-        $this->assertInstanceOf(AntiSpam::class, $antispam);
+        self::assertInstanceOf(AntiSpam::class, $antispam);
 
-        $this->assertTrue($antispam->isEnabled());
-        $this->assertFalse($antispam->getPassive());
-        $this->assertFalse($antispam->getStealth());
+        self::assertTrue($antispam->isEnabled());
+        self::assertFalse($antispam->getPassive());
+        self::assertFalse($antispam->getStealth());
 
         $antispam->disable();
-        $this->assertFalse($antispam->isEnabled());
+        self::assertFalse($antispam->isEnabled());
         $antispam->enable();
-        $this->assertTrue($antispam->isEnabled());
+        self::assertTrue($antispam->isEnabled());
     }
 
     public function testUnknownProfileThrows(): void
@@ -77,21 +77,21 @@ class AntiSpamTest extends KernelTestCase
     {
         /** @var AntiSpam $antispam */
         $antispam = static::getContainer()->get(AntiSpam::class);
-        $this->assertFalse($antispam->getPassive());
-        $this->assertFalse($antispam->getStealth());
+        self::assertFalse($antispam->getPassive());
+        self::assertFalse($antispam->getStealth());
 
         $profile = $antispam->getProfile('test1');
-        $this->assertSame('test1', $profile->getName());
-        $this->assertFalse($profile->getStealth());
-        $this->assertFalse($profile->getPassive());
+        self::assertSame('test1', $profile->getName());
+        self::assertFalse($profile->getStealth());
+        self::assertFalse($profile->getPassive());
 
         $config = $profile->getConfig();
-        $this->assertFalse($config['stealth']);
-        $this->assertFalse($config['passive']);
+        self::assertFalse($config['stealth']);
+        self::assertFalse($config['passive']);
 
         $config['passive'] = true;
         $profile->setConfig($config);
-        $this->assertTrue($profile->getPassive());
+        self::assertTrue($profile->getPassive());
     }
 
     public function testProfileCachesConstraints(): void
@@ -99,6 +99,6 @@ class AntiSpamTest extends KernelTestCase
         /** @var AntiSpam $antispam */
         $antispam = static::getContainer()->get(AntiSpam::class);
         $profile = $antispam->getProfile('test1');
-        $this->assertSame($profile->getTextTypeConstraints(), $profile->getTextTypeConstraints());
+        self::assertSame($profile->getTextTypeConstraints(), $profile->getTextTypeConstraints());
     }
 }

@@ -44,8 +44,8 @@ class BundleTest extends KernelTestCase
         $bundle = new AntiSpamBundle();
         $extension = $bundle->getContainerExtension();
 
-        $this->assertSame('AntiSpamBundle', $bundle->getName());
-        $this->assertSame('antispam', $extension?->getAlias());
+        self::assertSame('AntiSpamBundle', $bundle->getName());
+        self::assertSame('antispam', $extension?->getAlias());
     }
 
     public function testBundleInjectsDependencies(): void
@@ -57,17 +57,17 @@ class BundleTest extends KernelTestCase
         $bundle = new AntiSpamBundle();
         $bundle->build($builder);
         $extension = $bundle->getContainerExtension();
-        $this->assertInstanceOf(PrependExtensionInterface::class, $extension);
+        self::assertInstanceOf(PrependExtensionInterface::class, $extension);
         $extension->load(['antispam' => ['profiles' => ['default' => []]]], $builder);
         $extension->prepend($builder);
 
         /** @var array{form_themes: string[]}[] $twigConfig */
         $twigConfig = $builder->getExtensionConfig('twig');
-        $this->assertContains('@AntiSpam/form/widgets.html.twig', $twigConfig[0]['form_themes']);
+        self::assertContains('@AntiSpam/form/widgets.html.twig', $twigConfig[0]['form_themes']);
 
-        $this->assertTrue($builder->getParameter('antispam.enabled'));
-        $this->assertTrue($builder->has('antispam.profile.default'));
-        $this->assertTrue($builder->has(FormTypeAntiSpamExtension::class));
+        self::assertTrue($builder->getParameter('antispam.enabled'));
+        self::assertTrue($builder->has('antispam.profile.default'));
+        self::assertTrue($builder->has(FormTypeAntiSpamExtension::class));
 
         foreach ($builder->getCompilerPassConfig()->getPasses() as $pass) {
             if ($pass instanceof AddEventAliasesPass) {
@@ -76,9 +76,9 @@ class BundleTest extends KernelTestCase
         }
 
         $classes = $builder->getParameter('event_dispatcher.event_aliases');
-        $this->assertIsArray($classes);
+        self::assertIsArray($classes);
         foreach (AntiSpamEvents::ALIASES as $class => $alias) {
-            $this->assertArrayHasKey($class, $classes);
+            self::assertArrayHasKey($class, $classes);
         }
     }
 
@@ -87,7 +87,7 @@ class BundleTest extends KernelTestCase
         $processor = new Processor();
         $result = $processor->processConfiguration(self::loadConfiguration(), []);
 
-        $this->assertEmpty($result['profiles']);
+        self::assertEmpty($result['profiles']);
     }
 
     /**
@@ -100,7 +100,7 @@ class BundleTest extends KernelTestCase
         $processor = new Processor();
         $result = $processor->processConfiguration(self::loadConfiguration(), $input);
 
-        $this->assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
     }
 
     private static function loadConfiguration(): ConfigurationInterface
@@ -247,11 +247,11 @@ class BundleTest extends KernelTestCase
                 ],
             ]]],
         ]);
-        $this->assertSame($resultString, $resultArray);
-        $this->assertSame($resultString, $resultObject);
-        $this->assertContains(Script::Armenian->value, $resultObject['profiles']['default']['banned_scripts']['scripts']);
-        $this->assertSame(0, $resultObject['profiles']['default']['banned_scripts']['max_percentage']);
-        $this->assertNull($resultObject['profiles']['default']['banned_scripts']['max_characters']);
+        self::assertSame($resultString, $resultArray);
+        self::assertSame($resultString, $resultObject);
+        self::assertContains(Script::Armenian->value, $resultObject['profiles']['default']['banned_scripts']['scripts']);
+        self::assertSame(0, $resultObject['profiles']['default']['banned_scripts']['max_percentage']);
+        self::assertNull($resultObject['profiles']['default']['banned_scripts']['max_characters']);
     }
 
     public function testBannedScriptNameMustBeValid(): void

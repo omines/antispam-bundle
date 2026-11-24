@@ -67,9 +67,9 @@ class FormTypesTest extends KernelTestCase
 
     public function testNonInteractiveFormTypesAreUnmapped(): void
     {
-        $form = $this->createForm(KitchenSinkForm::class)->getForm();
-        $this->assertTrue($form->has('honeypot'));
-        $this->assertTrue($form->has('timer'));
+        $form = self::createForm(KitchenSinkForm::class)->getForm();
+        self::assertTrue($form->has('honeypot'));
+        self::assertTrue($form->has('timer'));
 
         $view = $form->createView();
         self::mockTime('+10 seconds');
@@ -83,16 +83,16 @@ class FormTypesTest extends KernelTestCase
             ],
         ]);
         $form->handleRequest($request);
-        $this->assertTrue($form->isValid() && $form->isSubmitted());
+        self::assertTrue($form->isValid() && $form->isSubmitted());
 
-        $this->assertIsArray($data = $form->getData());
-        $this->assertArrayNotHasKey('honeypot', $data);
-        $this->assertArrayNotHasKey('timer', $data);
+        self::assertIsArray($data = $form->getData());
+        self::assertArrayNotHasKey('honeypot', $data);
+        self::assertArrayNotHasKey('timer', $data);
     }
 
     public function testExternalFormErrorsAreIgnored(): void
     {
-        $form = $this->createForm(KitchenSinkForm::class, [
+        $form = self::createForm(KitchenSinkForm::class, [
             'antispam_profile' => 'test2',
         ]);
         $form->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
@@ -111,9 +111,9 @@ class FormTypesTest extends KernelTestCase
             ],
         ]);
         $form->handleRequest($request);
-        $this->assertFalse($form->isValid());
-        $this->assertNotEmpty($errors = $form->getErrors());
-        $this->assertSame('Foo bar', $errors[0]->getMessage());
+        self::assertFalse($form->isValid());
+        self::assertNotEmpty($errors = $form->getErrors());
+        self::assertSame('Foo bar', $errors[0]->getMessage());
     }
 
     public function testNestedProfileResolution(): void
@@ -136,9 +136,9 @@ class FormTypesTest extends KernelTestCase
         ]);
         $form->handleRequest($request);
 
-        $this->assertFalse($form->isSubmitted() && $form->isValid());
-        $this->assertNotEmpty($errors = $form->getErrors());
-        $this->assertStringContainsString('could not be processed', $errors[0]->getMessage());
+        self::assertFalse($form->isSubmitted() && $form->isValid());
+        self::assertNotEmpty($errors = $form->getErrors());
+        self::assertStringContainsString('could not be processed', $errors[0]->getMessage());
     }
 
     /**
@@ -147,7 +147,7 @@ class FormTypesTest extends KernelTestCase
     #[RunInSeparateProcess]
     public function testEventsAreDispatched(): void
     {
-        $form = $this->createForm(KitchenSinkForm::class, [
+        $form = self::createForm(KitchenSinkForm::class, [
             'antispam_profile' => 'test1',
         ])->getForm();
 

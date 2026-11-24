@@ -67,13 +67,13 @@ class BannedScriptTest extends ConstraintValidatorTestCase
         $constraint = new BannedScripts(Script::Bengali);
 
         $this->validate('aap', $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(null, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(684, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(new class implements \Stringable {
             public function __toString(): string
@@ -81,7 +81,7 @@ class BannedScriptTest extends ConstraintValidatorTestCase
                 return 'foo';
             }
         }, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->expectException(UnexpectedValueException::class);
         $this->constraintValidator->validate($this, $constraint);
@@ -91,16 +91,16 @@ class BannedScriptTest extends ConstraintValidatorTestCase
     {
         $constraint = new BannedScripts(Script::Arabic);
         $characterClass = $constraint->getCharacterClass();
-        $this->assertSame('[\\p{arabic}]', $characterClass);
-        $this->assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_ARABIC));
-        $this->assertEquals(0, preg_match("#{$characterClass}#u", self::SAMPLE_HEBREW));
+        self::assertSame('[\\p{arabic}]', $characterClass);
+        self::assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_ARABIC));
+        self::assertEquals(0, preg_match("#{$characterClass}#u", self::SAMPLE_HEBREW));
 
         $constraint = new BannedScripts([Script::Hebrew, Script::Greek]);
         $characterClass = $constraint->getCharacterClass();
-        $this->assertSame('[\\p{hebrew}\\p{greek}]', $characterClass);
-        $this->assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_HEBREW));
-        $this->assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_GREEK));
-        $this->assertEquals(0, preg_match("#{$characterClass}#u", self::SAMPLE_GURMUKHI));
+        self::assertSame('[\\p{hebrew}\\p{greek}]', $characterClass);
+        self::assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_HEBREW));
+        self::assertEquals(1, preg_match("#{$characterClass}#u", self::SAMPLE_GREEK));
+        self::assertEquals(0, preg_match("#{$characterClass}#u", self::SAMPLE_GURMUKHI));
     }
 
     public function testCalculatingPercentages(): void
@@ -108,20 +108,20 @@ class BannedScriptTest extends ConstraintValidatorTestCase
         $constraint = new BannedScripts(Script::Hebrew, maxPercentage: 19);
         $text = self::LONG_LATIN . self::SAMPLE_HEBREW;
         $parameters = $this->expectViolations($text, $constraint)->get(0)->getParameters();
-        $this->assertSame('20', $parameters['percentage']);
+        self::assertSame('20', $parameters['percentage']);
 
         $constraint->maxPercentage = 20;
         $this->validate($text, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $constraint->maxPercentage = 38;
         $text = str_repeat(self::SAMPLE_LATIN . self::SAMPLE_HEBREW, 1000);
         $parameters = $this->expectViolations($text, $constraint)->get(0)->getParameters();
-        $this->assertSame('39', $parameters['percentage']);
+        self::assertSame('39', $parameters['percentage']);
 
         $constraint->maxPercentage = 39;
         $this->validate($text, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
     }
 
     public function testCharacterThresholdsAreInclusive(): void
@@ -129,11 +129,11 @@ class BannedScriptTest extends ConstraintValidatorTestCase
         $constraint = new BannedScripts(Script::Hebrew, maxCharacters: 31);
         $text = self::LONG_LATIN . self::SAMPLE_HEBREW;
         $parameters = $this->expectViolations($text, $constraint)->get(0)->getParameters();
-        $this->assertSame('32', $parameters['count']);
+        self::assertSame('32', $parameters['count']);
 
         $constraint->maxCharacters = 32;
         $this->validate($text, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
     }
 
     #[DataProvider('provideBannedScripts')]
@@ -141,10 +141,10 @@ class BannedScriptTest extends ConstraintValidatorTestCase
     {
         $errors = $this->validate($message, $constraint);
         if (null === $expectedError) {
-            $this->assertNoViolation();
+            self::assertNoViolation();
         } else {
-            $this->assertCount(1, $errors, 'Expected one single violation');
-            $this->assertStringContainsString($expectedError, (string) $errors->get(0)->getMessage());
+            self::assertCount(1, $errors, 'Expected one single violation');
+            self::assertStringContainsString($expectedError, (string) $errors->get(0)->getMessage());
         }
     }
 

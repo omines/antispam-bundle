@@ -51,21 +51,21 @@ abstract class ConstraintValidatorTestCase extends KernelTestCase
     protected function assertNoViolation(): void
     {
         if (!isset($this->lastViolations)) {
-            $this->fail('No validation has been run yet!');
+            self::fail('No validation has been run yet!');
         }
-        $this->assertEmpty($this->lastViolations, 'Failed asserting that validation causes no violations.');
+        self::assertEmpty($this->lastViolations, 'Failed asserting that validation causes no violations.');
     }
 
     protected function expectNoViolations(string $value, Constraint $constraint): void
     {
         $errors = $this->validate($value, $constraint);
-        $this->assertCount(0, $errors, sprintf('Failed asserting that validating "%s" would cause no violations.', $value));
+        self::assertCount(0, $errors, sprintf('Failed asserting that validating "%s" would cause no violations.', $value));
     }
 
     protected function expectViolations(string $value, Constraint $constraint, int $amount = 1): ConstraintViolationListInterface
     {
         $errors = $this->validate($value, $constraint);
-        $this->assertCount($amount, $errors, sprintf('Failed asserting that validating "%s" would cause %d violation(s)', $value, $amount));
+        self::assertCount($amount, $errors, sprintf('Failed asserting that validating "%s" would cause %d violation(s)', $value, $amount));
 
         return $errors;
     }

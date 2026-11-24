@@ -44,7 +44,7 @@ class BannedPhrasesTest extends ConstraintValidatorTestCase
     public function testSinglePhraseIsExpanded(): void
     {
         $constraint = new BannedPhrases('foo bar');
-        $this->assertSame(['foo bar'], $constraint->phrases);
+        self::assertSame(['foo bar'], $constraint->phrases);
     }
 
     public function testPhrasesArrayCanOnlyContainStrings(): void
@@ -62,13 +62,13 @@ class BannedPhrasesTest extends ConstraintValidatorTestCase
         $constraint = new BannedPhrases(['foo', 'bar']);
 
         $this->validate('aap', $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(null, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(684, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(new class implements \Stringable {
             public function __toString(): string
@@ -76,7 +76,7 @@ class BannedPhrasesTest extends ConstraintValidatorTestCase
                 return 'example-baz';
             }
         }, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->expectException(UnexpectedValueException::class);
         $this->constraintValidator->validate($this, $constraint);
@@ -85,13 +85,13 @@ class BannedPhrasesTest extends ConstraintValidatorTestCase
     public function testStealthedValidationError(): void
     {
         $errors = $this->expectViolations('The foo is bar', new BannedPhrases(['foo'], stealth: true));
-        $this->assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
+        self::assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
     }
 
     public function testUnstealthedValidationError(): void
     {
         $errors = $this->expectViolations('The foo is bar', new BannedPhrases(['viagra', 'foo', 'baz']));
-        $this->assertStringContainsString('disallowed phrase "foo"', (string) $errors->get(0)->getMessage());
+        self::assertStringContainsString('disallowed phrase "foo"', (string) $errors->get(0)->getMessage());
     }
 
     #[DataProvider('provideViolatingPhrases')]

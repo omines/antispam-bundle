@@ -29,7 +29,7 @@ class SubmitTimerTypeTest extends KernelTestCase
     public function testSubmitTimerConfiguration(array $options, ?string $expectedError = null): void
     {
         $factory = static::getContainer()->get(FormFactoryInterface::class);
-        $this->assertInstanceOf(FormFactoryInterface::class, $factory);
+        self::assertInstanceOf(FormFactoryInterface::class, $factory);
 
         if (null !== $expectedError) {
             $this->expectException(InvalidOptionsException::class);

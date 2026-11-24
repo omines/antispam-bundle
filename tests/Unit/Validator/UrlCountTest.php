@@ -45,13 +45,13 @@ class UrlCountTest extends ConstraintValidatorTestCase
         $constraint = new UrlCount();
 
         $this->validate('aap', $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(null, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(684, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->validate(new class implements \Stringable {
             public function __toString(): string
@@ -59,7 +59,7 @@ class UrlCountTest extends ConstraintValidatorTestCase
                 return 'foo';
             }
         }, $constraint);
-        $this->assertNoViolation();
+        self::assertNoViolation();
 
         $this->expectException(UnexpectedValueException::class);
         $this->constraintValidator->validate($this, $constraint);
@@ -68,7 +68,7 @@ class UrlCountTest extends ConstraintValidatorTestCase
     public function testStealthedValidationError(): void
     {
         $errors = $this->expectViolations('Please visit https://www.example.org', new UrlCount(stealth: true));
-        $this->assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
+        self::assertStringContainsString('The submitted value could not be processed', (string) $errors->get(0)->getMessage());
     }
 
     public function testFormattedMessage(): void
@@ -76,10 +76,10 @@ class UrlCountTest extends ConstraintValidatorTestCase
         $text = 'Please visit https://www.example.org and https://www.example.org';
 
         $errors = $this->expectViolations($text, new UrlCount(max: 1));
-        $this->assertSame('The value contains 2 URLs. It should have at most 1.', (string) $errors->get(0)->getMessage());
+        self::assertSame('The value contains 2 URLs. It should have at most 1.', (string) $errors->get(0)->getMessage());
 
         $errors = $this->expectViolations($text, new UrlCount(max: 2, maxIdentical: 1));
-        $this->assertSame('The value contains URL https://www.example.org 2 times, which is more than the 1 allowed.', (string) $errors->get(0)->getMessage());
+        self::assertSame('The value contains URL https://www.example.org 2 times, which is more than the 1 allowed.', (string) $errors->get(0)->getMessage());
     }
 
     #[DataProvider('provideUrlCounts')]
@@ -87,7 +87,7 @@ class UrlCountTest extends ConstraintValidatorTestCase
     {
         $errors = $this->expectViolations($value, $constraint, $expectedViolations ? 1 : 0);
         if ($expectedViolations) {
-            $this->assertEquals($expectedViolations, $errors->get(0)->getParameters()['count']);
+            self::assertEquals($expectedViolations, $errors->get(0)->getParameters()['count']);
         }
     }
 

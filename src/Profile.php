@@ -111,7 +111,7 @@ class Profile
     {
         $this->constraints = [];
         foreach (AntiSpamBundle::CONFIG_KEY_TO_VALIDATOR_MAPPING as $key => $class) {
-            if ($config = $this->config[$key] ?? null) {
+            if (null !== ($config = $this->config[$key] ?? null)) {
                 /* @phpstan-ignore-next-line poor PHPStan goes bonkers over this */
                 $this->constraints[] = new $class(...$config);
             }

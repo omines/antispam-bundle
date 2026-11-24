@@ -24,28 +24,28 @@ final class AntiSpamEvents
      *
      * @Event(FormProcessedEvent::class)
      */
-    public const FORM_PROCESSED = 'antispam.form_processed';
+    public const string FORM_PROCESSED = 'antispam.form_processed';
 
     /**
      * Dispatched when a form has violations against anti-spam rules.
      *
      * @Event(FormViolationEvent::class)
      */
-    public const FORM_VIOLATION = 'antispam.form_violation';
+    public const string FORM_VIOLATION = 'antispam.form_violation';
 
     /**
      * Dispatched when one of the bundle's validators causes a violation.
      *
      * @Event(ValidatorViolationEvent::class)
      */
-    public const VALIDATOR_VIOLATION = 'antispam.validator_violation';
+    public const string VALIDATOR_VIOLATION = 'antispam.validator_violation';
 
     /**
      * Alias map for using event class names instead of event names in subscribers and listeners.
      *
      * @var array<class-string, string>
      */
-    public const ALIASES = [
+    public const array ALIASES = [
         FormProcessedEvent::class => self::FORM_PROCESSED,
         FormViolationEvent::class => self::FORM_VIOLATION,
         ValidatorViolationEvent::class => self::VALIDATOR_VIOLATION,
