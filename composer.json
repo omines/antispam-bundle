@@ -15,7 +15,7 @@
       "issues": "https://github.com/omines/antispam-bundle/issues"
     },
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-mbstring": "*",
         "psr/log": "^2.0|^3.0",
         "symfony/clock": "^6.4.48|^7.4.21|^8.1",
@@ -29,7 +29,7 @@
     "require-dev": {
         "ekino/phpstan-banned-code": "^3.2.0",
         "friendsofphp/php-cs-fixer": "^3.95.32",
-        "infection/infection": "^0.32.6",
+        "infection/infection": "^0.35.9",
         "phpstan/extension-installer": "^1.4.3",
         "phpstan/phpstan": "^2.3.7",
         "phpstan/phpstan-phpunit": "^2.1.2",
