@@ -24,7 +24,7 @@ jobs:
         dependencies: [ stable, beta ]
         experimental: [ false ]
         include:
-          - php: '8.5'
+          - php: '8.6'
             dependencies: stable
             isReference: true
           - php: '8.2'
