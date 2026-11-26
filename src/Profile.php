@@ -13,6 +13,10 @@ declare(strict_types=1);
 namespace Omines\AntiSpamBundle;
 
 use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
+use Symfony\Component\RateLimiter\CompoundLimiter;
+use Symfony\Component\RateLimiter\LimiterInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -32,12 +36,14 @@ class Profile
     private array $constraints;
 
     /**
-     * @param ProfileConfig $config
+     * @param ProfileConfig                                        $config
+     * @param list<RateLimiterFactory|RateLimiterFactoryInterface> $rateLimiterFactories
      */
     public function __construct(
         private readonly string $name,
         private array $config,
         private readonly FormProfileSubscriber $formEventSubscriber,
+        private readonly array $rateLimiterFactories = [],
     ) {
         $formEventSubscriber->setProfile($this);
     }
@@ -81,6 +87,22 @@ class Profile
     public function getPassive(): bool
     {
         return $this->config['passive'];
+    }
+
+    public function hasRateLimiter(): bool
+    {
+        return [] !== $this->rateLimiterFactories;
+    }
+
+    public function getRateLimiter(string $key): ?LimiterInterface
+    {
+        $limiters = array_map(fn (RateLimiterFactory|RateLimiterFactoryInterface $factory) => $factory->create($key), $this->rateLimiterFactories);
+
+        return match (count($limiters)) {
+            0 => null,
+            1 => $limiters[0],
+            default => new CompoundLimiter($limiters),
+        };
     }
 
     public function getStealth(): bool

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle\Form\Type;
 
+use Omines\AntiSpamBundle\AntiSpam;
 use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,8 +29,6 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
 
     public const DEFAULT_MIN = 3;
     public const DEFAULT_MAX = 3600;
-
-    private const NO_IP = 'no-ip';
 
     public function __construct(
         #[Autowire(param: 'kernel.secret')]
@@ -75,7 +74,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
                     return;
                 }
 
-                $currentIp = $this->requestStack->getMainRequest()?->getClientIp() ?? self::NO_IP;
+                $currentIp = $this->requestStack->getMainRequest()?->getClientIp() ?? AntiSpam::NO_IP;
                 if ($ip !== $currentIp) {
                     $this->createFormError($form, 'form.timer.mismatch_ip', cause: "The client IP address changed from $ip to $currentIp");
                 }
@@ -95,7 +94,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $ip = $this->requestStack->getMainRequest()?->getClientIp() ?? self::NO_IP;
+        $ip = $this->requestStack->getMainRequest()?->getClientIp() ?? AntiSpam::NO_IP;
         $ts = $this->getTimestampMilliseconds();
         $secret = $options['secret'];
         $view->vars['value'] = \base64_encode(implode('|', [$ip, $ts, hash('sha256', "$ts|$ip|$secret")]));

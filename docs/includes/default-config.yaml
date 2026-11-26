@@ -53,6 +53,12 @@ antispam:
                     # Prototype
                     name:                 ~
 
+            # Limit how often valid submissions are accepted, using limiters defined under framework.rate_limiter
+            rate_limiter:
+
+                # Names of limiters defined under framework.rate_limiter, all of which must accept the submission
+                limiters:             []
+
             # Verify that time between retrieval and submission of a form is within human boundaries
             timer:
 

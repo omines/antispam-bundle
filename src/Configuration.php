@@ -73,6 +73,7 @@ final class Configuration
         self::addBannedPhrasesSection($profile);
         self::addBannedScriptsSection($profile);
         self::addHoneypotSection($profile);
+        self::addRateLimiterSection($profile);
         self::addTimerSection($profile);
         self::addUrlCountSection($profile);
     }
@@ -171,6 +172,31 @@ final class Configuration
 
                                 return $v;
                             })->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    }
+
+    private static function addRateLimiterSection(NodeBuilder $profile): void
+    {
+        $profile
+            ->arrayNode('rate_limiter')
+                ->info('Limit how often valid submissions are accepted, using limiters defined under framework.rate_limiter')
+                ->beforeNormalization()
+                    ->always(fn (mixed $v) => match (true) {
+                        null === $v => ['limiters' => []],
+                        is_string($v) || (is_array($v) && isset($v[0])) => ['limiters' => (array) $v],
+                        default => $v,
+                    })
+                ->end()
+                ->children()
+                    ->arrayNode('limiters')
+                        ->info('Names of limiters defined under framework.rate_limiter, all of which must accept the submission')
+                        ->requiresAtLeastOneElement()
+                        ->scalarPrototype()
+                            ->validate()->ifTrue(fn (mixed $v) => !is_string($v))->thenInvalid('Rate limiter names must be strings')->end()
                         ->end()
                     ->end()
                 ->end()

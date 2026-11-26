@@ -23,6 +23,8 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 class AntiSpam implements ResetInterface
 {
+    public const string NO_IP = 'no-ip';
+
     private static ?AntiSpamFormResult $lastResult = null;
 
     private bool $enabled;

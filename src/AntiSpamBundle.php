@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Omines\AntiSpamBundle;
 
+use Omines\AntiSpamBundle\DependencyInjection\RateLimiterReferencesPass;
 use Omines\AntiSpamBundle\EventSubscriber\FormProfileSubscriber;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedMarkup;
 use Omines\AntiSpamBundle\Validator\Constraints\BannedPhrases;
@@ -27,7 +28,7 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 /**
  * @phpstan-type BannedScriptsConfig array{scripts: Type\Script[], max_percentage: int, max_characters: ?int}
- * @phpstan-type AntiSpamProfile array{passive: ?bool, banned_markup: array<string, mixed>, url_count: array<string, mixed>, banned_phrases: array<string, mixed>, banned_scripts: BannedScriptsConfig}
+ * @phpstan-type AntiSpamProfile array{passive: ?bool, banned_markup: array<string, mixed>, url_count: array<string, mixed>, banned_phrases: array<string, mixed>, banned_scripts: BannedScriptsConfig, rate_limiter?: array{limiters: string[]}}
  * @phpstan-type AntiSpamConfiguration array{enabled: bool, passive: bool, profiles: array<string, AntiSpamProfile>}
  */
 class AntiSpamBundle extends AbstractBundle
@@ -52,6 +53,7 @@ class AntiSpamBundle extends AbstractBundle
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new AddEventAliasesPass(AntiSpamEvents::ALIASES));
+        $container->addCompilerPass(new RateLimiterReferencesPass());
     }
 
     /**
@@ -80,6 +82,12 @@ class AntiSpamBundle extends AbstractBundle
                 }
             }
 
+            $limiters = array_map(
+                fn (string $limiter) => new Reference(sprintf('limiter.%s', $limiter)),
+                $profile['rate_limiter']['limiters'] ?? [],
+            );
+            unset($profile['rate_limiter']);
+
             $id = 'antispam.profile.' . $name;
             $builder
                 ->register($id, Profile::class)
@@ -87,6 +95,7 @@ class AntiSpamBundle extends AbstractBundle
                 ->addArgument($name)
                 ->addArgument($profile)
                 ->addArgument(new Reference(FormProfileSubscriber::class))
+                ->addArgument($limiters)
             ;
         }
 
