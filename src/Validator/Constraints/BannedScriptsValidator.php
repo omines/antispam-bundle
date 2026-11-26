@@ -36,13 +36,13 @@ class BannedScriptsValidator extends AntiSpamConstraintValidator
                 // Only do an expensive full count once we know we need the numbers
                 $count = preg_match_all("/{$class}/u", $value);
                 $percentage = 100 * $count / mb_strlen($value);
-                if ($constraint->maxPercentage <= 0 && $count > $constraint->maxCharacters) {
+                if (null !== $constraint->maxCharacters && $count > $constraint->maxCharacters) {
                     $this->failValidation($constraint, 'validator.banned_scripts.characters_exceeded', [
                         'count' => (string) $count,
                         'max' => $constraint->maxCharacters,
                         'scripts' => $constraint->getReadableScripts(),
                     ], $value);
-                } elseif (null === $constraint->maxCharacters && $percentage > $constraint->maxPercentage) {
+                } elseif ($constraint->maxPercentage > 0 && $percentage > $constraint->maxPercentage) {
                     $this->failValidation($constraint, 'validator.banned_scripts.percentage_exceeded', [
                         'percentage' => (string) ceil($percentage),
                         'max' => $constraint->maxPercentage,
