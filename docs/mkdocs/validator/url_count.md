@@ -20,7 +20,7 @@ Can be applied to [properties or methods](https://symfony.com/doc/current/valida
     
     class Message
     {
-        #[Antispam\UrlCount(max: 3, maxIdentical: 1]
+        #[Antispam\UrlCount(max: 3, maxIdentical: 1)]
         protected string $content;
     }
     ```

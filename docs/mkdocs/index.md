@@ -12,7 +12,7 @@ This bundle provides a ton of different mechanisms for detecting and stopping sp
 scammers and abusers using your forms for their nefarious purposes, and brings them
 all together in an easy to configure and easy to use profile system.
 
-The bundle is compatible with PHP 8.2+ and Symfony 6.4 or later in active support.
+The bundle is compatible with PHP 8.3+ and Symfony 6.4 LTS, 7.4 LTS and 8.x.
 
 ## Features
 

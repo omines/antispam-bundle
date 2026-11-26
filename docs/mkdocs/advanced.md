@@ -53,7 +53,7 @@ public function fakeSuccess(Request $request): Response
         if (!AntiSpam::isSpam()) {
             // Only send an actual email if the form did not trigger
             // spam detections!
-            $this->sendEmailTo('site-owner@example.org', $form->getData();
+            $this->sendEmailTo('site-owner@example.org', $form->getData());
         }
         $this->addFlash('message', 'Form passed');
     }
@@ -63,3 +63,22 @@ public function fakeSuccess(Request $request): Response
     ]);
 }
 ```
+
+## The `AntiSpam` service
+
+The `Omines\AntiSpamBundle\AntiSpam` service is the entry point to the bundle at runtime, and can be injected anywhere through autowiring.
+
+| Method                          | Description                                                                                                            |
+|---------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| `getProfile(string $name)`      | Returns the `Profile` with the given name, or throws an `InvalidProfileException` if it is not configured.             |
+| `enable()` / `disable()`        | Enables or disables the bundle at runtime, overriding the [`enabled`](configuration.md#enabled) setting.               |
+| `isEnabled()`                   | Whether the bundle is currently enabled.                                                                               |
+| `getPassive()` / `getStealth()` | The global [`passive`](configuration.md#passive) and [`stealth`](configuration.md#stealth) settings.                   |
+| `AntiSpam::getLastResult()`     | Static. The `AntiSpamFormResult` of the last processed form with a profile, or `null` if there was none.               |
+| `AntiSpam::isSpam()`            | Static. Whether the last processed form violated any antispam rule, `false` if there was none.                         |
+
+The enabled state and the last result are reset between requests, and between tests when the container is reset.
+
+## Using the form types and validators without profiles
+
+All components work standalone, without a profile. Add [`HoneypotType`](form/honeypot.md) and [`SubmitTimerType`](form/submit_timer.md) to a form like any other field, and apply the [validators](features.md#validators) as constraints on your own classes. Standalone components follow the global [`passive`](configuration.md#passive) and [`stealth`](configuration.md#stealth) settings, as they are not part of a profile.

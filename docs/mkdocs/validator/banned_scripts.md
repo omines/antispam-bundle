@@ -6,10 +6,13 @@ A [Script](https://en.wikipedia.org/wiki/Script_(Unicode)) is the Unicode term g
 [writing system](https://en.wikipedia.org/wiki/Writing_system). Well known examples include the Greek, Arabic, Cyrillic
 and Han scripts.
 
-The validator can fail on a minimum percentage or character count in the given value. With the default percentage of 0%
+The validator can fail on a maximum percentage or character count in the given value. With the default percentage of 0%
 the validator will fail if it encounters any character in any of the configured scripts.
 
 Can be applied to [properties or methods](https://symfony.com/doc/current/validation.html#constraint-targets).
+
+!!! warning "Requires PCRE 10.40 or later"
+    Detecting scripts relies on Unicode script support in PCRE, which requires PCRE version 10.40 or later. With an older version the validator throws a `LogicException` the first time it is used. You can check the version used by your PHP installation with `php -r 'echo PCRE_VERSION;'`, and upgrade PHP or your operating system if it is too old.
 
 ## Basic Usage
 
@@ -23,7 +26,7 @@ Can be applied to [properties or methods](https://symfony.com/doc/current/valida
     
     class Message
     {
-        #[Antispam\BannedScripts([Script::Cyrillic]
+        #[Antispam\BannedScripts([Script::Cyrillic])]
         protected string $content;
     }
     ```
@@ -35,7 +38,7 @@ Can be applied to [properties or methods](https://symfony.com/doc/current/valida
     App\Entity\Message:
         properties:
             content:
-                - BannedScripts: [Cyrillic]
+                - BannedScripts: [cyrillic]
     ```
 
 === "PHP"
@@ -69,15 +72,15 @@ Can be applied to [properties or methods](https://symfony.com/doc/current/valida
 
 **type**: `int` **default**: `0`
 
-Validation will fail if the given value contains more characters in the configured scripts than configured.
+Validation will fail if more than this percentage of the characters in the given value are in the configured scripts. With `0`, and `maxCharacters` not set, any character in the configured scripts fails validation.
 
-Ignored if set to `0` and `maxCharacters` is also set.
+When both this option and `maxCharacters` are set, validation fails as soon as either limit is exceeded.
 
 ### `maxCharacters`
 
 **type**: `int|null` **default**: `null`
 
-Validation will fail if the given value contains more characters in the configured scripts than configured.
+Validation will fail if the given value contains more than this number of characters in the configured scripts.
 
 Set to `null` to disable failing on absolute character count.
 
@@ -89,8 +92,7 @@ Set to `null` to disable failing on absolute character count.
 
 **type**: `array|string|Script`
 
-An array of `Script` values, or strings that can be parsed into a valid `Script` value. Scalars are wrapped in
-an array.
+An array of `Script` values, or strings that can be parsed into a valid `Script` value, which are the lowercase values of the enum cases such as `cyrillic` or `caucasian_albanian`. Scalars are wrapped in an array.
 
 For valid values refer to [`Script.php`](https://github.com/omines/antispam-bundle/blob/master/src/Type/Script.php)
 in the sources.

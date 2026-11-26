@@ -21,7 +21,7 @@ antispam:
                 max: 3600
 ```
 This defines a *profile* called `default`, which defines that any forms having the profile should insert a
-[honeypot](https://en.wikipedia.org/wiki/Honeypot_(computing)) field called `email_adress`, and have timer protection
+[honeypot](https://en.wikipedia.org/wiki/Honeypot_(computing)) field called `email_address`, and have timer protection
 rejecting forms submitted either within 3 seconds, or after more than 1 hour.
 
 ??? tip "But my form already has an email_address field!"
@@ -127,7 +127,7 @@ What happens now when you apply the `contact` profile to your contact form type:
       BBCode features is allowed.
     * A [BannedScripts](validator/banned_scripts.md) validator blocks all fields which consist for at least 50% of
       Cyrillic or Hebrew characters.
-    * A [URLCount](validator/url_count.md) validator will block form submission if any of its text fields constain more
+    * A [URLCount](validator/url_count.md) validator will block form submission if any of its text fields contain more
       than 2 URLs, or if a single URL is repeated more than once. 
 
 !!! warning "Always consider carefully what is normal on your specific site!"
