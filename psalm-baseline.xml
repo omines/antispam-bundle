@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="7.21.1@9c65a301d0f131bc3c3b481551aad870b86dd967">
+  <file src="src/AntiSpam.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AntiSpam]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function reset(): void]]></code>
+    </MissingOverrideAttribute>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->profiles->get($id)]]></code>
+    </MixedReturnStatement>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+      <code><![CDATA[disable]]></code>
+      <code><![CDATA[enable]]></code>
+      <code><![CDATA[getLastResult]]></code>
+      <code><![CDATA[getPassive]]></code>
+      <code><![CDATA[isSpam]]></code>
+      <code><![CDATA[setLastResult]]></code>
+    </PossiblyUnusedMethod>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$enabled]]></code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/AntiSpamBundle.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AntiSpamBundle]]></code>
+    </ClassMustBeFinal>
+    <DeprecatedInterface>
+      <code><![CDATA[AntiSpamBundle]]></code>
+    </DeprecatedInterface>
+    <InvalidTemplateParam>
+      <code><![CDATA[$definition->rootNode()]]></code>
+    </InvalidTemplateParam>
+    <MissingClassConstType>
+      <code><![CDATA[ANTISPAM_ALIAS = 'antispam']]></code>
+      <code><![CDATA[CONFIG_KEY_TO_VALIDATOR_MAPPING = [
+        'banned_markup' => BannedMarkup::class,
+        'url_count' => UrlCount::class,
+        'banned_phrases' => BannedPhrases::class,
+        'banned_scripts' => BannedScripts::class,
+    ]]]></code>
+      <code><![CDATA[MONOLOG_CHANNEL_NAME = 'antispam']]></code>
+      <code><![CDATA[TRANSLATION_DOMAIN = 'antispam']]></code>
+    </MissingClassConstType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function build(ContainerBuilder $container): void]]></code>
+      <code><![CDATA[public function configure(DefinitionConfigurator $definition): void]]></code>
+      <code><![CDATA[public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void]]></code>
+      <code><![CDATA[public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void]]></code>
+    </MissingOverrideAttribute>
+    <MixedAssignment>
+      <code><![CDATA[$newConfig[lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $param))))]]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$config]]></code>
+    </MoreSpecificImplementedParamType>
+    <ParamNameMismatch>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+    </ParamNameMismatch>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$definition->rootNode()]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/AntiSpamEvents.php">
+    <UnusedConstructor>
+      <code><![CDATA[__construct]]></code>
+    </UnusedConstructor>
+  </file>
+  <file src="src/Configuration.php">
+    <InvalidArgument>
+      <code><![CDATA[$children]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+    </InvalidArgument>
+    <UnusedMethodCall>
+      <code><![CDATA[end]]></code>
+      <code><![CDATA[end]]></code>
+      <code><![CDATA[end]]></code>
+      <code><![CDATA[end]]></code>
+      <code><![CDATA[end]]></code>
+      <code><![CDATA[end]]></code>
+    </UnusedMethodCall>
+  </file>
+  <file src="src/Event/CancellableEventTrait.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[cancel]]></code>
+      <code><![CDATA[cancel]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Event/FormProcessedEvent.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FormProcessedEvent]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Event/FormResultEvent.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+      <code><![CDATA[getResult]]></code>
+    </PossiblyUnusedMethod>
+    <UnusedProperty>
+      <code><![CDATA[$result]]></code>
+    </UnusedProperty>
+  </file>
+  <file src="src/Event/FormViolationEvent.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FormViolationEvent]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Event/ValidatorViolationEvent.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ValidatorViolationEvent]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getConstraint]]></code>
+      <code><![CDATA[getValue]]></code>
+    </PossiblyUnusedMethod>
+    <UnusedProperty>
+      <code><![CDATA[$constraint]]></code>
+      <code><![CDATA[$value]]></code>
+    </UnusedProperty>
+  </file>
+  <file src="src/EventSubscriber/FormProfileSubscriber.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FormProfileSubscriber]]></code>
+    </ClassMustBeFinal>
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[array<FormEvents::*, string>]]></code>
+    </ImplementedReturnTypeMismatch>
+    <MismatchingDocblockReturnType>
+      <code><![CDATA[array<FormEvents::*, string>]]></code>
+    </MismatchingDocblockReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
+    </MissingOverrideAttribute>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$name]]></code>
+      <code><![CDATA[$options]]></code>
+    </MixedArgumentTypeCoercion>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+      <code><![CDATA[applyTextTypeProfile]]></code>
+      <code><![CDATA[onPostSetData]]></code>
+      <code><![CDATA[onPostSubmit]]></code>
+      <code><![CDATA[onPreSetData]]></code>
+      <code><![CDATA[setProfile]]></code>
+    </PossiblyUnusedMethod>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$profile]]></code>
+    </PropertyNotSetInConstructor>
+    <UnusedMethod>
+      <code><![CDATA[uniqueFieldName]]></code>
+    </UnusedMethod>
+    <UnusedProperty>
+      <code><![CDATA[$eventDispatcher]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$requestStack]]></code>
+      <code><![CDATA[$translator]]></code>
+    </UnusedProperty>
+  </file>
+  <file src="src/EventSubscriber/PassiveModeSubscriber.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PassiveModeSubscriber]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[PassiveModeSubscriber]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Exception/InvalidOptionsException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[InvalidOptionsException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/InvalidProfileException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[InvalidProfileException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Form/AntiSpamFormError.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AntiSpamFormError]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Form/AntiSpamFormResult.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AntiSpamFormResult]]></code>
+    </ClassMustBeFinal>
+    <MixedAssignment>
+      <code><![CDATA[$cause]]></code>
+    </MixedAssignment>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+      <code><![CDATA[clearAntiSpamErrors]]></code>
+      <code><![CDATA[getAntiSpamErrors]]></code>
+      <code><![CDATA[getForm]]></code>
+      <code><![CDATA[getFormErrors]]></code>
+      <code><![CDATA[getProfile]]></code>
+      <code><![CDATA[hasAntiSpamErrors]]></code>
+      <code><![CDATA[isSpam]]></code>
+    </PossiblyUnusedMethod>
+    <TooFewArguments>
+      <code><![CDATA[clearErrors]]></code>
+    </TooFewArguments>
+    <UnusedMethod>
+      <code><![CDATA[isAntiSpamError]]></code>
+      <code><![CDATA[recursiveClearAntiSpamErrors]]></code>
+    </UnusedMethod>
+    <UnusedProperty>
+      <code><![CDATA[$antiSpamErrors]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$formErrors]]></code>
+      <code><![CDATA[$profile]]></code>
+    </UnusedProperty>
+  </file>
+  <file src="src/Form/Extension/FormTypeAntiSpamExtension.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FormTypeAntiSpamExtension]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function buildForm(FormBuilderInterface $builder, array $options): void]]></code>
+      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
+      <code><![CDATA[public static function getExtendedTypes(): iterable]]></code>
+    </MissingOverrideAttribute>
+    <MissingTemplateParam>
+      <code><![CDATA[FormTypeAntiSpamExtension]]></code>
+    </MissingTemplateParam>
+    <UnusedClass>
+      <code><![CDATA[FormTypeAntiSpamExtension]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Form/Type/AbstractAntiSpamType.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[setAntiSpam]]></code>
+      <code><![CDATA[setTranslator]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Form/Type/HoneypotType.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[HoneypotType]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function buildForm(FormBuilderInterface $builder, array $options): void]]></code>
+      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
+      <code><![CDATA[public function getBlockPrefix(): string]]></code>
+      <code><![CDATA[public function getParent(): ?string]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$event->getForm()]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Form/Type/NonInteractiveAntiSpamType.php">
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
+    </MissingOverrideAttribute>
+  </file>
+  <file src="src/Form/Type/SubmitTimerType.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SubmitTimerType]]></code>
+    </ClassMustBeFinal>
+    <InvalidOperand>
+      <code><![CDATA[$now->getTimestamp() + intval($now->format('v')) / 1000]]></code>
+    </InvalidOperand>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$view->vars]]></code>
+    </InvalidPropertyAssignmentValue>
+    <MissingClassConstType>
+      <code><![CDATA[DEFAULT_MAX = 3600]]></code>
+      <code><![CDATA[DEFAULT_MIN = 3]]></code>
+      <code><![CDATA[NO_IP = 'no-ip']]></code>
+    </MissingClassConstType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function buildForm(FormBuilderInterface $builder, array $options): void]]></code>
+      <code><![CDATA[public function buildView(FormView $view, FormInterface $form, array $options): void]]></code>
+      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
+      <code><![CDATA[public function getBlockPrefix(): string]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[SubmitTimerType]]></code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Profile.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Profile]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+      <code><![CDATA[buildTextTypeConstraints]]></code>
+      <code><![CDATA[getConfig]]></code>
+      <code><![CDATA[getHoneypotConfig]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getPassive]]></code>
+      <code><![CDATA[getTextTypeConstraints]]></code>
+      <code><![CDATA[getTimerConfig]]></code>
+      <code><![CDATA[setConfig]]></code>
+    </PossiblyUnusedMethod>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$constraints]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[$this->buildTextTypeConstraints()]]></code>
+      <code><![CDATA[$this->constraints]]></code>
+    </RedundantPropertyInitializationCheck>
+    <UnusedProperty>
+      <code><![CDATA[$constraints]]></code>
+      <code><![CDATA[$name]]></code>
+    </UnusedProperty>
+  </file>
+  <file src="src/Utility/StringCounter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[StringCounter]]></code>
+    </ClassMustBeFinal>
+    <UnusedClass>
+      <code><![CDATA[StringCounter]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Validator/Constraints/AntiSpamConstraint.php">
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$groups]]></code>
+    </MixedArgumentTypeCoercion>
+    <PossiblyUnusedProperty>
+      <code><![CDATA[$passive]]></code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="src/Validator/Constraints/AntiSpamConstraintValidator.php">
+    <MissingClassConstType>
+      <code><![CDATA[STEALTHED_TRANSLATION_KEY = 'validator.stealthed']]></code>
+    </MissingClassConstType>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Validator/Constraints/BannedMarkup.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[BannedMarkup]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Validator/Constraints/BannedMarkupValidator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[BannedMarkupValidator]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
+    </MissingOverrideAttribute>
+  </file>
+  <file src="src/Validator/Constraints/BannedPhrases.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[BannedPhrases]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$regexp]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[isset($this->regexp)]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/Validator/Constraints/BannedPhrasesValidator.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$regexp]]></code>
+    </ArgumentTypeCoercion>
+    <ClassMustBeFinal>
+      <code><![CDATA[BannedPhrasesValidator]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
+    </MissingOverrideAttribute>
+  </file>
+  <file src="src/Validator/Constraints/BannedScripts.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[BannedScripts]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[MINIMUM_PCRE_VERSION = '10.40']]></code>
+    </MissingClassConstType>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+    <PropertyNotSetInConstructor>
+      <code><![CDATA[$characterClass]]></code>
+    </PropertyNotSetInConstructor>
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[isset($this->characterClass)]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/Validator/Constraints/BannedScriptsValidator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[BannedScriptsValidator]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyFalseOperand>
+      <code><![CDATA[$count]]></code>
+    </PossiblyFalseOperand>
+  </file>
+  <file src="src/Validator/Constraints/UrlCount.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[UrlCount]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[__construct]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Validator/Constraints/UrlCountValidator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[UrlCountValidator]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
+    </MissingOverrideAttribute>
+  </file>
+</files>
