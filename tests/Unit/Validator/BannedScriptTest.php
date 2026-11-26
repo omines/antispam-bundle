@@ -189,6 +189,20 @@ class BannedScriptTest extends ConstraintValidatorTestCase
                 self::SAMPLE_HEBREW . self::SAMPLE_CYRILLIC,
                 '36% of characters of disallowed scripts (Hebrew) while only 25% is allowed',
             ],
+            'both limits, percentage exceeded' => [
+                new BannedScripts(Script::Hebrew, maxPercentage: 10, maxCharacters: 1000),
+                self::LONG_LATIN . self::SAMPLE_HEBREW,
+                'of characters of disallowed scripts (Hebrew) while only 10% is allowed',
+            ],
+            'both limits, character count exceeded' => [
+                new BannedScripts(Script::Hebrew, maxPercentage: 90, maxCharacters: 5),
+                self::LONG_LATIN . self::SAMPLE_HEBREW,
+                'characters from disallowed scripts (Hebrew) while only 5 are allowed',
+            ],
+            'both limits, none exceeded' => [
+                new BannedScripts(Script::Hebrew, maxPercentage: 90, maxCharacters: 1000),
+                self::LONG_LATIN . self::SAMPLE_HEBREW,
+            ],
             'low max character count' => [
                 new BannedScripts(Script::Cyrillic, maxCharacters: 5),
                 self::SAMPLE_HEBREW . self::SAMPLE_CYRILLIC,
