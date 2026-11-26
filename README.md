@@ -27,6 +27,7 @@ This bundle provides you with a ton of methods to easily combat spam through tes
 
 - *Honeypot*: hidden field to bait spammers
 - *Timer*: Rejects forms being submitted too fast or too slow
+- *Rate limiting*: Limits how often valid forms can be submitted per client, through `symfony/rate-limiter`
 - *Banned scripts*: Reject forms containing characters in specific scripts (ie. Cyrillic or Arabic)
 - *Banned markup*: Rejects forms containing (attempts at) HTML or BBCode
 - *Banned phrases*: Reject forms containing predefined phrases

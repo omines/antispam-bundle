@@ -3,6 +3,8 @@ form:
 
   honeypot:
     not_empty: 'Das Honeypot Feld sollte leer sein, ist es jedoch nicht.'
+  rate_limiter:
+    exceeded: 'Das Formular wurde zu oft abgeschickt. Bitte warten Sie eine Weile, bevor Sie es erneut versuchen.'
   timer:
     corrupted: 'Aus technischen Gründen konnte das Formular nicht bearbeitet werden.'
     mismatch_ip: 'Ihre IP-Adresse hat sich während des Absendens des Formulars geändert. Bitte versuchen Sie es erneut.'

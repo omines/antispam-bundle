@@ -56,3 +56,24 @@ antispam:
 
     empty:
 
+
+    rate_limited:
+      stealth: false
+      rate_limiter: test_minute
+
+    rate_limited_compound:
+      stealth: false
+      rate_limiter: [test_minute, test_hour]
+
+    rate_limited_stealthy:
+      stealth: true
+      rate_limiter: test_minute
+
+    rate_limited_hourly:
+      stealth: false
+      rate_limiter: [test_minute_lenient, test_hour]
+
+    rate_limited_passive:
+      stealth: false
+      passive: true
+      rate_limiter: test_minute

@@ -126,6 +126,8 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
         $form = $event->getForm();
         $request = $this->requestStack->getMainRequest();
 
+        $this->applyRateLimit($form, $request?->getClientIp() ?? AntiSpam::NO_IP);
+
         $result = new AntiSpamFormResult($form, $this->profile);
         $this->eventDispatcher->dispatch(new FormProcessedEvent($result), AntiSpamEvents::FORM_PROCESSED);
         AntiSpam::setLastResult($result);
@@ -152,6 +154,33 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
     {
         if (!empty($constraints = $this->profile->getTextTypeConstraints())) {
             $options['constraints'][] = new Sequentially($constraints);
+        }
+    }
+
+    /**
+     * @param FormInterface<mixed> $form
+     */
+    private function applyRateLimit(FormInterface $form, string $key): void
+    {
+        if (!$this->profile->hasRateLimiter()) {
+            return;
+        }
+
+        if (!$form->isRoot()) {
+            $this->logger?->info(sprintf('Ignoring rate limiter configuration from profile "%s" on embedded form', $this->profile->getName()));
+
+            return;
+        }
+
+        // Only valid submissions use up tokens, so users correcting mistakes are not throttled
+        if (count($form->getErrors(true)) > 0) {
+            return;
+        }
+
+        $limiter = $this->profile->getRateLimiter($key);
+        if (null !== $limiter && !$limiter->consume()->isAccepted()) {
+            $message = $this->translator->trans('form.rate_limiter.exceeded', domain: AntiSpamBundle::TRANSLATION_DOMAIN);
+            $form->addError(new AntiSpamFormError($message, 'form.rate_limiter.exceeded'));
         }
     }
 

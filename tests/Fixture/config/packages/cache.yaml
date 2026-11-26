@@ -17,3 +17,6 @@ framework:
         # Namespaced pools use the above "app" backend by default
         #pools:
             #my.dedicated.cache: null
+        pools:
+            cache.test_rate_limiter:
+                adapter: cache.adapter.array

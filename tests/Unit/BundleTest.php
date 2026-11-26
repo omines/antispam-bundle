@@ -15,7 +15,9 @@ namespace Tests\Unit;
 use Omines\AntiSpamBundle\AntiSpamBundle;
 use Omines\AntiSpamBundle\AntiSpamEvents;
 use Omines\AntiSpamBundle\Configuration;
+use Omines\AntiSpamBundle\DependencyInjection\RateLimiterReferencesPass;
 use Omines\AntiSpamBundle\Form\Extension\FormTypeAntiSpamExtension;
+use Omines\AntiSpamBundle\Profile;
 use Omines\AntiSpamBundle\Type\Script;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -28,6 +30,7 @@ use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\EventDispatcher\DependencyInjection\AddEventAliasesPass;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -37,6 +40,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 #[CoversClass(AntiSpamBundle::class)]
 #[CoversClass(Configuration::class)]
+#[CoversClass(RateLimiterReferencesPass::class)]
 class BundleTest extends KernelTestCase
 {
     public function testBundleIsLoadedCorrectlyWithExtension(): void
@@ -80,6 +84,22 @@ class BundleTest extends KernelTestCase
         foreach (AntiSpamEvents::ALIASES as $class => $alias) {
             self::assertArrayHasKey($class, $classes);
         }
+    }
+
+    public function testUnknownRateLimiterIsReportedWithProfileName(): void
+    {
+        $builder = new ContainerBuilder();
+        $builder->register('antispam.profile.contact', Profile::class)
+            ->addTag('antispam.profile')
+            ->addArgument('contact')
+            ->addArgument([])
+            ->addArgument(null)
+            ->addArgument([new Reference('limiter.contat_minute')]);
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('Profile "contact" in the antispam configuration uses rate limiter "contat_minute"');
+
+        (new RateLimiterReferencesPass())->process($builder);
     }
 
     public function testConfigurationDefaultsAreEmpty(): void
@@ -200,6 +220,24 @@ class BundleTest extends KernelTestCase
             'honeypot attributes cannot nest' => [
                 ['honeypot' => ['field' => 'bar', 'attributes' => [684 => ['foo', 'derp']]]],
                 'Expected "scalar", but got "array"',
+            ],
+            'rate limiter as string' => [
+                ['rate_limiter' => 'contact'],
+            ],
+            'rate limiter as list' => [
+                ['rate_limiter' => ['contact_minute', 'contact_hour']],
+            ],
+            'rate limiter left empty' => [
+                ['rate_limiter' => null],
+                'should have at least 1 element',
+            ],
+            'rate limiter names must be strings' => [
+                ['rate_limiter' => [1]],
+                'must be strings',
+            ],
+            'rate limiter without limiters' => [
+                ['rate_limiter' => ['limiters' => []]],
+                'should have at least 1 element',
             ],
             'min percentage value too small' => [
                 ['banned_scripts' => ['max_percentage' => -1]],

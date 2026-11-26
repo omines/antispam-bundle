@@ -3,6 +3,8 @@ form:
 
   honeypot:
     not_empty: 'The honeypot field was supposed to be empty but is not.'
+  rate_limiter:
+    exceeded: 'The form was submitted too often. Please wait a while before trying again.'
   timer:
     corrupted: 'Technical reasons prevented processing the form.'
     mismatch_ip: 'Your IP address changed while submitting the form. Please try again.'
