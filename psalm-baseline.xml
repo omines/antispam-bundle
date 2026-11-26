@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="7.21.1@9c65a301d0f131bc3c3b481551aad870b86dd967">
+  <file src="src/AntiSpamBundle.php">
+    <InvalidTemplateParam>
+      <code><![CDATA[$definition->rootNode()]]></code>
+    </InvalidTemplateParam>
+    <MoreSpecificImplementedParamType>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$config]]></code>
+    </MoreSpecificImplementedParamType>
+    <ParamNameMismatch>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$builder]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+      <code><![CDATA[$container]]></code>
+    </ParamNameMismatch>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$definition->rootNode()]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Configuration.php">
+    <InvalidArgument>
+      <code><![CDATA[$children]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+      <code><![CDATA[$profile]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/EventSubscriber/FormProfileSubscriber.php">
+    <ImplementedReturnTypeMismatch>
+      <code><![CDATA[array<FormEvents::*, string>]]></code>
+    </ImplementedReturnTypeMismatch>
+    <MismatchingDocblockReturnType>
+      <code><![CDATA[array<FormEvents::*, string>]]></code>
+    </MismatchingDocblockReturnType>
+  </file>
+  <file src="src/Form/AntiSpamFormResult.php">
+    <TooFewArguments>
+      <code><![CDATA[clearErrors]]></code>
+    </TooFewArguments>
+  </file>
+  <file src="src/Form/Extension/FormTypeAntiSpamExtension.php">
+    <MissingTemplateParam>
+      <code><![CDATA[FormTypeAntiSpamExtension]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="src/Form/Type/HoneypotType.php">
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$event->getForm()]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Form/Type/SubmitTimerType.php">
+    <InvalidOperand>
+      <code><![CDATA[$now->getTimestamp() + intval($now->format('v')) / 1000]]></code>
+    </InvalidOperand>
+    <InvalidPropertyAssignmentValue>
+      <code><![CDATA[$view->vars]]></code>
+    </InvalidPropertyAssignmentValue>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+      <code><![CDATA[$form]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="src/Profile.php">
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[$this->buildTextTypeConstraints()]]></code>
+      <code><![CDATA[$this->constraints]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/Validator/Constraints/BannedPhrases.php">
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[isset($this->regexp)]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/Validator/Constraints/BannedPhrasesValidator.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$regexp]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/Validator/Constraints/BannedScripts.php">
+    <RedundantPropertyInitializationCheck>
+      <code><![CDATA[isset($this->characterClass)]]></code>
+    </RedundantPropertyInitializationCheck>
+  </file>
+  <file src="src/Validator/Constraints/BannedScriptsValidator.php">
+    <PossiblyFalseOperand>
+      <code><![CDATA[$count]]></code>
+    </PossiblyFalseOperand>
+  </file>
+</files>
