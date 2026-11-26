@@ -29,7 +29,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
     public const DEFAULT_MIN = 3;
     public const DEFAULT_MAX = 3600;
 
-    private const NO_IP = 'no-ip';
+    private const string NO_IP = 'no-ip';
 
     public function __construct(
         #[Autowire(param: 'kernel.secret')]
@@ -38,6 +38,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
     ) {
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -56,6 +57,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
     /**
      * @param array<string, scalar|\Stringable> $options
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
@@ -93,6 +95,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
     /**
      * @param array<string, scalar|\Stringable> $options
      */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $ip = $this->requestStack->getMainRequest()?->getClientIp() ?? self::NO_IP;
@@ -101,6 +104,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
         $view->vars['value'] = \base64_encode(implode('|', [$ip, $ts, hash('sha256', "$ts|$ip|$secret")]));
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'antispam_submit_timer';

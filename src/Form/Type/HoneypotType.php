@@ -20,6 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HoneypotType extends NonInteractiveAntiSpamType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
@@ -31,6 +32,7 @@ class HoneypotType extends NonInteractiveAntiSpamType
         });
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -40,11 +42,13 @@ class HoneypotType extends NonInteractiveAntiSpamType
         ]);
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return FormType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'antispam_honeypot';

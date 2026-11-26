@@ -31,11 +31,13 @@ class FormTypeAntiSpamExtension extends AbstractTypeExtension implements LoggerA
     {
     }
 
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [FormType::class];
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->define('antispam_profile')
@@ -50,6 +52,7 @@ class FormTypeAntiSpamExtension extends AbstractTypeExtension implements LoggerA
     /**
      * @param array{antispam_profile: ?Profile, compound: bool} $options
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (!$this->antiSpam->isEnabled()) {

@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NonInteractiveAntiSpamType extends AbstractAntiSpamType
 {
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);

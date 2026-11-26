@@ -49,6 +49,7 @@ class AntiSpamBundle extends AbstractBundle
         'banned_scripts' => BannedScripts::class,
     ];
 
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new AddEventAliasesPass(AntiSpamEvents::ALIASES));
@@ -57,6 +58,7 @@ class AntiSpamBundle extends AbstractBundle
     /**
      * @param AntiSpamConfiguration $config
      */
+    #[\Override]
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $services = $container->services();
@@ -98,6 +100,7 @@ class AntiSpamBundle extends AbstractBundle
         ;
     }
 
+    #[\Override]
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         if ($builder->hasExtension('twig')) {
@@ -107,6 +110,7 @@ class AntiSpamBundle extends AbstractBundle
         }
     }
 
+    #[\Override]
     public function configure(DefinitionConfigurator $definition): void
     {
         Configuration::load($definition->rootNode());

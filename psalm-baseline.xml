@@ -4,9 +4,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[AntiSpam]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function reset(): void]]></code>
-    </MissingOverrideAttribute>
     <MixedReturnStatement>
       <code><![CDATA[$this->profiles->get($id)]]></code>
     </MixedReturnStatement>
@@ -44,12 +41,6 @@
       <code><![CDATA[MONOLOG_CHANNEL_NAME = 'antispam']]></code>
       <code><![CDATA[TRANSLATION_DOMAIN = 'antispam']]></code>
     </MissingClassConstType>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function build(ContainerBuilder $container): void]]></code>
-      <code><![CDATA[public function configure(DefinitionConfigurator $definition): void]]></code>
-      <code><![CDATA[public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void]]></code>
-      <code><![CDATA[public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void]]></code>
-    </MissingOverrideAttribute>
     <MixedAssignment>
       <code><![CDATA[$newConfig[lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $param))))]]]></code>
       <code><![CDATA[$value]]></code>
@@ -144,9 +135,6 @@
     <MismatchingDocblockReturnType>
       <code><![CDATA[array<FormEvents::*, string>]]></code>
     </MismatchingDocblockReturnType>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
-    </MissingOverrideAttribute>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$name]]></code>
       <code><![CDATA[$options]]></code>
@@ -176,9 +164,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[PassiveModeSubscriber]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public static function getSubscribedEvents(): array]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[PassiveModeSubscriber]]></code>
     </UnusedClass>
@@ -233,11 +218,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[FormTypeAntiSpamExtension]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function buildForm(FormBuilderInterface $builder, array $options): void]]></code>
-      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
-      <code><![CDATA[public static function getExtendedTypes(): iterable]]></code>
-    </MissingOverrideAttribute>
     <MissingTemplateParam>
       <code><![CDATA[FormTypeAntiSpamExtension]]></code>
     </MissingTemplateParam>
@@ -246,9 +226,6 @@
     </UnusedClass>
   </file>
   <file src="src/Form/Type/AbstractAntiSpamType.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[setAntiSpam]]></code>
       <code><![CDATA[setTranslator]]></code>
@@ -258,20 +235,9 @@
     <ClassMustBeFinal>
       <code><![CDATA[HoneypotType]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function buildForm(FormBuilderInterface $builder, array $options): void]]></code>
-      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
-      <code><![CDATA[public function getBlockPrefix(): string]]></code>
-      <code><![CDATA[public function getParent(): ?string]]></code>
-    </MissingOverrideAttribute>
     <PossiblyInvalidArgument>
       <code><![CDATA[$event->getForm()]]></code>
     </PossiblyInvalidArgument>
-  </file>
-  <file src="src/Form/Type/NonInteractiveAntiSpamType.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Form/Type/SubmitTimerType.php">
     <ClassMustBeFinal>
@@ -286,14 +252,7 @@
     <MissingClassConstType>
       <code><![CDATA[DEFAULT_MAX = 3600]]></code>
       <code><![CDATA[DEFAULT_MIN = 3]]></code>
-      <code><![CDATA[NO_IP = 'no-ip']]></code>
     </MissingClassConstType>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function buildForm(FormBuilderInterface $builder, array $options): void]]></code>
-      <code><![CDATA[public function buildView(FormView $view, FormInterface $form, array $options): void]]></code>
-      <code><![CDATA[public function configureOptions(OptionsResolver $resolver): void]]></code>
-      <code><![CDATA[public function getBlockPrefix(): string]]></code>
-    </MissingOverrideAttribute>
     <PossiblyInvalidArgument>
       <code><![CDATA[$form]]></code>
       <code><![CDATA[$form]]></code>
@@ -353,9 +312,6 @@
     </PossiblyUnusedProperty>
   </file>
   <file src="src/Validator/Constraints/AntiSpamConstraintValidator.php">
-    <MissingClassConstType>
-      <code><![CDATA[STEALTHED_TRANSLATION_KEY = 'validator.stealthed']]></code>
-    </MissingClassConstType>
     <PossiblyUnusedMethod>
       <code><![CDATA[__construct]]></code>
     </PossiblyUnusedMethod>
@@ -372,9 +328,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[BannedMarkupValidator]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Validator/Constraints/BannedPhrases.php">
     <ClassMustBeFinal>
@@ -397,9 +350,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[BannedPhrasesValidator]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Validator/Constraints/BannedScripts.php">
     <ClassMustBeFinal>
@@ -422,9 +372,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[BannedScriptsValidator]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyFalseOperand>
       <code><![CDATA[$count]]></code>
     </PossiblyFalseOperand>
@@ -441,8 +388,5 @@
     <ClassMustBeFinal>
       <code><![CDATA[UrlCountValidator]]></code>
     </ClassMustBeFinal>
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function validate(mixed $value, Constraint $constraint): void]]></code>
-    </MissingOverrideAttribute>
   </file>
 </files>

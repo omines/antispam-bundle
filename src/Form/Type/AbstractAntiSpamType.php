@@ -31,6 +31,7 @@ abstract class AbstractAntiSpamType extends AbstractType
     protected AntiSpam $antiSpam;
     protected TranslatorInterface $translator;
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

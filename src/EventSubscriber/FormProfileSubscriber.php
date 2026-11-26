@@ -59,6 +59,7 @@ class FormProfileSubscriber implements EventSubscriberInterface, LoggerAwareInte
     /**
      * @return array<FormEvents::*, string>
      */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

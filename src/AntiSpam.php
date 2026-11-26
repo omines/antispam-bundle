@@ -84,6 +84,7 @@ class AntiSpam implements ResetInterface
         return self::getLastResult()?->isSpam() ?? false;
     }
 
+    #[\Override]
     public function reset(): void
     {
         self::$lastResult = null;
