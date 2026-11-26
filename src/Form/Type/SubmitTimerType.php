@@ -29,7 +29,7 @@ class SubmitTimerType extends NonInteractiveAntiSpamType
     public const DEFAULT_MIN = 3;
     public const DEFAULT_MAX = 3600;
 
-    private const NO_IP = 'no-ip';
+    private const string NO_IP = 'no-ip';
 
     public function __construct(
         #[Autowire(param: 'kernel.secret')]

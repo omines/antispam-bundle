@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AntiSpamConstraintValidator extends ConstraintValidator
 {
-    private const STEALTHED_TRANSLATION_KEY = 'validator.stealthed';
+    private const string STEALTHED_TRANSLATION_KEY = 'validator.stealthed';
 
     public function __construct(
         protected readonly AntiSpam $antiSpam,
